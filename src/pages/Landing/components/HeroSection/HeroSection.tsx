@@ -3,6 +3,7 @@ import {
   Button,
   Container,
   Grid,
+  Theme,
   Typography,
   useMediaQuery,
   useTheme,
@@ -10,13 +11,17 @@ import {
 import heroImg from "assets/hero-img.svg";
 import LogoWhite from "assets/logo-white.svg";
 
-const HeroSection = () => {
-  const theme = useTheme();
-  const matches = useMediaQuery(theme.breakpoints.down("sm"));
+const HeroSection = ({
+  theme,
+  isMobile,
+}: {
+  theme: Theme;
+  isMobile: boolean;
+}) => {
   return (
     <Container
       sx={{
-        height: matches ? "100%" : "100vh",
+        height: isMobile ? "100%" : "100vh",
         pb: theme.spacing(10),
       }}
     >
@@ -28,7 +33,7 @@ const HeroSection = () => {
         <Grid item xs={12} sm={6} md={8} display="flex" height="70%">
           <Grid container spacing={4}>
             <Grid item>
-              <img src={LogoWhite} alt="" width={matches ? 126.8 : "100%"} />
+              <img src={LogoWhite} alt="" width={isMobile ? 126.8 : "100%"} />
             </Grid>
             <Grid item>
               <Typography variant="h2" mb={theme.spacing(5)}>
@@ -50,7 +55,7 @@ const HeroSection = () => {
             </Grid>
           </Grid>
         </Grid>
-        {!matches && (
+        {!isMobile && (
           <Grid item xs={12} sm={6} md={4} display="flex" alignItems="center">
             <img src={heroImg} alt="" width="100%" />
           </Grid>

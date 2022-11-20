@@ -15,5 +15,9 @@ declare module "@mui/material/styles" {
       gradientBg?: string;
     };
   }
-  export function createTheme(options?: CustomThemeOptions): CustomTheme;
 }
+
+export default function createTheme(
+  options?: CustomThemeOptions,
+  ...args: object[]
+): CustomTheme;

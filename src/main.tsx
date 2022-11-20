@@ -4,6 +4,7 @@ import {
   createTheme,
   CssBaseline,
   responsiveFontSizes,
+  ThemeOptions,
   ThemeProvider,
 } from "@mui/material";
 import { grey } from "@mui/material/colors";
@@ -15,6 +16,9 @@ import {
   themeOptions,
   TYPOGRAPHY,
 } from "./constants/themeOptions";
+import { BrowserRouter } from "react-router-dom";
+import { Button } from "theme/overrides/Button";
+import { pxToRem } from "utils/pxToRem";
 
 const mode = storage.get(THEME_CACHE_KEY, "dark");
 
@@ -24,13 +28,10 @@ const themes = createTheme({
     ...TYPOGRAPHY,
   },
   spacing: (factor: number) => `${0.25 * factor}rem`,
-  color: {
-    gradientBg: "linear-gradient(90.26deg, #101549 37.88%, #3B4CF1 164.54%)",
-  },
   palette: {
     grey: {
       ...grey,
-      600: "",
+      600: "linear-gradient(90.26deg, #101549 37.88%, #3B4CF1 164.54%)",
       700: "#F3F4FF",
       800: "#8F9099",
       900: "#46474B",
@@ -53,6 +54,46 @@ const themes = createTheme({
     ...themeOptions(mode)?.palette,
     mode,
   },
+  components: {
+    MuiButton: {
+      defaultProps: {
+        disableTouchRipple: true,
+      },
+      styleOverrides: {
+        root: {
+          fontFamily: FONT_FAMILY,
+          fontWeight: 700,
+          borderRadius: "8px",
+          boxShadow: "none",
+          textTransform: "none",
+          "&:hover": {
+            boxShadow: "none",
+          },
+        },
+        sizeLarge: {
+          fontSize: pxToRem(16),
+        },
+        containedPrimary: {
+          "&:hover": {
+            opacity: 0.7,
+          },
+          "&:active": {
+            // backgroundColor: palette.primary.dark,
+          },
+        },
+
+        outlinedInherit: {
+          border: `1px solid ${grey[500]}`,
+          "&:hover": {
+            // backgroundColor: palette.action.hover,
+          },
+        },
+        outlined: {
+          background: "white !important",
+        },
+      },
+    },
+  },
 });
 
 const theme = responsiveFontSizes(themes);
@@ -61,7 +102,9 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
       <CssBaseline enableColorScheme />
-      <App />
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
     </ThemeProvider>
   </React.StrictMode>
 );

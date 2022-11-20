@@ -4,7 +4,6 @@ import {
   createTheme,
   CssBaseline,
   responsiveFontSizes,
-  ThemeOptions,
   ThemeProvider,
 } from "@mui/material";
 import { grey } from "@mui/material/colors";
@@ -17,7 +16,6 @@ import {
   TYPOGRAPHY,
 } from "./constants/themeOptions";
 import { BrowserRouter } from "react-router-dom";
-import { Button } from "theme/overrides/Button";
 import { pxToRem } from "utils/pxToRem";
 
 const mode = storage.get(THEME_CACHE_KEY, "dark");
@@ -31,6 +29,7 @@ const themes = createTheme({
   palette: {
     grey: {
       ...grey,
+      500: "#101549",
       600: "linear-gradient(90.26deg, #101549 37.88%, #3B4CF1 164.54%)",
       700: "#F3F4FF",
       800: "#8F9099",

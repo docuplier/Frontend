@@ -1,5 +1,12 @@
 import { Grid, useMediaQuery, useTheme } from "@mui/material";
-import { EasyStepsSection, HeroSection, UseCasesSection } from "./components";
+import Footer from "components/Layout/Footer";
+import {
+  BrandsSection,
+  CTASection,
+  EasyStepsSection,
+  HeroSection,
+  UseCasesSection,
+} from "./components";
 
 const Landing = () => {
   const theme = useTheme();
@@ -9,11 +16,20 @@ const Landing = () => {
       <Grid item sx={{ background: theme.palette.grey[600] }}>
         <HeroSection theme={theme} isMobile={matches} />
       </Grid>
-      <Grid item>
+      <Grid item sx={{ background: theme.palette.grey[500] }}>
         <UseCasesSection />
       </Grid>
-      <Grid item>
+      <Grid item sx={{ background: theme.palette.grey[500] }}>
         <EasyStepsSection theme={theme} isMobile={matches} />
+      </Grid>
+      <Grid item>
+        <BrandsSection />
+      </Grid>
+      <Grid item sx={{ background: theme.palette.grey[500] }}>
+        <CTASection theme={theme} />
+      </Grid>
+      <Grid item sx={{ background: theme.palette.grey[500] }}>
+        <Footer />
       </Grid>
     </Grid>
   );

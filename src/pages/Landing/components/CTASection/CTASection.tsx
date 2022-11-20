@@ -1,22 +1,23 @@
 import { Button, Grid, Paper, Typography } from "@mui/material";
 import { ILandingSection } from "interfaces";
-import React from "react";
 
-const CTASection = ({ theme }: ILandingSection) => {
+const CTASection = ({ theme, isMobile }: ILandingSection) => {
   return (
-    <Grid container spacing={10} p={16}>
+    <Grid container spacing={isMobile ? 0 : 10} p={isMobile ? 0 : 16}>
       <Grid item xs={12}>
         <Paper
           elevation={0}
           sx={{
             background: theme?.palette.grey[600],
-            p: 24,
+            p: isMobile ? 4 : 24,
             borderRadius: "12px",
           }}
         >
-          <Grid container>
+          <Grid container spacing={4}>
             <Grid item xs={12} sm={6} md={8}>
-              <Typography variant="h2">What are you waiting for?</Typography>
+              <Typography variant={isMobile ? "h4" : "h2"}>
+                What are you waiting for?
+              </Typography>
             </Grid>
             <Grid item xs={12} sm={6} md={4}>
               <Button

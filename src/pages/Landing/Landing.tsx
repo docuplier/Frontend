@@ -26,7 +26,7 @@ const Landing = () => {
         <BrandsSection />
       </Grid>
       <Grid item sx={{ background: theme.palette.grey[500] }}>
-        <CTASection theme={theme} />
+        <CTASection theme={theme} isMobile={matches} />
       </Grid>
       <Grid item sx={{ background: theme.palette.grey[500] }}>
         <Footer />

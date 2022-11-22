@@ -75,6 +75,7 @@ const themes = createTheme({
         containedPrimary: {
           "&:hover": {
             opacity: 0.7,
+            backgroundColor: "inherit",
           },
           "&:active": {
             // backgroundColor: palette.primary.dark,

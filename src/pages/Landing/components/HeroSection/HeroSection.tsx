@@ -10,6 +10,8 @@ import {
 } from "@mui/material";
 import heroImg from "assets/hero-img.svg";
 import LogoWhite from "assets/logo-white.svg";
+import { useNavigate } from "react-router-dom";
+import { paths } from "Routes";
 
 const HeroSection = ({
   theme,
@@ -18,6 +20,7 @@ const HeroSection = ({
   theme: Theme;
   isMobile: boolean;
 }) => {
+  const navigate = useNavigate();
   return (
     <Container
       sx={{
@@ -49,6 +52,7 @@ const HeroSection = ({
                 size="large"
                 fullWidth
                 sx={{ maxWidth: 304 }}
+                onClick={() => navigate(paths.UPLOAD)}
               >
                 Start for Free
               </Button>

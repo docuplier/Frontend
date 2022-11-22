@@ -180,33 +180,3 @@ const ChildContainer = styled(Box)(({ theme }) => ({
   justifySelf: "center",
   padding: "2rem",
 }));
-
-const ProgressContainer = styled(Box)(({ theme }) => ({
-  borderLeft: `1px solid #E0E0E0`,
-  height: "100vh",
-  position: "fixed",
-  right: 0,
-  width: "23%",
-}));
-
-const ActiveBox = styled(Box)(({ theme }) => ({
-  background: theme.palette.primary.light,
-  padding: "1.2rem",
-  borderLeft: `3px solid ${theme.palette.primary.main}`,
-}));
-
-const NonActiveBox = styled(Box)(({ theme }) => ({
-  padding: "1.2rem",
-}));
-
-const NavNumber = styled(Box)(({ theme }) => ({
-  height: "25px",
-  width: "25px",
-  borderRadius: "50%",
-  backgroundColor: theme.palette.secondary.main,
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
-  color: theme.palette.background.default,
-  fontSize: 12,
-}));

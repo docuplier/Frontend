@@ -2,9 +2,9 @@ import Box from "@mui/material/Box";
 import DocumentLayout from "shared/Layout/DocumentLayout";
 
 const navItems = [
-  { navNumber: 1, navName: "Clearance Details" },
-  { navNumber: 2, navName: "Clearance Upload" },
-  { navNumber: 3, navName: "Preview" },
+  { navNumber: 1, navName: "Upload Certificate" },
+  { navNumber: 2, navName: "Name Field" },
+  { navNumber: 3, navName: "Upload List" },
 ];
 
 const TextField = () => {

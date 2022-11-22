@@ -29,11 +29,6 @@ function DocumentLayout(props: uploadLayoutTypes) {
     topRightContents,
   } = props;
 
-  const steps = [
-    "Select campaign settings",
-    "Create an ad group",
-    "Create an ad",
-  ];
   const navigate = useNavigate();
 
   function QontoStepIcon(props: StepIconProps) {

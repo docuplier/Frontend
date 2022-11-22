@@ -17,6 +17,11 @@ const routes = [
     component: lazy(() => import("../pages/UploadDocument/UploadDocument")),
   },
   {
+    path: "/name-field",
+    exact: true,
+    component: lazy(() => import("../pages/TextField/TextField")),
+  },
+  {
     path: "*",
     exact: true,
     component: lazy(() => import("../pages/NotFound/NotFound")),

@@ -15,14 +15,13 @@ export type NavItems = {
 export interface uploadLayoutTypes {
   children: any;
   currentComponent: number;
-  formStepperTitle: string;
-  formStepperSubtitle: string;
   formStepperNavItems: NavItems[];
   backArrow: boolean;
   onArrowClick?: () => void;
   formTitle: string;
   formSubtitle: string;
   topRightContents?: any;
+  steps?: any;
 }
 
 export type InstancePerferenceProps = {

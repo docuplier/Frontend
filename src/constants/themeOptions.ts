@@ -35,7 +35,7 @@ export const themeOptions = (mode: "light" | "dark") => {
           },
 
           background: {
-            default: "#0B0D27",
+            default: "#101549",
             paper: "#0B0D27",
           },
         },

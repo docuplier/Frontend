@@ -22,7 +22,7 @@ const Landing = () => {
       <Grid item sx={{ background: theme.palette.grey[500] }}>
         <EasyStepsSection theme={theme} isMobile={matches} />
       </Grid>
-      <Grid item>
+      <Grid item sx={{ background: theme.palette.background.paper }}>
         <BrandsSection />
       </Grid>
       <Grid item sx={{ background: theme.palette.grey[500] }}>

@@ -126,6 +126,9 @@ const AddText = () => {
                     height: "48px",
                     border: "1px solid #fff",
                     color: "#fff",
+                    "&:hover": {
+                      border: "none",
+                    },
                   }}
                   onClick={() => {
                     navigate("/document");

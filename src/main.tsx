@@ -4,6 +4,7 @@ import {
   createTheme,
   CssBaseline,
   responsiveFontSizes,
+  Theme,
   ThemeProvider,
 } from "@mui/material";
 import { grey } from "@mui/material/colors";
@@ -73,23 +74,15 @@ const themes = createTheme({
           fontSize: pxToRem(16),
         },
         containedPrimary: {
+          color: "#fff",
           "&:hover": {
             opacity: 0.7,
-            backgroundColor: "inherit",
+            backgroundColor: themeOptions(mode)?.palette?.primary?.main,
+            // backgroundColor: "white",
           },
           "&:active": {
             // backgroundColor: palette.primary.dark,
           },
-        },
-
-        outlinedInherit: {
-          border: `1px solid ${grey[500]}`,
-          "&:hover": {
-            // backgroundColor: palette.action.hover,
-          },
-        },
-        outlined: {
-          background: "white !important",
         },
       },
     },

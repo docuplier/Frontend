@@ -7,7 +7,7 @@ import {
   useTheme,
 } from "@mui/material";
 import Dropzone from "components/Dropzone/Dropzone";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import SharedStepper from "components/SharedStepper/SharedStepper";
 import TabButtons from "components/TabButtons/TabButtons";
 import LogoWhite from "assets/logo-white.svg";
@@ -60,7 +60,10 @@ const UploadDocument = () => {
       <Grid container>
         <Grid item xs={12} md={3} sx={{ height: "100%" }}>
           <Stack spacing={6}>
-            <img src={LogoWhite} alt="" width={isMobile ? 126.8 : "50%"} />
+            <Link to="/">
+              <img src={LogoWhite} alt="" width={isMobile ? 126.8 : "50%"} />
+            </Link>
+
             <SharedStepper orientation="vertical" steps={steps} current={1} />
           </Stack>
         </Grid>

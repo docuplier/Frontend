@@ -1,3 +1,4 @@
+import path from "node:path/win32";
 import { lazy } from "react";
 
 export const paths = {
@@ -19,7 +20,17 @@ const routes = [
   {
     path: "/name-field",
     exact: true,
-    component: lazy(() => import("../pages/TextField/TextField")),
+    component: lazy(() => import("../pages/TextField/AddText")),
+  },
+  {
+    path: "/upload-list",
+    exact: true,
+    component: lazy(() => import("../pages/UploadList/UploadList")),
+  },
+  {
+    path: "/preview",
+    exact: true,
+    component: lazy(() => import("../pages/Preview/Preview")),
   },
   {
     path: "*",

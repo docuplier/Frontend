@@ -45,7 +45,7 @@ const Dropzone = ({
     <Box
       {...getRootProps({ className: "dropzone" })}
       sx={{
-        border: `1px dashed ${theme.palette.common.white}`,
+        border: `2px dashed ${theme.palette.common.white}`,
         borderRadius: "8px",
         position: "relative",
       }}

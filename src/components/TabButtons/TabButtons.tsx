@@ -27,7 +27,7 @@ const TabButtons: FC<ITabButtonsProps> = ({ activeTab, isMobile, data }) => {
             <Button
               variant={v.id === activeTab ? "contained" : "text"}
               fullWidth
-              sx={{ maxWidth: 156 }}
+              sx={{ maxWidth: 156, color: "#fff" }}
             >
               {v.name}
             </Button>

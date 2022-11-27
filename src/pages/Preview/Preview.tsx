@@ -22,6 +22,7 @@ import LogoWhite from "assets/logo-white.svg";
 import { useNavigate } from "react-router-dom";
 import SetupEmailModal from "components/SetupEmailModal/SetupEmailModal";
 import { useState } from "react";
+import OtpModal from "components/otpModal/OtpModal";
 
 const tabItems = [
   {
@@ -54,6 +55,7 @@ const Preview = () => {
   const navigate = useNavigate();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [openSetEmailModal, setOpenSetEmailModal] = useState(false);
+  const [openOtpModal, setOpenOtpModal] = useState(false);
 
   const handleUpload = (data: File) => {
     console.log(data);
@@ -196,8 +198,18 @@ const Preview = () => {
         <SetupEmailModal
           open={openSetEmailModal}
           onClose={() => setOpenSetEmailModal(false)}
-          onConfirm={() => setOpenSetEmailModal(false)}
+          onConfirm={() => {
+            setOpenSetEmailModal(false);
+            setOpenOtpModal(true);
+          }}
           onInputChange={(e) => console.log(e)}
+        />
+        <OtpModal
+          open={openOtpModal}
+          onClose={() => setOpenOtpModal(false)}
+          onConfirm={() => setOpenOtpModal(false)}
+          onInputChange={(e) => console.log(e)}
+          onResend={() => console.log("resend clicked")}
         />
       </Box>
     </Stack>

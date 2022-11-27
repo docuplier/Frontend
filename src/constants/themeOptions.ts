@@ -38,6 +38,10 @@ export const themeOptions = (mode: "light" | "dark") => {
             default: "#101549",
             paper: "#101549",
           },
+          common: {
+            white: "#fff",
+            black: "#000",
+          },
         },
       };
 };

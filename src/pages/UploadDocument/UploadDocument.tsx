@@ -11,6 +11,7 @@ import { Link, useNavigate } from "react-router-dom";
 import SharedStepper from "components/SharedStepper/SharedStepper";
 import TabButtons from "components/TabButtons/TabButtons";
 import LogoWhite from "assets/logo-white.svg";
+import { paths } from "Routes";
 
 const tabItems = [
   {
@@ -45,44 +46,14 @@ const UploadDocument = () => {
 
   const handleUpload = (data: File) => {
     console.log(data);
-    navigate("/name-field");
+    navigate(paths.CERTIFICATES_NAME);
   };
   return (
-    <Box
-      pl={10}
-      pr={20}
-      sx={{
-        height: isMobile ? "100%" : "100vh",
-        pt: theme.spacing(5),
-        pb: theme.spacing(10),
-      }}
-    >
-      <Grid container>
-        <Grid item xs={12} md={3} sx={{ height: "100%" }}>
-          <Stack spacing={6}>
-            <Link to="/">
-              <img src={LogoWhite} alt="" width={isMobile ? 126.8 : "50%"} />
-            </Link>
-
-            <SharedStepper orientation="vertical" steps={steps} current={1} />
-          </Stack>
-        </Grid>
-        <Grid item xs={12} md={8} sx={{ height: "100%" }}>
-          <Grid container spacing={10}>
-            <Grid item xs={12}>
-              <TabButtons activeTab={1} isMobile={isMobile} data={tabItems} />
-            </Grid>
-            <Grid item xs={12}>
-              <Dropzone
-                accept={{ "image/jpeg": [], "image/png": [], ".pdf": [] }}
-                onUpload={handleUpload}
-                theme={theme}
-              />
-            </Grid>
-          </Grid>
-        </Grid>
-      </Grid>
-    </Box>
+    <Dropzone
+      accept={{ "image/jpeg": [], "image/png": [], ".pdf": [] }}
+      onUpload={handleUpload}
+      theme={theme}
+    />
   );
 };
 

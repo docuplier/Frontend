@@ -24,7 +24,7 @@ const PreUpload = ({ theme, onUploadClick, fileName }: IPreUploadProps) => {
         alignItems="center"
         justifyContent="center"
       >
-        <Typography variant="body1" color={fileName && "text.success"}>
+        <Typography variant="body1" color={fileName && "success.main"}>
           {fileName ? fileName : "Drag and Drop here"}
         </Typography>
       </Grid>

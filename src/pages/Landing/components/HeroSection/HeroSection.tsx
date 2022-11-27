@@ -52,7 +52,7 @@ const HeroSection = ({
                 size="large"
                 fullWidth
                 sx={{ maxWidth: 304 }}
-                onClick={() => navigate(paths.UPLOAD)}
+                onClick={() => navigate(paths.CERTIFICATES_UPLOAD)}
               >
                 Start for Free
               </Button>

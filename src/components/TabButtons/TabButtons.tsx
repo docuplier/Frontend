@@ -1,13 +1,15 @@
 import { Box, Button, Grid } from "@mui/material";
 import { FC } from "react";
+import { useNavigate } from "react-router-dom";
 
 export interface ITabButtonsProps {
   activeTab: number;
   isMobile?: boolean;
-  data: { id: number; name: string }[];
+  data: { id: number; name: string; path?: string }[];
 }
 
 const TabButtons: FC<ITabButtonsProps> = ({ activeTab, isMobile, data }) => {
+  const navigate = useNavigate();
   return (
     <Box
       height={64}
@@ -28,6 +30,7 @@ const TabButtons: FC<ITabButtonsProps> = ({ activeTab, isMobile, data }) => {
               variant={v.id === activeTab ? "contained" : "text"}
               fullWidth
               sx={{ maxWidth: 156, color: "#fff" }}
+              onClick={() => v.path && navigate(v.path)}
             >
               {v.name}
             </Button>

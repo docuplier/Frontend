@@ -55,8 +55,12 @@ const Preview = () => {
   const theme = useTheme();
   const navigate = useNavigate();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
-  const [openSetEmailModal, setOpenSetEmailModal] = useState(false);
-  const [openOtpModal, setOpenOtpModal] = useState(false);
+  const [modalControl, setModalControl] = useState({
+    openOtp: false,
+    openEmailSetup: false,
+    openEmailTemplateSetup: false,
+    step: 1,
+  });
 
   const handleUpload = (data: File) => {
     console.log(data);
@@ -191,31 +195,64 @@ const Preview = () => {
           <Button
             variant="contained"
             sx={{ width: "200px", height: "48px" }}
-            onClick={() => setOpenSetEmailModal(true)}
+            onClick={() =>
+              setModalControl((prev) => ({
+                ...prev,
+                openEmailSetup: true,
+                step: 1,
+              }))
+            }
           >
             Email to Recipients
           </Button>
         </Box>
         <SetupEmailModal
-          open={openSetEmailModal}
-          onClose={() => setOpenSetEmailModal(false)}
+          open={modalControl.openEmailSetup}
+          onClose={() =>
+            setModalControl((prev) => ({ ...prev, openEmailSetup: false }))
+          }
           onConfirm={() => {
-            setOpenSetEmailModal(false);
-            setOpenOtpModal(true);
+            setModalControl((prev) => ({
+              ...prev,
+              openEmailSetup: false,
+              openOtp: true,
+              step: 2,
+            }));
           }}
           onInputChange={(e) => console.log(e)}
         />
         <OtpModal
-          open={openOtpModal}
-          onClose={() => setOpenOtpModal(false)}
-          onConfirm={() => setOpenOtpModal(false)}
+          open={modalControl.openOtp}
+          onClose={() =>
+            setModalControl((prev) => ({ ...prev, openOtp: false }))
+          }
+          onConfirm={() =>
+            setModalControl((prev) => ({
+              ...prev,
+              openOtp: false,
+              openEmailTemplateSetup: prev.step === 2,
+            }))
+          }
           onInputChange={(e) => console.log(e)}
           onResend={() => console.log("resend clicked")}
         />
         <SetupEmailTemplateModal
-          open
-          onClose={() => setOpenOtpModal(false)}
-          onConfirm={() => setOpenOtpModal(false)}
+          open={modalControl.openEmailTemplateSetup}
+          onClose={() =>
+            setModalControl((prev) => ({
+              ...prev,
+              openEmailTemplateSetup: false,
+              openOtp: true,
+            }))
+          }
+          onConfirm={() =>
+            setModalControl((prev) => ({
+              ...prev,
+              openEmailTemplateSetup: false,
+              openOtp: true,
+              step: 3,
+            }))
+          }
           onInputChange={(e) => console.log(e)}
           onResend={() => console.log("resend clicked")}
           isMobile={isMobile}

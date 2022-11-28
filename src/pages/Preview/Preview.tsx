@@ -23,6 +23,7 @@ import { useNavigate } from "react-router-dom";
 import SetupEmailModal from "components/SetupEmailModal/SetupEmailModal";
 import { useState } from "react";
 import OtpModal from "components/otpModal/OtpModal";
+import SetupEmailTemplateModal from "components/SetupEmailTemplateModal/SetupEmailTemplateModal";
 
 const tabItems = [
   {
@@ -210,6 +211,14 @@ const Preview = () => {
           onConfirm={() => setOpenOtpModal(false)}
           onInputChange={(e) => console.log(e)}
           onResend={() => console.log("resend clicked")}
+        />
+        <SetupEmailTemplateModal
+          open
+          onClose={() => setOpenOtpModal(false)}
+          onConfirm={() => setOpenOtpModal(false)}
+          onInputChange={(e) => console.log(e)}
+          onResend={() => console.log("resend clicked")}
+          isMobile={isMobile}
         />
       </Box>
     </Stack>

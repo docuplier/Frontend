@@ -20,6 +20,10 @@ import SharedStepper from "components/SharedStepper/SharedStepper";
 import TabButtons from "components/TabButtons/TabButtons";
 import LogoWhite from "assets/logo-white.svg";
 import { useNavigate } from "react-router-dom";
+import SetupEmailModal from "components/SetupEmailModal/SetupEmailModal";
+import { useState } from "react";
+import OtpModal from "components/otpModal/OtpModal";
+import SetupEmailTemplateModal from "components/SetupEmailTemplateModal/SetupEmailTemplateModal";
 
 const tabItems = [
   {
@@ -51,6 +55,8 @@ const Preview = () => {
   const theme = useTheme();
   const navigate = useNavigate();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const [openSetEmailModal, setOpenSetEmailModal] = useState(false);
+  const [openOtpModal, setOpenOtpModal] = useState(false);
 
   const handleUpload = (data: File) => {
     console.log(data);
@@ -182,10 +188,38 @@ const Preview = () => {
           >
             Download to Print
           </Button>
-          <Button variant="contained" sx={{ width: "200px", height: "48px" }}>
+          <Button
+            variant="contained"
+            sx={{ width: "200px", height: "48px" }}
+            onClick={() => setOpenSetEmailModal(true)}
+          >
             Email to Recipients
           </Button>
         </Box>
+        <SetupEmailModal
+          open={openSetEmailModal}
+          onClose={() => setOpenSetEmailModal(false)}
+          onConfirm={() => {
+            setOpenSetEmailModal(false);
+            setOpenOtpModal(true);
+          }}
+          onInputChange={(e) => console.log(e)}
+        />
+        <OtpModal
+          open={openOtpModal}
+          onClose={() => setOpenOtpModal(false)}
+          onConfirm={() => setOpenOtpModal(false)}
+          onInputChange={(e) => console.log(e)}
+          onResend={() => console.log("resend clicked")}
+        />
+        <SetupEmailTemplateModal
+          open
+          onClose={() => setOpenOtpModal(false)}
+          onConfirm={() => setOpenOtpModal(false)}
+          onInputChange={(e) => console.log(e)}
+          onResend={() => console.log("resend clicked")}
+          isMobile={isMobile}
+        />
       </Box>
     </Stack>
   );

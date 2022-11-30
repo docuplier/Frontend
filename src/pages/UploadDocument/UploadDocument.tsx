@@ -45,8 +45,10 @@ const UploadDocument = () => {
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   const handleUpload = (data: File) => {
-    console.log(data);
-    navigate(paths.CERTIFICATES_NAME);
+    console.log("data", data);
+    navigate(paths.CERTIFICATES_NAME, {
+      state: data,
+    });
   };
   return (
     <Dropzone

@@ -13,7 +13,7 @@ import Dropzone from "components/Dropzone/Dropzone";
 import SharedStepper from "components/SharedStepper/SharedStepper";
 import TabButtons from "components/TabButtons/TabButtons";
 import LogoWhite from "assets/logo-white.svg";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { paths } from "Routes";
 import { styled } from "@mui/material";
 import GoogleFontLoader from "react-google-font-loader";
@@ -47,6 +47,8 @@ const steps = [
 const AddText = () => {
   const theme = useTheme();
   const navigate = useNavigate();
+  const location = useLocation();
+  console.log("loc", location);
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   return (
@@ -111,7 +113,10 @@ const AddText = () => {
         }}
         p={10}
       >
-        Display Certificate
+        <img
+          src={location?.state && URL.createObjectURL(location?.state)}
+          style={{ width: "555px", height: "393px" }}
+        />
       </Box>
       <Box
         width="100%"

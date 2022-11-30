@@ -10,6 +10,7 @@ export interface IDropzoneProps {
   onDrop?: () => void;
   open?: () => void;
   accept: Accept;
+  title: string;
 }
 
 const Dropzone = ({
@@ -18,6 +19,7 @@ const Dropzone = ({
   accept,
   open,
   onUpload,
+  title,
 }: IDropzoneProps) => {
   const [disabled, setDisabled] = useState(false);
   const [file, setFile] = useState<File | null>(null);
@@ -73,6 +75,7 @@ const Dropzone = ({
           data ? onUpload(acceptedFiles[0]) : open!()
         }
         fileName={file?.name}
+        title={title}
       />
     </Box>
   );

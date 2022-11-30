@@ -15,6 +15,8 @@ import TabButtons from "components/TabButtons/TabButtons";
 import LogoWhite from "assets/logo-white.svg";
 import { useNavigate } from "react-router-dom";
 import { paths } from "Routes";
+import { styled } from "@mui/material";
+import GoogleFontLoader from "react-google-font-loader";
 
 const tabItems = [
   {
@@ -49,32 +51,55 @@ const AddText = () => {
 
   return (
     <Stack spacing={12}>
-      <Box
-        display="flex"
-        width="100%"
-        justifyContent="center"
-        marginBottom="30px"
-      >
-        <Box display="flex" width="50%" justifyContent="space-between">
+      <Box display="flex" width="100%" justifyContent="center">
+        <Box
+          display="flex"
+          width="100%"
+          justifyContent="center"
+          sx={{
+            //  backgroundColor: "red",
+            "@media screen and (max-width:768px)": {
+              width: "100%",
+            },
+          }}
+          //   flexWrap="wrap"
+        >
           {" "}
-          <Box display="flex" alignItems="flex-end">
+          <Box display="flex" alignItems="flex-end" mx={6}>
             {" "}
-            <Button variant="contained" sx={{ height: "48px", width: "200px" }}>
+            <ButtonBox variant="contained" sx={{ height: "48px", px: 12 }}>
               Add A Text Box
+            </ButtonBox>
+            <Button
+              variant="contained"
+              sx={{
+                display: "none",
+                height: "40px",
+                px: 4,
+
+                "@media screen and (max-width:768px)": {
+                  display: "flex",
+                },
+              }}
+            >
+              {" "}
+              Add Text
             </Button>
           </Box>
-          <Box>
+          <Box mx={6} width="28%">
             <Typography variant="body2">Select Font</Typography>
             <TextField
               select
               fullWidth
+              // size="small"
               sx={{
-                width: "200px",
+                width: "100%",
+
                 "& .MuiOutlinedInput-root": {
                   height: "48px",
                 },
               }}
-            />
+            ></TextField>
           </Box>
         </Box>
       </Box>
@@ -93,13 +118,26 @@ const AddText = () => {
         display="flex"
         justifyContent="space-between"
         marginTop="30px"
+        sx={{
+          flexWrap: "Wrap",
+          // "@media screen and (max-width:768px)": {
+          //   display: "flex",
+          //   width: "100%",
+          //   justifyContent: "center",
+          // },
+        }}
       >
         <Button
           sx={{
-            width: "200px",
             height: "48px",
             border: "1px solid #fff",
             color: "#fff",
+            px: 14,
+            mb: 4,
+
+            "@media screen and (max-width:768px)": {
+              px: 6,
+            },
             "&:hover": {
               border: "none",
             },
@@ -112,7 +150,15 @@ const AddText = () => {
         </Button>
         <Button
           variant="contained"
-          sx={{ width: "200px", height: "48px" }}
+          sx={{
+            //  width: "200px",
+            height: "48px",
+            px: 14,
+            mb: 4,
+            "@media screen and (max-width:768px)": {
+              px: 6,
+            },
+          }}
           onClick={() => {
             navigate(paths.CERTIFICATES_UPLOAD_LIST);
           }}
@@ -125,3 +171,9 @@ const AddText = () => {
 };
 
 export default AddText;
+
+const ButtonBox = styled(Button)({
+  "@media screen and (max-width:768px)": {
+    display: "none",
+  },
+});

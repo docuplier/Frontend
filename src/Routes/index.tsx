@@ -11,6 +11,8 @@ export const paths = {
   CERTIFICATES_NAME: "/certificates/name-field",
   CERTIFICATES_UPLOAD_LIST: "/certificates/upload-list",
   CERTIFICATES_PREVIEW: "/certificates/preview",
+  INDIVIDUAL_CERTIFICATES: "/individual-document",
+  ORGANSATION_CERTIFICATES: "/organisation-document",
 };
 
 const routes = {
@@ -19,6 +21,20 @@ const routes = {
       path: paths.HOME,
       exact: true,
       component: lazy(() => import("../pages/Landing/Landing")),
+    },
+    {
+      path: paths.INDIVIDUAL_CERTIFICATES,
+      exact: true,
+      component: lazy(
+        () => import("../pages/Documents/IndividaulDocumentView")
+      ),
+    },
+    {
+      path: paths.ORGANSATION_CERTIFICATES,
+      exact: true,
+      component: lazy(
+        () => import("../pages/Documents/OrganisationDocumnetView")
+      ),
     },
     {
       path: "*",

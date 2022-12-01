@@ -4,8 +4,14 @@ export interface IPreUploadProps {
   theme: Theme;
   onUploadClick: (data?: string) => void;
   fileName?: string;
+  title: string;
 }
-const PreUpload = ({ theme, onUploadClick, fileName }: IPreUploadProps) => {
+const PreUpload = ({
+  theme,
+  onUploadClick,
+  fileName,
+  title,
+}: IPreUploadProps) => {
   return (
     <Grid container spacing={6}>
       <Grid
@@ -70,7 +76,7 @@ const PreUpload = ({ theme, onUploadClick, fileName }: IPreUploadProps) => {
             }}
           >
             <Typography variant="body2" color={theme.palette.grey[800]}>
-              PDF, PNG, JPEG files are supported
+              {title}
             </Typography>
           </Box>
         </Grid>

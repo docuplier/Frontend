@@ -131,7 +131,10 @@ const Preview = () => {
         >
           {" "}
           <TableContainer component={Paper}>
-            <Table sx={{ minWidth: 650 }} aria-label="simple table">
+            <Table
+              sx={{ minWidth: isMobile ? 300 : 650 }}
+              aria-label="simple table"
+            >
               <TableHead>
                 <TableRow>
                   {rows?.map((props) => (
@@ -162,26 +165,51 @@ const Preview = () => {
         justifyContent="space-between"
         marginTop="30px"
       >
-        <Typography
-          variant="body1"
-          sx={{
-            width: "200px",
-            height: "48px",
-            cursor: "pointer",
-            color: "#fff",
-          }}
-        >
-          Upload New List
-        </Typography>
-        <Box>
-          {" "}
+        <>
+          {isMobile ? (
+            <Button
+              sx={{
+                width: "200px",
+                height: "40px",
+                mr: 4,
+                mb: 4,
+                border: "1px solid #fff",
+                color: "#fff",
+                "& .MuiButtonBase-root": {
+                  backgroundColor: "red",
+                },
+                "&:hover": {
+                  border: "none",
+                },
+              }}
+            >
+              Download
+            </Button>
+          ) : (
+            <Typography
+              variant="body1"
+              sx={{
+                width: "200px",
+                height: "48px",
+                cursor: "pointer",
+                color: "#fff",
+              }}
+            >
+              Upload New List
+            </Typography>
+          )}
+        </>
+
+        <Box display="flex">
           <Button
             sx={{
               width: "200px",
-              height: "48px",
+              height: "40px",
               mr: 4,
+              mb: 4,
               border: "1px solid #fff",
               color: "#fff",
+              display: isMobile ? "none" : "flex",
               "& .MuiButtonBase-root": {
                 backgroundColor: "red",
               },
@@ -191,20 +219,19 @@ const Preview = () => {
             }}
           >
             Download to Print
-          </Button>
-          <Button
-            variant="contained"
-            sx={{ width: "200px", height: "48px" }}
-            onClick={() =>
-              setModalControl((prev) => ({
-                ...prev,
-                openEmailSetup: true,
-                step: 1,
-              }))
-            }
-          >
-            Email to Recipients
-          </Button>
+          </Button>{" "}
+          {isMobile ? (
+            <Button variant="contained" sx={{ px: 6, height: "40px", mb: 4 }}>
+              Send
+            </Button>
+          ) : (
+            <Button
+              variant="contained"
+              sx={{ width: "200px", height: "40px", mb: 4 }}
+            >
+              Email to Recipients
+            </Button>
+          )}
         </Box>
         <SetupEmailModal
           open={modalControl.openEmailSetup}

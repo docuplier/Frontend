@@ -45,14 +45,17 @@ const UploadDocument = () => {
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   const handleUpload = (data: File) => {
-    console.log(data);
-    navigate(paths.CERTIFICATES_NAME);
+    console.log("data", data);
+    navigate(paths.CERTIFICATES_NAME, {
+      state: data,
+    });
   };
   return (
     <Dropzone
       accept={{ "image/jpeg": [], "image/png": [], ".pdf": [] }}
       onUpload={handleUpload}
       theme={theme}
+      title="PDF, PNG, JPEG files are supported"
     />
   );
 };

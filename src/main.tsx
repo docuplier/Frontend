@@ -84,6 +84,18 @@ const themes = createTheme({
             // backgroundColor: palette.primary.dark,
           },
         },
+        outlinedPrimary: {
+          color: "#fff",
+          borderColor: themeOptions(mode)?.palette?.common?.white,
+          "&:hover": {
+            opacity: 0.7,
+            borderColor: themeOptions(mode)?.palette?.common?.white,
+            // backgroundColor: "white",
+          },
+          "&:active": {
+            // backgroundColor: palette.primary.dark,
+          },
+        },
       },
     },
   },

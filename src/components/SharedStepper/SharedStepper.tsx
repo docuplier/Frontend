@@ -1,10 +1,18 @@
 import { Check } from "@mui/icons-material";
-import { Box, Stack, Step, StepLabel, Stepper } from "@mui/material";
+import {
+  Box,
+  Stack,
+  Step,
+  StepLabel,
+  Stepper,
+  Typography,
+} from "@mui/material";
 import { StepIconProps } from "@mui/material/StepIcon";
 import { IStepperProps } from "interfaces";
 import { FC } from "react";
 import { QontoConnector, QontoStepIconRoot } from "./sharedStepper.style";
 import Loading from "assets/loading.svg";
+import { pxToRem } from "utils/pxToRem";
 
 function QontoStepIcon(props: StepIconProps) {
   const { active, completed, className } = props;
@@ -18,31 +26,43 @@ function QontoStepIcon(props: StepIconProps) {
   );
 }
 
-const SharedStepper: FC<IStepperProps> = ({ orientation, steps, current }) => {
+const SharedStepper: FC<IStepperProps> = ({
+  orientation,
+  steps,
+  current,
+  isMobile,
+}) => {
   return (
-    <Stack spacing={3}>
+    <Box>
       <Stepper
         sx={{ display: "flex", justifyContent: "center" }}
         orientation={orientation}
-        // alternativeLabel
+        alternativeLabel={isMobile}
         activeStep={current}
         connector={<QontoConnector />}
       >
         {steps?.map(({ label, value }) => (
           <Step key={value}>
-            <Box>
-              {" "}
-              <StepLabel
-                StepIconComponent={QontoStepIcon}
-                sx={{ paddingBlock: (theme) => theme.spacing(6) }}
+            <StepLabel
+              StepIconComponent={QontoStepIcon}
+              sx={{
+                paddingBlock: (theme) => (isMobile ? 0 : theme.spacing(6)),
+                paddingInline: 0,
+              }}
+            >
+              <Typography
+                variant={isMobile ? "overline" : "body2"}
+                ml={isMobile ? 0 : 2}
+                fontSize={pxToRem(isMobile ? 7 : 14)}
+                textTransform="capitalize"
               >
-                <Box ml={2}>{label}</Box>
-              </StepLabel>
-            </Box>
+                {label}
+              </Typography>
+            </StepLabel>
           </Step>
         ))}
       </Stepper>
-    </Stack>
+    </Box>
   );
 };
 

@@ -1,22 +1,15 @@
 import {
   Box,
   Button,
-  Container,
-  Grid,
   Stack,
   TextField,
   Typography,
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import Dropzone from "components/Dropzone/Dropzone";
-import SharedStepper from "components/SharedStepper/SharedStepper";
-import TabButtons from "components/TabButtons/TabButtons";
-import LogoWhite from "assets/logo-white.svg";
 import { useNavigate, useLocation } from "react-router-dom";
 import { paths } from "Routes";
 import { styled } from "@mui/material";
-import GoogleFontLoader from "react-google-font-loader";
 
 const tabItems = [
   {
@@ -115,7 +108,8 @@ const AddText = () => {
       >
         <img
           src={location?.state && URL.createObjectURL(location?.state)}
-          style={{ width: "555px", height: "393px" }}
+          width="100%"
+          style={{ height: "393px" }}
         />
       </Box>
       <Box
@@ -125,11 +119,6 @@ const AddText = () => {
         marginTop="30px"
         sx={{
           flexWrap: "Wrap",
-          // "@media screen and (max-width:768px)": {
-          //   display: "flex",
-          //   width: "100%",
-          //   justifyContent: "center",
-          // },
         }}
       >
         <Button

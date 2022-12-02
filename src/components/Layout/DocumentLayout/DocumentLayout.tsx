@@ -26,44 +26,57 @@ const DocumentLayout: FC<IDocumentLayout> = ({ steps, tabItems }) => {
 
   return (
     <Box
-      pl={10}
-      pr={20}
+      pl={isMobile ? 4 : 10}
+      pr={isMobile ? 4 : 20}
+      display="flex"
+      justifyContent="space-between"
+      flexDirection="column"
       sx={{
-        position: "relative",
         height: isMobile ? "100%" : "100vh",
         pt: theme.spacing(5),
-        pb: theme.spacing(10),
+        // pb: theme.spacing(10),
       }}
     >
       <Grid container>
-        <Grid item xs={12} md={3} sx={{ height: "100%" }}>
+        <Grid item xs={12} sm={3} sx={{ height: "100%" }}>
           <Stack spacing={6}>
             <Link to="/">
-              <img src={LogoWhite} alt="" width={isMobile ? 126.8 : "50%"} />
+              <img src={LogoWhite} alt="" width={isMobile ? 126.8 : 180} />
+              {/* <img src={LogoWhite} alt="" width="20%" /> */}
             </Link>
 
-            <SharedStepper orientation="vertical" steps={steps} current={1} />
+            {!isMobile && (
+              <SharedStepper
+                orientation="vertical"
+                steps={steps}
+                current={1}
+                isMobile={isMobile}
+              />
+            )}
           </Stack>
         </Grid>
-        <Grid item xs={12} md={8} sx={{ height: "100%" }}>
+        <Grid item xs={12} sm={8} sx={{ height: "100%" }}>
           <Grid container spacing={10}>
             <Grid item xs={12}>
               <TabButtons activeTab={1} isMobile={isMobile} data={tabItems} />
             </Grid>
+            {isMobile && (
+              <Grid item xs={12}>
+                <SharedStepper
+                  orientation="horizontal"
+                  steps={steps}
+                  current={1}
+                  isMobile={isMobile}
+                />
+              </Grid>
+            )}
             <Grid item xs={12}>
               <Outlet />
-              {/* <Dropzone
-                accept={{ "image/jpeg": [], "image/png": [], ".pdf": [] }}
-                onUpload={handleUpload}
-                theme={theme}
-              /> */}
             </Grid>
           </Grid>
         </Grid>
       </Grid>
-      <Box sx={{ position: "absolute", bottom: "20px", left: "50%" }}>
-        <Footer />
-      </Box>
+      <Footer />
     </Box>
   );
 };

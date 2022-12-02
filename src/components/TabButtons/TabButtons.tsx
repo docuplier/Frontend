@@ -1,6 +1,7 @@
 import { Box, Button, Grid } from "@mui/material";
 import { FC } from "react";
 import { useNavigate } from "react-router-dom";
+import { pxToRem } from "utils/pxToRem";
 
 export interface ITabButtonsProps {
   activeTab: number;
@@ -29,7 +30,11 @@ const TabButtons: FC<ITabButtonsProps> = ({ activeTab, isMobile, data }) => {
             <Button
               variant={v.id === activeTab ? "contained" : "text"}
               fullWidth
-              sx={{ maxWidth: 156, color: "#fff" }}
+              sx={{
+                maxWidth: 156,
+                color: "#fff",
+                fontSize: pxToRem(isMobile ? 8 : 12),
+              }}
               onClick={() => v.path && navigate(v.path)}
             >
               {v.name}

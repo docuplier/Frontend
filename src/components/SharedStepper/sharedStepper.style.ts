@@ -1,11 +1,6 @@
 import { StepConnector, stepConnectorClasses, styled } from "@mui/material";
 
 export const QontoConnector = styled(StepConnector)(({ theme }) => ({
-  [`&.${stepConnectorClasses.alternativeLabel}`]: {
-    top: 3,
-    left: "calc(50% + 16px)",
-    right: "calc(-50% + 16px)",
-  },
   [`&.${stepConnectorClasses.active}`]: {
     [`& .${stepConnectorClasses.line}`]: {
       borderColor: theme.palette.primary.main,

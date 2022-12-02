@@ -14,4 +14,5 @@ export interface IStepperProps {
   orientation: "horizontal" | "vertical";
   steps: IStepItem[];
   current: number;
+  isMobile: boolean;
 }

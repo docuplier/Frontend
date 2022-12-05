@@ -1,9 +1,11 @@
+import { useCallback, useEffect, useRef, useState } from "react";
 import {
   Box,
   Button,
   Container,
   Grid,
   Stack,
+  TextareaAutosize,
   TextField,
   Typography,
   useMediaQuery,
@@ -17,6 +19,8 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { paths } from "Routes";
 import { styled } from "@mui/material";
 import GoogleFontLoader from "react-google-font-loader";
+// @ts-ignore
+import Draggable, { DraggableData, DraggableEvent } from "react-draggable";
 
 const tabItems = [
   {
@@ -45,11 +49,59 @@ const steps = [
 ];
 
 const AddText = () => {
+  const [dimension, setDimension] = useState({
+    top: 0,
+    left: 0,
+    bottom: 0,
+    right: 0,
+  });
+  const [displayTextBox, setDisplayTextBox] = useState(false);
   const theme = useTheme();
+  const ref = useRef<HTMLDivElement>();
+  const draggableRef = useRef<HTMLDivElement>();
   const navigate = useNavigate();
   const location = useLocation();
-  console.log("loc", location);
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
+  const eventLogger = (e: DraggableEvent, data: DraggableData) => {
+    console.log("Event: ", e);
+    console.log("Data: ", data);
+    const val = ref?.current?.getBoundingClientRect();
+    const draggableVal = draggableRef?.current?.getBoundingClientRect();
+    console.log({ val: val, draggableVal: draggableVal });
+    setDimension({
+      left: val?.left! - draggableVal?.left!,
+      right: val?.right! - draggableVal?.right!,
+      bottom: val?.bottom! - draggableVal?.bottom!,
+      top: val?.top! - draggableVal?.top!,
+    });
+  };
+
+  const handleTextBox = () => {
+    setDisplayTextBox(true);
+  };
+
+  // var maxWidth = span.parentNode.clientWidth;
+  // var currentFont = parseInt(window.getComputedStyle(span).fontSize); // or max font size
+  // while (span.offsetWidth > maxWidth) {
+  //   currentFont--;
+  //   span.style.fontSize = currentFont + "px";
+  // }
+
+  console.log("ref", ref?.current?.getBoundingClientRect());
+
+  // useEffect(() => {
+  //   if (ref !== null) {
+  //     const val = ref?.current?.getBoundingClientRect();
+  //     const draggableVal = draggableRef?.current?.getBoundingClientRect();
+  //     setDimension({
+  //       left: val?.left! - draggableVal?.left!,
+  //       right: val?.right! - draggableVal?.right!,
+  //       bottom: val?.bottom! - draggableVal?.bottom!,
+  //       top: val?.top! - draggableVal?.top!,
+  //     });
+  //   }
+  // }, [location?.state]);
 
   return (
     <Stack spacing={12}>
@@ -69,7 +121,11 @@ const AddText = () => {
           {" "}
           <Box display="flex" alignItems="flex-end" mx={6}>
             {" "}
-            <ButtonBox variant="contained" sx={{ height: "48px", px: 12 }}>
+            <ButtonBox
+              variant="contained"
+              sx={{ height: "48px", px: 12 }}
+              onClick={() => handleTextBox()}
+            >
               Add A Text Box
             </ButtonBox>
             <Button
@@ -83,6 +139,7 @@ const AddText = () => {
                   display: "flex",
                 },
               }}
+              onClick={() => handleTextBox()}
             >
               {" "}
               Add Text
@@ -109,15 +166,86 @@ const AddText = () => {
         sx={{
           border: `2px dashed ${theme.palette.common.white}`,
           borderRadius: "8px",
-          position: "relative",
         }}
         p={10}
       >
-        <img
-          src={location?.state && URL.createObjectURL(location?.state)}
-          style={{ width: "555px", height: "393px" }}
-        />
+        <Box ref={ref} position="relative">
+          <img
+            src={location?.state && URL.createObjectURL(location?.state)}
+            style={{ position: "relative" }}
+          />
+          <Box sx={{ position: "absolute", top: 0 }} ref={draggableRef}>
+            {displayTextBox && (
+              <Draggable
+                axis="both"
+                handle=".handle"
+                //defaultPosition={{ x: 0, y: 0 }}
+                position={undefined}
+                grid={[25, 25]}
+                bounds={{
+                  left: dimension?.left!,
+                  right: dimension?.right!,
+                  top: dimension?.top!,
+                  bottom: dimension?.bottom!,
+                }}
+                scale={1}
+                // onStart={eventLogger}
+                onDrag={eventLogger}
+                onStop={eventLogger}
+              >
+                <div className="handle">
+                  {" "}
+                  <Box component="form">
+                    <Box
+                      width="350px"
+                      height="25px"
+                      borderRadius="5px"
+                      display="flex"
+                      justifyContent="center"
+                      textAlign="center"
+                      alignItems="center"
+                      sx={{ border: `2px solid #3B4CF1 `, color: "#0B0D27" }}
+                    >
+                      {" "}
+                      <Typography>
+                        {" "}
+                        Drag This Text Box to Preferred Name Position
+                      </Typography>
+                    </Box>
+                  </Box>
+                </div>
+              </Draggable>
+            )}
+          </Box>
+        </Box>
+
+        {/* <DragResizeContainer
+          className="resize-container"
+          resizeProps={{
+            minWidth: 10,
+            minHeight: 10,
+
+            // enable: canResizable(isResize)
+          }}
+          //  onDoubleClick={clickScreen}
+          layout={layout}
+          dragProps={{ disabled: false }}
+          //  onLayoutChange={onLayoutChange}
+          //  scale={scale}
+        >
+          {layout.map((single) => {
+            return (
+              <Box
+                key={single.key}
+                className="child-container size-auto border"
+              >
+                text test
+              </Box>
+            );
+          })}
+        </DragResizeContainer> */}
       </Box>
+
       <Box
         width="100%"
         display="flex"
@@ -176,6 +304,10 @@ const AddText = () => {
 };
 
 export default AddText;
+
+const InputField = styled(TextareaAutosize)({
+  borderRadius: "5px",
+});
 
 const ButtonBox = styled(Button)({
   "@media screen and (max-width:768px)": {

@@ -17,6 +17,8 @@
     "@mui/material": "^5.10.14",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-drag-resize": "^0.1.4",
+    "react-draggable": "^4.4.5",
     "react-dropzone": "^14.2.3",
     "react-google-font-loader": "^1.1.0",
     "react-router-dom": "^6.4.3",

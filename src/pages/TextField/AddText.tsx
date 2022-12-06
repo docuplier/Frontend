@@ -2,8 +2,6 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import {
   Box,
   Button,
-  Container,
-  Grid,
   Stack,
   TextareaAutosize,
   TextField,
@@ -11,10 +9,6 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import Dropzone from "components/Dropzone/Dropzone";
-import SharedStepper from "components/SharedStepper/SharedStepper";
-import TabButtons from "components/TabButtons/TabButtons";
-import LogoWhite from "assets/logo-white.svg";
 import { useNavigate, useLocation } from "react-router-dom";
 import { paths } from "Routes";
 import { styled } from "@mui/material";
@@ -168,11 +162,19 @@ const AddText = () => {
           borderRadius: "8px",
         }}
         p={10}
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
       >
         <Box ref={ref} position="relative">
           <img
             src={location?.state && URL.createObjectURL(location?.state)}
-            style={{ position: "relative" }}
+            style={{
+              position: "relative",
+              margin: "auto",
+              textAlign: "center",
+            }}
+            width="100%"
           />
           <Box sx={{ position: "absolute", top: 0 }} ref={draggableRef}>
             {displayTextBox && (
@@ -253,11 +255,6 @@ const AddText = () => {
         marginTop="30px"
         sx={{
           flexWrap: "Wrap",
-          // "@media screen and (max-width:768px)": {
-          //   display: "flex",
-          //   width: "100%",
-          //   justifyContent: "center",
-          // },
         }}
       >
         <Button

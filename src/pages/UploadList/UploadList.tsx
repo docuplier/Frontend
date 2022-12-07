@@ -7,15 +7,16 @@ import {
   useTheme,
 } from "@mui/material";
 import Dropzone from "components/Dropzone/Dropzone";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
 import Spreadsheet from "assets/Spreadsheet.svg";
 import { paths } from "Routes";
-import { styled } from "@mui/system";
+import React from "react";
 
 const UploadList = () => {
   const theme = useTheme();
   const navigate = useNavigate();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const context: any = useOutletContext();
   const imgStyle = {
     width: "330px",
   };
@@ -23,6 +24,10 @@ const UploadList = () => {
     console.log(data);
     navigate(paths.CERTIFICATES_PREVIEW);
   };
+
+  React.useEffect(() => {
+    context?.setCurrentStep(2);
+  }, []);
   return (
     <Stack spacing={12}>
       <Box

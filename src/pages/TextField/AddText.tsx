@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import {
   Box,
   Button,
@@ -9,7 +9,7 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, useOutletContext } from "react-router-dom";
 import { paths } from "Routes";
 import { styled } from "@mui/material";
 import GoogleFontLoader from "react-google-font-loader";
@@ -56,13 +56,11 @@ const AddText = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const context: any = useOutletContext();
 
   const eventLogger = (e: DraggableEvent, data: DraggableData) => {
-    console.log("Event: ", e);
-    console.log("Data: ", data);
     const val = ref?.current?.getBoundingClientRect();
     const draggableVal = draggableRef?.current?.getBoundingClientRect();
-    console.log({ val: val, draggableVal: draggableVal });
     setDimension({
       left: val?.left! - draggableVal?.left!,
       right: val?.right! - draggableVal?.right!,
@@ -75,27 +73,9 @@ const AddText = () => {
     setDisplayTextBox(true);
   };
 
-  // var maxWidth = span.parentNode.clientWidth;
-  // var currentFont = parseInt(window.getComputedStyle(span).fontSize); // or max font size
-  // while (span.offsetWidth > maxWidth) {
-  //   currentFont--;
-  //   span.style.fontSize = currentFont + "px";
-  // }
-
-  console.log("ref", ref?.current?.getBoundingClientRect());
-
-  // useEffect(() => {
-  //   if (ref !== null) {
-  //     const val = ref?.current?.getBoundingClientRect();
-  //     const draggableVal = draggableRef?.current?.getBoundingClientRect();
-  //     setDimension({
-  //       left: val?.left! - draggableVal?.left!,
-  //       right: val?.right! - draggableVal?.right!,
-  //       bottom: val?.bottom! - draggableVal?.bottom!,
-  //       top: val?.top! - draggableVal?.top!,
-  //     });
-  //   }
-  // }, [location?.state]);
+  React.useEffect(() => {
+    context?.setCurrentStep(1);
+  }, []);
 
   return (
     <Stack spacing={12}>

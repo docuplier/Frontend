@@ -1,16 +1,7 @@
-import {
-  Box,
-  Container,
-  Grid,
-  Stack,
-  useMediaQuery,
-  useTheme,
-} from "@mui/material";
+import { useMediaQuery, useTheme } from "@mui/material";
 import Dropzone from "components/Dropzone/Dropzone";
-import { Link, useNavigate } from "react-router-dom";
-import SharedStepper from "components/SharedStepper/SharedStepper";
-import TabButtons from "components/TabButtons/TabButtons";
-import LogoWhite from "assets/logo-white.svg";
+import React from "react";
+import { Link, useNavigate, useOutletContext } from "react-router-dom";
 import { paths } from "Routes";
 
 const tabItems = [
@@ -43,9 +34,13 @@ const UploadDocument = () => {
   const theme = useTheme();
   const navigate = useNavigate();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const context: any = useOutletContext();
+
+  React.useEffect(() => {
+    context?.setCurrentStep(0);
+  }, []);
 
   const handleUpload = (data: File) => {
-    console.log("data", data);
     navigate(paths.CERTIFICATES_NAME, {
       state: data,
     });

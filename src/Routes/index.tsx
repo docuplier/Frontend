@@ -1,5 +1,3 @@
-import DocumentLayout from "components/Layout/DocumentLayout/DocumentLayout";
-import path from "node:path/win32";
 import { lazy } from "react";
 
 export const paths = {
@@ -11,6 +9,7 @@ export const paths = {
   CERTIFICATES_NAME: "/certificates/name-field",
   CERTIFICATES_UPLOAD_LIST: "/certificates/upload-list",
   CERTIFICATES_PREVIEW: "/certificates/preview",
+  CERTIFICATES_SUCCESS: "/certificates/success",
   INDIVIDUAL_CERTIFICATES: "/individual-document",
   ORGANSATION_CERTIFICATES: "/organisation-document",
 };
@@ -65,6 +64,11 @@ const routes = {
         path: paths.CERTIFICATES_PREVIEW,
         exact: true,
         component: lazy(() => import("../pages/Preview/Preview")),
+      },
+      {
+        path: paths.CERTIFICATES_SUCCESS,
+        exact: true,
+        component: lazy(() => import("../pages/Success/Success")),
       },
     ],
   },

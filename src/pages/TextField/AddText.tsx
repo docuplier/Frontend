@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import {
   Box,
   Button,
@@ -9,38 +9,11 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
 import { paths } from "Routes";
 import { styled } from "@mui/material";
-import GoogleFontLoader from "react-google-font-loader";
 // @ts-ignore
 import Draggable, { DraggableData, DraggableEvent } from "react-draggable";
-
-const tabItems = [
-  {
-    id: 1,
-    name: "Certificates",
-  },
-  {
-    id: 2,
-    name: "Badges",
-  },
-  {
-    id: 3,
-    name: "Tags",
-  },
-  {
-    id: 4,
-    name: "Invitations",
-  },
-];
-
-const steps = [
-  { value: 1, label: "Upload Certificate" },
-  { value: 2, label: "Name Field" },
-  { value: 3, label: "Upload List" },
-  { value: 4, label: "Preview" },
-];
 
 const AddText = () => {
   const [dimension, setDimension] = useState({
@@ -54,15 +27,12 @@ const AddText = () => {
   const ref = useRef<HTMLDivElement>();
   const draggableRef = useRef<HTMLDivElement>();
   const navigate = useNavigate();
-  const location = useLocation();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const context: any = useOutletContext();
 
   const eventLogger = (e: DraggableEvent, data: DraggableData) => {
-    console.log("Event: ", e);
-    console.log("Data: ", data);
     const val = ref?.current?.getBoundingClientRect();
     const draggableVal = draggableRef?.current?.getBoundingClientRect();
-    console.log({ val: val, draggableVal: draggableVal });
     setDimension({
       left: val?.left! - draggableVal?.left!,
       right: val?.right! - draggableVal?.right!,
@@ -75,27 +45,9 @@ const AddText = () => {
     setDisplayTextBox(true);
   };
 
-  // var maxWidth = span.parentNode.clientWidth;
-  // var currentFont = parseInt(window.getComputedStyle(span).fontSize); // or max font size
-  // while (span.offsetWidth > maxWidth) {
-  //   currentFont--;
-  //   span.style.fontSize = currentFont + "px";
-  // }
-
-  console.log("ref", ref?.current?.getBoundingClientRect());
-
-  // useEffect(() => {
-  //   if (ref !== null) {
-  //     const val = ref?.current?.getBoundingClientRect();
-  //     const draggableVal = draggableRef?.current?.getBoundingClientRect();
-  //     setDimension({
-  //       left: val?.left! - draggableVal?.left!,
-  //       right: val?.right! - draggableVal?.right!,
-  //       bottom: val?.bottom! - draggableVal?.bottom!,
-  //       top: val?.top! - draggableVal?.top!,
-  //     });
-  //   }
-  // }, [location?.state]);
+  React.useEffect(() => {
+    context?.setCurrentStep(1);
+  }, []);
 
   return (
     <Stack spacing={12}>
@@ -168,7 +120,7 @@ const AddText = () => {
       >
         <Box ref={ref} position="relative">
           <img
-            src={location?.state && URL.createObjectURL(location?.state)}
+            src={context?.uploaded?.doc}
             style={{
               position: "relative",
               margin: "auto",

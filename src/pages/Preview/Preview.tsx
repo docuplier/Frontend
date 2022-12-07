@@ -1,10 +1,7 @@
 import {
   Box,
   Button,
-  Container,
-  Grid,
   Stack,
-  TextField,
   Typography,
   useMediaQuery,
   useTheme,
@@ -16,45 +13,18 @@ import {
   TableHead,
   Paper,
 } from "@mui/material";
-import SharedStepper from "components/SharedStepper/SharedStepper";
-import TabButtons from "components/TabButtons/TabButtons";
-import LogoWhite from "assets/logo-white.svg";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
 import SetupEmailModal from "components/SetupEmailModal/SetupEmailModal";
-import { useState } from "react";
+import React, { useState } from "react";
 import OtpModal from "components/otpModal/OtpModal";
 import SetupEmailTemplateModal from "components/SetupEmailTemplateModal/SetupEmailTemplateModal";
-
-const tabItems = [
-  {
-    id: 1,
-    name: "Certificates",
-  },
-  {
-    id: 2,
-    name: "Badges",
-  },
-  {
-    id: 3,
-    name: "Tags",
-  },
-  {
-    id: 4,
-    name: "Invitations",
-  },
-];
-
-const steps = [
-  { value: 1, label: "Upload Certificate" },
-  { value: 2, label: "Name Field" },
-  { value: 3, label: "Upload List" },
-  { value: 4, label: "Preview" },
-];
+import { paths } from "Routes";
 
 const Preview = () => {
   const theme = useTheme();
-  const navigate = useNavigate();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const navigate = useNavigate();
+  const context: any = useOutletContext();
   const [modalControl, setModalControl] = useState({
     openOtp: false,
     openEmailSetup: false,
@@ -62,9 +32,9 @@ const Preview = () => {
     step: 1,
   });
 
-  const handleUpload = (data: File) => {
-    console.log(data);
-  };
+  React.useEffect(() => {
+    context?.setCurrentStep(3);
+  }, []);
 
   function createData(name: string, email: string) {
     return { name, email };
@@ -86,6 +56,21 @@ const Preview = () => {
       email: "judith@gmail.com",
     },
   ];
+
+  const handleContinue = () => {
+    if (modalControl.step === 2 || modalControl.step === 4)
+      return setModalControl((prev) => ({
+        ...prev,
+        openOtp: true,
+      }));
+
+    if (modalControl.step === 3)
+      return setModalControl((prev) => ({
+        ...prev,
+        openEmailTemplateSetup: true,
+      }));
+    if (modalControl.step > 4) return navigate(paths.CERTIFICATES_SUCCESS);
+  };
 
   const list = data?.map(({ name, email }) => createData(name, email));
   return (
@@ -220,14 +205,21 @@ const Preview = () => {
           >
             Download to Print
           </Button>{" "}
-          {isMobile ? (
-            <Button variant="contained" sx={{ px: 6, height: "40px", mb: 4 }}>
-              Send
+          {modalControl.step > 1 ? (
+            <Button
+              variant="contained"
+              sx={{ px: 6, height: "40px", mb: 4 }}
+              onClick={handleContinue}
+            >
+              Continue
             </Button>
           ) : (
             <Button
               variant="contained"
               sx={{ width: "200px", height: "40px", mb: 4 }}
+              onClick={() =>
+                setModalControl((prev) => ({ ...prev, openEmailSetup: true }))
+              }
             >
               Email to Recipients
             </Button>
@@ -242,7 +234,6 @@ const Preview = () => {
             setModalControl((prev) => ({
               ...prev,
               openEmailSetup: false,
-              openOtp: true,
               step: 2,
             }));
           }}
@@ -257,7 +248,7 @@ const Preview = () => {
             setModalControl((prev) => ({
               ...prev,
               openOtp: false,
-              openEmailTemplateSetup: prev.step === 2,
+              step: ++prev.step,
             }))
           }
           onInputChange={(e) => console.log(e)}
@@ -269,15 +260,13 @@ const Preview = () => {
             setModalControl((prev) => ({
               ...prev,
               openEmailTemplateSetup: false,
-              openOtp: true,
             }))
           }
           onConfirm={() =>
             setModalControl((prev) => ({
               ...prev,
               openEmailTemplateSetup: false,
-              openOtp: true,
-              step: 3,
+              step: 4,
             }))
           }
           onInputChange={(e) => console.log(e)}

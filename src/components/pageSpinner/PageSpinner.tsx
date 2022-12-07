@@ -1,11 +1,17 @@
 import { Box, CircularProgress } from "@mui/material";
 import React from "react";
 
-const PageSpinner = () => {
+const PageSpinner = ({
+  height,
+  width,
+}: {
+  height?: string;
+  width?: string;
+}) => {
   return (
     <Box
-      height="100vh"
-      width="100vw"
+      height={height || "100vh"}
+      width={width || "100vw"}
       display="flex"
       alignItems="center"
       justifyContent="center"

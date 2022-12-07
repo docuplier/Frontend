@@ -11,7 +11,7 @@ import { Link, Outlet, useNavigate } from "react-router-dom";
 import SharedStepper from "components/SharedStepper/SharedStepper";
 import TabButtons from "components/TabButtons/TabButtons";
 import LogoWhite from "assets/logo-white.svg";
-import { FC } from "react";
+import React, { FC } from "react";
 import Footer from "../Footer";
 
 export interface IDocumentLayout {
@@ -23,6 +23,13 @@ const DocumentLayout: FC<IDocumentLayout> = ({ steps, tabItems }) => {
   const theme = useTheme();
   const navigate = useNavigate();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const [currentStep, setCurrentStep] = React.useState(1);
+  const [uploaded, setUploaded] = React.useState<{
+    doc: File | null;
+    list: File | null;
+  }>({ doc: null, list: null });
+
+  console.log(currentStep);
 
   return (
     <Box
@@ -49,7 +56,7 @@ const DocumentLayout: FC<IDocumentLayout> = ({ steps, tabItems }) => {
               <SharedStepper
                 orientation="vertical"
                 steps={steps}
-                current={1}
+                current={currentStep}
                 isMobile={isMobile}
               />
             )}
@@ -65,13 +72,19 @@ const DocumentLayout: FC<IDocumentLayout> = ({ steps, tabItems }) => {
                 <SharedStepper
                   orientation="horizontal"
                   steps={steps}
-                  current={1}
+                  current={currentStep}
                   isMobile={isMobile}
                 />
               </Grid>
             )}
             <Grid item xs={12}>
-              <Outlet />
+              <Outlet
+                context={{
+                  setCurrentStep,
+                  uploaded,
+                  setUploaded,
+                }}
+              />
             </Grid>
           </Grid>
         </Grid>

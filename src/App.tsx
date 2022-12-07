@@ -36,7 +36,7 @@ function App() {
             path={path}
             key={path}
             element={
-              <Suspense fallback={<PageSpinner />}>
+              <Suspense fallback={<PageSpinner height="50vh" width="50vw" />}>
                 <Component />
               </Suspense>
             }

@@ -8,7 +8,7 @@ import {
 } from "@mui/material";
 import SuccessIcon from "assets/success.svg";
 import React from "react";
-import { Link, useNavigate, useOutletContext } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
 import { paths } from "Routes";
 
 const Success = () => {

@@ -21,7 +21,10 @@ const UploadList = () => {
     width: "330px",
   };
   const handleUpload = (data: File) => {
-    console.log(data);
+    context?.setUploaded((prev: any) => ({
+      ...prev,
+      list: URL.createObjectURL(data),
+    }));
     navigate(paths.CERTIFICATES_PREVIEW);
   };
 
@@ -46,7 +49,13 @@ const UploadList = () => {
         <img src={Spreadsheet} style={isMobile ? imgStyle : {}} />
       </Box>
       <Dropzone
-        accept={{ csv: [] }}
+        accept={{
+          ".csv": [],
+          "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": [
+            ".csv",
+          ],
+          "application/vnd.ms-excel": [],
+        }}
         onUpload={handleUpload}
         theme={theme}
         title="PDF, PNG, JPEG files are supported"

@@ -32,10 +32,6 @@ const Preview = () => {
     step: 1,
   });
 
-  const handleUpload = (data: File) => {
-    console.log(data);
-  };
-
   React.useEffect(() => {
     context?.setCurrentStep(3);
   }, []);

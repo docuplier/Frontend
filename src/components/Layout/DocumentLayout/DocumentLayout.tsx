@@ -24,6 +24,10 @@ const DocumentLayout: FC<IDocumentLayout> = ({ steps, tabItems }) => {
   const navigate = useNavigate();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [currentStep, setCurrentStep] = React.useState(1);
+  const [uploaded, setUploaded] = React.useState<{
+    doc: File | null;
+    list: File | null;
+  }>({ doc: null, list: null });
 
   console.log(currentStep);
 
@@ -74,7 +78,13 @@ const DocumentLayout: FC<IDocumentLayout> = ({ steps, tabItems }) => {
               </Grid>
             )}
             <Grid item xs={12}>
-              <Outlet context={{ setCurrentStep }} />
+              <Outlet
+                context={{
+                  setCurrentStep,
+                  uploaded,
+                  setUploaded,
+                }}
+              />
             </Grid>
           </Grid>
         </Grid>

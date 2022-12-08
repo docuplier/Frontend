@@ -23,24 +23,30 @@ const Dropzone = ({
 }: IDropzoneProps) => {
   const [disabled, setDisabled] = useState(false);
   const [file, setFile] = useState<File | null>(null);
-  const { getRootProps, getInputProps, acceptedFiles, inputRef } = useDropzone({
+  const { getRootProps, getInputProps, acceptedFiles } = useDropzone({
     accept,
     onDrop,
     disabled,
   });
 
   useEffect(() => {
-    if (acceptedFiles[0]?.name) {
+    console.log(acceptedFiles);
+    if (acceptedFiles.length) {
       setDisabled(true);
       setFile(acceptedFiles[0]);
     } else {
       setDisabled(false);
       setFile(null);
     }
-  }, [acceptedFiles[0]?.name]);
+  }, [JSON.stringify(acceptedFiles)]);
 
   const removeFile = () => {
-    setFile(null);
+    if (file) {
+      // @ts-ignore
+      acceptedFiles.splice(file, 1);
+      setDisabled(false);
+      setFile(null);
+    }
   };
 
   return (
@@ -72,9 +78,9 @@ const Dropzone = ({
       <PreUpload
         theme={theme}
         onUploadClick={(data?: string) =>
-          data ? onUpload(acceptedFiles[0]) : open!()
+          data ? onUpload(acceptedFiles[0]) : open && open!()
         }
-        fileName={file?.name}
+        fileName={file?.name || ""}
         title={title}
       />
     </Box>

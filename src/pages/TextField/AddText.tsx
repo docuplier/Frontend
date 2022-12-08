@@ -127,7 +127,8 @@ const AddText = () => {
               sx={{
                 display: "none",
                 height: "40px",
-                px: 4,
+                // px: 4,
+                width: "100%",
 
                 "@media screen and (max-width:768px)": {
                   display: "flex",

@@ -90,20 +90,26 @@ export default function OtpModal({
           </Box>
         </Stack>
       </DialogContent>
-      <DialogActions sx={{ minWidth: "42ch" }}>
-        <Stack direction="row" spacing={4} width="100%" mt={12}>
-          <Button variant="outlined" size="large" onClick={onResend} fullWidth>
+      <DialogActions>
+        <Box display="flex" justifyContent="space-between" width="100%" mt={4}>
+          <Button
+            variant="outlined"
+            size="large"
+            onClick={onResend}
+            sx={{ mx: 2 }}
+          >
             Resend OTP
           </Button>
           <Button
             variant="contained"
             size="large"
+            sx={{ mx: 2 }}
             onClick={onConfirm}
-            fullWidth
+            //  fullWidth
           >
             Confirm OTP
           </Button>
-        </Stack>
+        </Box>
       </DialogActions>
     </Dialog>
   );

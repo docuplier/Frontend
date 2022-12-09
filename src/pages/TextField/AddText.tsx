@@ -30,6 +30,8 @@ const AddText = () => {
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const context: any = useOutletContext();
 
+  console.log("context", context);
+
   const eventLogger = (e: DraggableEvent, data: DraggableData) => {
     const val = ref?.current?.getBoundingClientRect();
     const draggableVal = draggableRef?.current?.getBoundingClientRect();
@@ -60,12 +62,18 @@ const AddText = () => {
             //  backgroundColor: "red",
             "@media screen and (max-width:768px)": {
               width: "100%",
+              justifyContent: "space-between",
             },
           }}
           //   flexWrap="wrap"
         >
           {" "}
-          <Box display="flex" alignItems="flex-end" mx={6}>
+          <Box
+            display="flex"
+            alignItems="flex-end"
+            mx={isMobile ? 0 : 6}
+            width={isMobile ? "40%" : "none"}
+          >
             {" "}
             <ButtonBox
               variant="contained"
@@ -77,14 +85,10 @@ const AddText = () => {
             <Button
               variant="contained"
               sx={{
-                display: "none",
-                height: "40px",
+                display: isMobile ? "flex" : "none",
+                height: "48px",
                 // px: 4,
                 width: "100%",
-
-                "@media screen and (max-width:768px)": {
-                  display: "flex",
-                },
               }}
               onClick={() => handleTextBox()}
             >
@@ -92,7 +96,7 @@ const AddText = () => {
               Add Text
             </Button>
           </Box>
-          <Box mx={6} width="28%">
+          <Box mx={isMobile ? 0 : 6} width={isMobile ? "40%" : "28%"}>
             <Typography variant="body2">Select Font</Typography>
             <TextField
               select

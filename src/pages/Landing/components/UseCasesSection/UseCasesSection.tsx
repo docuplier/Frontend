@@ -41,7 +41,7 @@ const UseCasesSection = () => {
       p={16}
       // pl="12rem"
       // pr="12rem"
-      sx={{ pl: isMobile ? 0 : "12rem", pr: isMobile ? 0 : "12rem" }}
+      sx={{ pl: isMobile ? 0 : "10rem", pr: isMobile ? 0 : "8rem" }}
       //  sx={{ width: "100%" }}
       display="flex"
       justifyContent="center"
@@ -52,7 +52,7 @@ const UseCasesSection = () => {
         </Typography>
       </Grid>
       <Grid item>
-        <Grid container spacing={0}>
+        <Grid container spacing={20}>
           {data.map((v) => (
             <Grid
               item
@@ -72,11 +72,10 @@ const UseCasesSection = () => {
                 <img src={v.logo} alt="" width="100%" />
               </Box>
               <Typography sx={{ fontSize: "24px" }}>{v.title}</Typography>
-              <Box width="70%">
-                <Typography variant="body1" textAlign="center">
-                  {v.description}
-                </Typography>
-              </Box>
+
+              <Typography variant="body1" textAlign="center" px={4}>
+                {v.description}
+              </Typography>
             </Grid>
           ))}
         </Grid>

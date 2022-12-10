@@ -152,7 +152,7 @@ const AddText = () => {
                   <Box component="form">
                     <Box
                       width="350px"
-                      height="25px"
+                      height="30px"
                       borderRadius="5px"
                       display="flex"
                       justifyContent="center"

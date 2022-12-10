@@ -1,4 +1,4 @@
-import { Box, Grid, Typography } from "@mui/material";
+import { Box, Grid, Typography, useMediaQuery, useTheme } from "@mui/material";
 import certificate from "assets/certificate.svg";
 import badge from "assets/badge.svg";
 import tag from "assets/tag.svg";
@@ -32,15 +32,27 @@ const data = [
 ];
 
 const UseCasesSection = () => {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   return (
-    <Grid container spacing={10} p={16}>
+    <Grid
+      container
+      spacing={10}
+      p={16}
+      // pl="12rem"
+      // pr="12rem"
+      sx={{ pl: isMobile ? 0 : "12rem", pr: isMobile ? 0 : "12rem" }}
+      //  sx={{ width: "100%" }}
+      display="flex"
+      justifyContent="center"
+    >
       <Grid item width="100%">
         <Typography variant="h1" textAlign="center">
           Use Cases
         </Typography>
       </Grid>
       <Grid item>
-        <Grid container spacing={5}>
+        <Grid container spacing={0}>
           {data.map((v) => (
             <Grid
               item
@@ -52,14 +64,19 @@ const UseCasesSection = () => {
               alignItems="center"
               justifyContent="center"
               flexDirection="column"
+              // sx={{
+              //   backgroundColor: "red",
+              // }}
             >
               <Box>
                 <img src={v.logo} alt="" width="100%" />
               </Box>
-              <Typography variant="h4">{v.title}</Typography>
-              <Typography variant="body1" textAlign="center">
-                {v.description}
-              </Typography>
+              <Typography sx={{ fontSize: "24px" }}>{v.title}</Typography>
+              <Box width="70%">
+                <Typography variant="body1" textAlign="center">
+                  {v.description}
+                </Typography>
+              </Box>
             </Grid>
           ))}
         </Grid>

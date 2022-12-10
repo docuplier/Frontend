@@ -2,10 +2,14 @@ import { Container, Grid, Typography } from "@mui/material";
 import { ILandingSection } from "interfaces";
 import React, { Fragment } from "react";
 import { pxToRem } from "utils/pxToRem";
+import Number1 from "assets/1.svg";
+import Number2 from "assets/2.svg";
+import Number3 from "assets/3.svg";
+import Number4 from "assets/4.svg";
 
 const data = [
   {
-    itemNumber: "1",
+    itemNumber: <img src={Number1} alt="Number 1" />,
     description:
       "Choose files: Upload name list and the preferred document type’s design",
   },
@@ -18,12 +22,12 @@ const data = [
     description: "",
   },
   {
-    itemNumber: "2",
+    itemNumber: <img src={Number2} alt="Number 2" />,
     description:
       "Create name field: Be sure to choose befitting fonts and drag to position based on your design uploaded",
   },
   {
-    itemNumber: "3",
+    itemNumber: <img src={Number3} alt="Number 3" />,
     description:
       "Create email duplicates: Email or download certificates for printing",
   },
@@ -36,7 +40,7 @@ const data = [
     description: "",
   },
   {
-    itemNumber: "4",
+    itemNumber: <img src={Number4} alt="Number 4" />,
     description:
       "Create name field: Be sure to choose befitting fonts and drag to position",
   },
@@ -48,22 +52,39 @@ const data = [
 
 const EasyStepsSection = ({ theme, isMobile }: ILandingSection) => {
   return (
-    <Grid container spacing={10} p={isMobile ? 8 : 16}>
+    <Grid
+      container
+      spacing={10}
+      p={isMobile ? 8 : 16}
+      sx={{ pl: isMobile ? 8 : "13rem", pr: isMobile ? 8 : "13rem" }}
+    >
       <Grid item width="100%">
         <Typography variant="h1" textAlign="center">
           Just 4 Easy Steps
         </Typography>
       </Grid>
       <Grid item>
-        <Grid container rowSpacing={isMobile ? 8 : 16}>
+        <Grid
+          container
+          rowSpacing={10}
+          justifyContent="center"
+          alignItems="center"
+        >
           {data.map((v) => {
             return isMobile && !v.itemNumber ? undefined : (
-              <Grid item xs={12} md={6}>
+              <Grid
+                item
+                xs={12}
+                md={6}
+
+                // pl={10}
+                // pr={10}
+              >
                 <Grid container alignItems="center">
-                  <Grid item xs={4} md={1.5}>
+                  <Grid item xs={4} md={3}>
                     <Typography
-                      variant="h1"
-                      fontSize={isMobile ? pxToRem(124) : pxToRem(200)}
+                      // variant="h1"
+                      // fontSize={isMobile ? pxToRem(124) : pxToRem(200)}
                       color="#101549"
                       sx={{
                         textShadow:
@@ -73,8 +94,14 @@ const EasyStepsSection = ({ theme, isMobile }: ILandingSection) => {
                       {v.itemNumber}
                     </Typography>
                   </Grid>
-                  <Grid item xs={8} md={10.5}>
-                    <Typography variant="subtitle1">{v.description}</Typography>
+                  <Grid item xs={8} md={8}>
+                    <Typography
+                      variant="subtitle1"
+                      fontSize={isMobile ? "16px" : ""}
+                      ml={isMobile ? "30px" : ""}
+                    >
+                      {v.description}
+                    </Typography>
                   </Grid>
                 </Grid>
               </Grid>

@@ -11,6 +11,9 @@ const CTASection = ({ theme, isMobile }: ILandingSection) => {
             background: theme?.palette.grey[600],
             p: isMobile ? 4 : 24,
             borderRadius: "12px",
+            height: "346px",
+            display: "flex",
+            alignItems: "center",
           }}
         >
           <Grid container spacing={4}>
@@ -24,7 +27,7 @@ const CTASection = ({ theme, isMobile }: ILandingSection) => {
                 size="large"
                 variant="contained"
                 fullWidth
-                sx={{ maxWidth: 304 }}
+                sx={{ maxWidth: 304, fontSize: "24px" }}
               >
                 Get Started
               </Button>

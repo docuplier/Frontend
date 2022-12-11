@@ -55,6 +55,62 @@ const Preview = () => {
       name: "Judith",
       email: "judith@gmail.com",
     },
+    {
+      name: "Henry",
+      email: "henry@gmail.com",
+    },
+    {
+      name: "Chibuike",
+      email: "chibuike@gmail.com",
+    },
+    {
+      name: "Judith",
+      email: "judith@gmail.com",
+    },
+    {
+      name: "Henry",
+      email: "henry@gmail.com",
+    },
+    {
+      name: "Chibuike",
+      email: "chibuike@gmail.com",
+    },
+    {
+      name: "Judith",
+      email: "judith@gmail.com",
+    },
+    {
+      name: "Chibuike",
+      email: "chibuike@gmail.com",
+    },
+    {
+      name: "Judith",
+      email: "judith@gmail.com",
+    },
+    {
+      name: "Henry",
+      email: "henry@gmail.com",
+    },
+    {
+      name: "Chibuike",
+      email: "chibuike@gmail.com",
+    },
+    {
+      name: "Judith",
+      email: "judith@gmail.com",
+    },
+    {
+      name: "Henry",
+      email: "henry@gmail.com",
+    },
+    {
+      name: "Chibuike",
+      email: "chibuike@gmail.com",
+    },
+    {
+      name: "Judith",
+      email: "judith@gmail.com",
+    },
   ];
 
   const handleContinue = () => {
@@ -76,16 +132,11 @@ const Preview = () => {
   return (
     <Stack spacing={12}>
       <Box
-        display="flex"
-        width="100%"
-        justifyContent="center"
-        marginBottom="30px"
-      ></Box>
-      <Box
         sx={{
           border: `2px dashed ${theme.palette.common.white}`,
           borderRadius: "8px",
           position: "relative",
+          mt: 2,
         }}
         p={6}
       >
@@ -96,6 +147,7 @@ const Preview = () => {
           sx={{
             backgroundColor: "#0B0D27",
             mt: 2,
+            height: "550px",
             overflowY: "scroll",
             scrollbarWidth: "thin",
             msOverflowStyle: "auto",
@@ -104,11 +156,11 @@ const Preview = () => {
               width: "4px",
               paddingBottom: "15rem",
               height: "5px !important",
-              backgroundColor: "#7682F5",
+              backgroundColor: "#0B0D27",
             },
 
             "::-webkit-scrollbar-thumb": {
-              backgroundColor: "white",
+              backgroundColor: "#7682F5",
               borderRadius: "10px",
               height: "5px",
             },
@@ -117,7 +169,11 @@ const Preview = () => {
           {" "}
           <TableContainer component={Paper}>
             <Table
-              sx={{ minWidth: isMobile ? 300 : 650 }}
+              sx={{
+                minWidth: isMobile ? 300 : 650,
+                backgroundColor: (theme) => theme.palette.common.black,
+                height: "0vh",
+              }}
               aria-label="simple table"
             >
               <TableHead>
@@ -133,9 +189,13 @@ const Preview = () => {
                     key={row.name}
                     sx={{
                       "&:last-child td, &:last-child th": { border: 0 },
+
+                      padding: 0,
                     }}
                   >
-                    <TableCell>{row.name}</TableCell>
+                    <TableCell component="td" scope="row">
+                      {row.name}
+                    </TableCell>
                     <TableCell>{row.email}</TableCell>
                   </TableRow>
                 ))}
@@ -237,7 +297,7 @@ const Preview = () => {
               step: 2,
             }));
           }}
-          onInputChange={(e) => console.log(e)}
+          onInputChange={(e: any) => console.log(e)}
         />
         <OtpModal
           open={modalControl.openOtp}
@@ -251,7 +311,7 @@ const Preview = () => {
               step: ++prev.step,
             }))
           }
-          onInputChange={(e) => console.log(e)}
+          onInputChange={(e: any) => console.log(e)}
           onResend={() => console.log("resend clicked")}
         />
         <SetupEmailTemplateModal
@@ -269,7 +329,7 @@ const Preview = () => {
               step: 4,
             }))
           }
-          onInputChange={(e) => console.log(e)}
+          onInputChange={(e: any) => console.log(e)}
           onResend={() => console.log("resend clicked")}
           isMobile={isMobile}
         />

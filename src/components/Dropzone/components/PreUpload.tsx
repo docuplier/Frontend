@@ -1,4 +1,11 @@
-import { Box, Button, Grid, Theme, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Grid,
+  Theme,
+  Typography,
+  useMediaQuery,
+} from "@mui/material";
 import uploadIcon from "assets/uploadIcon.svg";
 export interface IPreUploadProps {
   theme: Theme;
@@ -12,6 +19,8 @@ const PreUpload = ({
   fileName,
   title,
 }: IPreUploadProps) => {
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
   return (
     <Grid container spacing={6}>
       <Grid
@@ -30,7 +39,11 @@ const PreUpload = ({
         alignItems="center"
         justifyContent="center"
       >
-        <Typography variant="body1" color={fileName && "success.main"}>
+        <Typography
+          variant="body1"
+          color={fileName && "success.main"}
+          sx={{ textAlign: isMobile ? "center" : "" }}
+        >
           {fileName ? fileName : "Drag and Drop here"}
         </Typography>
       </Grid>
@@ -47,7 +60,9 @@ const PreUpload = ({
           size="large"
           fullWidth
           sx={{ maxWidth: 200 }}
-          onClick={() => onUploadClick(fileName)}
+          onClick={() => {
+            onUploadClick(fileName);
+          }}
         >
           {fileName ? "Upload" : "Select"} File
         </Button>

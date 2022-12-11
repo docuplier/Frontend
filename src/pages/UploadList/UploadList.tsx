@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   Box,
   Button,
@@ -17,9 +18,11 @@ const UploadList = () => {
   const navigate = useNavigate();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const context: any = useOutletContext();
+  const [isFile, setIsFile] = useState<any>(false);
   const imgStyle = {
-    width: "330px",
+    width: "100%",
   };
+
   const handleUpload = (data: File) => {
     context?.setUploaded((prev: any) => ({
       ...prev,
@@ -31,6 +34,8 @@ const UploadList = () => {
   React.useEffect(() => {
     context?.setCurrentStep(2);
   }, []);
+  console.log("con", context);
+
   return (
     <Stack spacing={12}>
       <Box
@@ -39,14 +44,21 @@ const UploadList = () => {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          marginBottom: "20px",
+          marginBottom: "8px",
         }}
       >
-        <Typography variant="body1" sx={{ my: "10px" }}>
-          Create and upload a list of the recipients in a spreadsheet using this
-          format below.
-        </Typography>{" "}
-        <img src={Spreadsheet} style={isMobile ? imgStyle : {}} />
+        {!isFile && (
+          <>
+            <Typography
+              variant="body1"
+              sx={{ my: "10px", textAlign: isMobile ? "center" : "" }}
+            >
+              Create and upload a list of the recipients in a spreadsheet using
+              this format below.
+            </Typography>{" "}
+            <img src={Spreadsheet} style={isMobile ? imgStyle : {}} />
+          </>
+        )}
       </Box>
       <Dropzone
         accept={{

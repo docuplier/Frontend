@@ -31,7 +31,7 @@ const themes = createTheme({
     grey: {
       ...grey,
       500: "#101549",
-      600: "linear-gradient(90.26deg, #101549 37.88%, #3B4CF1 164.54%)",
+      600: "linear-gradient(90.26deg, #101549 37.88%, #141E82 164.54%)",
       700: "#F3F4FF",
       800: "#8F9099",
       900: "#46474B",

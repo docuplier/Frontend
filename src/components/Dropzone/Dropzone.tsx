@@ -53,11 +53,11 @@ const Dropzone = ({
     <Box
       {...getRootProps({ className: "dropzone" })}
       sx={{
-        border: `2px dashed ${theme.palette.common.white}`,
+        border: `3px dashed ${theme.palette.common.white}`,
         borderRadius: "8px",
         position: "relative",
       }}
-      p={10}
+      p={20}
     >
       <input className="input-zone" {...getInputProps()} />
       {file?.name && (

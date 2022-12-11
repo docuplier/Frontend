@@ -34,7 +34,7 @@ const DocumentLayout: FC<IDocumentLayout> = ({ steps, tabItems }) => {
   return (
     <Box
       pl={isMobile ? 4 : 10}
-      pr={isMobile ? 4 : 20}
+      pr={isMobile ? 4 : 10}
       display="flex"
       justifyContent="space-between"
       flexDirection="column"
@@ -44,9 +44,9 @@ const DocumentLayout: FC<IDocumentLayout> = ({ steps, tabItems }) => {
         // pb: theme.spacing(10),
       }}
     >
-      <Grid container>
-        <Grid item xs={12} sm={3} sx={{ height: "100%" }}>
-          <Stack spacing={6}>
+      <Grid container alignItems="center">
+        <Grid item xs={12} sm={2.5} sx={{ height: "100%" }}>
+          <Stack spacing={8} mt={4.5}>
             <Link to="/">
               <img src={LogoWhite} alt="" width={isMobile ? 126.8 : 180} />
               {/* <img src={LogoWhite} alt="" width="20%" /> */}
@@ -62,7 +62,7 @@ const DocumentLayout: FC<IDocumentLayout> = ({ steps, tabItems }) => {
             )}
           </Stack>
         </Grid>
-        <Grid item xs={12} sm={8} sx={{ height: "100%" }}>
+        <Grid item xs={12} sm={8.8} sx={{ height: "100%" }}>
           <Grid container spacing={10}>
             <Grid item xs={12}>
               <TabButtons activeTab={1} isMobile={isMobile} data={tabItems} />

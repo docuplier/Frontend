@@ -44,7 +44,7 @@ const UploadList = () => {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          marginBottom: "20px",
+          marginBottom: "8px",
         }}
       >
         {!isFile && (

@@ -28,6 +28,10 @@ export const CERTIFICATE_STEPS = [
 ];
 
 export const FONTS = [
+  {
+    label: "Default",
+    value: "'Nunito', sans-serif;",
+  },
   { label: "Dosis", value: "'Dosis', sans-serif" },
   {
     label: "EB Garamond",
@@ -62,16 +66,8 @@ export const FONTS = [
     value: "'Montserrat', sans-serif",
   },
   {
-    label: "Nunito",
-    value: "'Nunito', sans-serif;",
-  },
-  {
     label: "Open Sans",
     value: "'Open Sans', sans-serif",
-  },
-  {
-    label: "PT Serif",
-    value: "'PT Serif', serif",
   },
   {
     label: "PT Serif",

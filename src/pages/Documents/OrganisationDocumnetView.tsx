@@ -86,8 +86,7 @@ const OrgansationDocumentView = () => {
 
   return (
     <Box
-      pl={10}
-      pr={20}
+      px={isMobile ? 5 : 10}
       sx={{
         position: "relative",
         height: isMobile ? "100%" : "100vh",
@@ -142,18 +141,39 @@ const OrgansationDocumentView = () => {
         <Grid item xs={12} md={8} sx={{ height: "100%" }}>
           <Grid container spacing={10}>
             <Grid item xs={12}>
-              <Box sx={{ backgroundColor: "#0B0D27", p: 10, ml: 8 }}>
-                <Box
+              <Box
+                sx={{
+                  backgroundColor: "#0B0D27",
+                  p: 10,
+                  ml: isMobile ? 0 : 10,
+                }}
+              >
+                <Grid
+                  container
                   display="flex"
                   justifyContent="space-between"
                   alignItems="center"
                 >
                   {" "}
-                  <Typography>Recipients</Typography>
-                  <Button variant="contained" sx={{ height: "48px" }}>
-                    Download All & Print
-                  </Button>
-                </Box>
+                  <Grid item xs={12} md={6}>
+                    {" "}
+                    <Typography>Recipients</Typography>
+                  </Grid>
+                  <Grid
+                    item
+                    xs={12}
+                    md={6}
+                    sx={{
+                      display: "flex",
+                      justifyContent: isMobile ? {} : "flex-end",
+                    }}
+                  >
+                    {" "}
+                    <Button variant="contained" sx={{ height: "48px" }}>
+                      Download All & Print
+                    </Button>
+                  </Grid>
+                </Grid>
                 <Box
                   sx={{
                     backgroundColor: "#0B0D27",

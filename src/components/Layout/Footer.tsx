@@ -4,7 +4,7 @@ const Footer = () => {
   return (
     <Box p={8} width="100%">
       <Typography variant="body2" textAlign="center">
-        All right reserved
+        All right reserved {new Date().getFullYear()}
       </Typography>
     </Box>
   );

@@ -70,7 +70,7 @@ const UploadList = () => {
         }}
         onUpload={handleUpload}
         theme={theme}
-        title="PDF, PNG, JPEG files are supported"
+        title="CSV, Xls, Xlsx are supported"
       />
       <Box display="flex" justifyContent="flex-end" marginTop={"30px"}>
         <Button

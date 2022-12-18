@@ -90,7 +90,11 @@ const PreUpload = ({
               borderRadius: "8px",
             }}
           >
-            <Typography variant="body2" color={theme.palette.grey[800]}>
+            <Typography
+              variant="body2"
+              color={theme.palette.grey[800]}
+              sx={{ textAlign: "center" }}
+            >
               {title}
             </Typography>
           </Box>

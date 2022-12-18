@@ -19,12 +19,14 @@ import React, { useState } from "react";
 import OtpModal from "components/otpModal/OtpModal";
 import SetupEmailTemplateModal from "components/SetupEmailTemplateModal/SetupEmailTemplateModal";
 import { paths } from "Routes";
+import { parse } from "node:path/win32";
 
 const Preview = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const navigate = useNavigate();
   const context: any = useOutletContext();
+  const [pathName, setPathName] = useState<string>();
   const [modalControl, setModalControl] = useState({
     openOtp: false,
     openEmailSetup: false,
@@ -32,9 +34,45 @@ const Preview = () => {
     step: 1,
   });
 
+  // const parseFile = (file: any) => {
+  //   setPathName(file?.uploaded?.list);
+  //   Papa.parse(file, {
+  //         header: true,
+  //         delimiter: ",",
+  //         skipEmptyLines: "greedy",
+  //         complete: (results: any) => {
+  //           let resultsData: ImportType[] = [];
+  //         }})
+  // };
+
+  console.log("pathName", pathName);
+
+  // const parseFile = (file: any) => {
+  //   setLoading(true);
+  //   setPathName(file.path);
+  //   Papa.parse(file, {
+  //     header: true,
+  //     delimiter: ",",
+  //     skipEmptyLines: "greedy",
+  //     complete: (results: any) => {
+  //       let resultsData: ImportType[] = [];
+  //       try {
+  //         for (const [index, result] of results.data.entries()) {
+  //           const firstName = result["First Name"];
+  //           const lastName = result["Last Name"];
+  //           const dayOfBirth = result["Day of Birth"];
+  //           const monthOfBirth = result["Month of Birth"];
+  //           const yearOfBirth = result["Year of Birth"];
+  //           const email = result.Email;
+  //           const phone = `+${result["Phone number(234)"]}`;
+  //         }}
+
   React.useEffect(() => {
     context?.setCurrentStep(3);
+    //  parseFile(context)
   }, []);
+
+  console.log("context", context);
 
   function createData(name: string, email: string) {
     return { name, email };

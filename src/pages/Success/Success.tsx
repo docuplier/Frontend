@@ -34,7 +34,7 @@ const Success = () => {
       <Typography variant="h2" color="success">
         Success!!
       </Typography>
-      <Typography variant="h4">
+      <Typography variant="h4" sx={{ textAlign: "center" }}>
         The Certificates has been sent to the recipients
       </Typography>
 

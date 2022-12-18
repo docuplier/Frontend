@@ -1,7 +1,12 @@
 import React, { useRef, useState } from "react";
+// import Select from "react-select";
 import {
   Box,
   Button,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
   Stack,
   TextareaAutosize,
   TextField,
@@ -10,10 +15,14 @@ import {
   useTheme,
 } from "@mui/material";
 import { useNavigate, useOutletContext } from "react-router-dom";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { paths } from "Routes";
 import { styled } from "@mui/material";
 // @ts-ignore
 import Draggable, { DraggableData, DraggableEvent } from "react-draggable";
+// @ts-ignore
+import { FONTS } from "constants/appConstants";
+import { pxToRem } from "utils/pxToRem";
 
 const AddText = () => {
   const [dimension, setDimension] = useState({
@@ -23,6 +32,7 @@ const AddText = () => {
     right: 0,
   });
   const [displayTextBox, setDisplayTextBox] = useState(false);
+  const [selectedFont, setSelectedFont] = useState(FONTS[0]?.value);
   const theme = useTheme();
   const ref = useRef<HTMLDivElement>();
   const draggableRef = useRef<HTMLDivElement>();
@@ -49,6 +59,11 @@ const AddText = () => {
     context?.setCurrentStep(1);
   }, []);
 
+  const handleFontChange = (evt: any) => {
+    const val = evt.target.value;
+    setSelectedFont(val);
+  };
+
   return (
     <Stack spacing={12}>
       <Box display="flex" width="100%" justifyContent="center">
@@ -67,44 +82,37 @@ const AddText = () => {
           {" "}
           <Box display="flex" alignItems="flex-end" mx={6}>
             {" "}
-            <ButtonBox
-              variant="contained"
-              sx={{ height: "48px", px: 12 }}
-              onClick={() => handleTextBox()}
-            >
-              Add A Text Box
-            </ButtonBox>
             <Button
               variant="contained"
+              fullWidth={isMobile}
               sx={{
-                display: "none",
-                height: "40px",
-                px: 4,
-
-                "@media screen and (max-width:768px)": {
-                  display: "flex",
-                },
+                height: "48px",
+                px: isMobile ? 4 : 12,
               }}
               onClick={() => handleTextBox()}
             >
-              {" "}
-              Add Text
+              {isMobile ? "Add Text" : "Add A Text Box"}
             </Button>
           </Box>
           <Box mx={6} width="28%">
             <Typography variant="body2">Select Font</Typography>
-            <TextField
-              select
-              fullWidth
-              // size="small"
-              sx={{
-                width: "100%",
-
-                "& .MuiOutlinedInput-root": {
+            <FormControl fullWidth size="small">
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={selectedFont}
+                onChange={handleFontChange}
+                sx={{
                   height: "48px",
-                },
-              }}
-            ></TextField>
+                }}
+                MenuProps={{ PaperProps: { sx: { maxHeight: 250 } } }}
+                IconComponent={KeyboardArrowDownIcon}
+              >
+                {FONTS.map((font: any) => (
+                  <MenuItem value={font.value}>{font.label}</MenuItem>
+                ))}
+              </Select>
+            </FormControl>
           </Box>
         </Box>
       </Box>
@@ -151,17 +159,28 @@ const AddText = () => {
                   {" "}
                   <Box component="form">
                     <Box
-                      width="350px"
-                      height="25px"
+                      width={{ xs: 200, sm: "100%", md: 350 }}
+                      height="31.5px"
                       borderRadius="5px"
                       display="flex"
                       justifyContent="center"
                       textAlign="center"
                       alignItems="center"
-                      sx={{ border: `2px solid #3B4CF1 `, color: "#0B0D27" }}
+                      sx={{
+                        cursor: "move",
+                        border: "1px solid #3B4CF1",
+                        color: "#0B0D27",
+                      }}
                     >
                       {" "}
-                      <Typography>
+                      <Typography
+                        fontSize={{ sm: pxToRem(8), md: pxToRem(14) }}
+                        sx={{
+                          fontFamily: selectedFont,
+                        }}
+                        variant="body2"
+                        // color="#8F9099"
+                      >
                         {" "}
                         Drag This Text Box to Preferred Name Position
                       </Typography>
@@ -172,32 +191,6 @@ const AddText = () => {
             )}
           </Box>
         </Box>
-
-        {/* <DragResizeContainer
-          className="resize-container"
-          resizeProps={{
-            minWidth: 10,
-            minHeight: 10,
-
-            // enable: canResizable(isResize)
-          }}
-          //  onDoubleClick={clickScreen}
-          layout={layout}
-          dragProps={{ disabled: false }}
-          //  onLayoutChange={onLayoutChange}
-          //  scale={scale}
-        >
-          {layout.map((single) => {
-            return (
-              <Box
-                key={single.key}
-                className="child-container size-auto border"
-              >
-                text test
-              </Box>
-            );
-          })}
-        </DragResizeContainer> */}
       </Box>
 
       <Box
@@ -256,10 +249,4 @@ export default AddText;
 
 const InputField = styled(TextareaAutosize)({
   borderRadius: "5px",
-});
-
-const ButtonBox = styled(Button)({
-  "@media screen and (max-width:768px)": {
-    display: "none",
-  },
 });

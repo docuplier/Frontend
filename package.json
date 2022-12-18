@@ -23,6 +23,7 @@
     "react-dropzone": "^14.2.3",
     "react-google-font-loader": "^1.1.0",
     "react-router-dom": "^6.4.3",
+    "react-select": "^5.7.0",
     "vite-plugin-svgr": "^2.2.2"
   },
   "devDependencies": {

@@ -34,6 +34,7 @@ const Preview = () => {
 
   React.useEffect(() => {
     context?.setCurrentStep(3);
+    console.log(context?.uploaded?.tableData);
   }, []);
 
   function createData(name: string, email: string) {
@@ -178,15 +179,18 @@ const Preview = () => {
             >
               <TableHead>
                 <TableRow>
-                  {rows?.map((props) => (
-                    <TableCell>{props}</TableCell>
+                  {context?.uploaded?.tableData?.headers?.map((val: any) => (
+                    <TableCell key={val.field}>{val.title}</TableCell>
                   ))}
+                  {/* {rows?.map((props) => (
+                    <TableCell>{props}</TableCell>
+                  ))} */}
                 </TableRow>
               </TableHead>
               <TableBody>
-                {list.map((row) => (
+                {context?.uploaded?.tableData?.body?.map((row: any) => (
                   <TableRow
-                    key={row.name}
+                    key={row.receipent_full_name}
                     sx={{
                       "&:last-child td, &:last-child th": { border: 0 },
 
@@ -194,9 +198,9 @@ const Preview = () => {
                     }}
                   >
                     <TableCell component="td" scope="row">
-                      {row.name}
+                      {row.receipent_full_name}
                     </TableCell>
-                    <TableCell>{row.email}</TableCell>
+                    <TableCell>{row.recipient_email_address}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>

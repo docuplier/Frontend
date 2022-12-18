@@ -24,17 +24,13 @@ const UploadList = () => {
   };
 
   const handleUpload = (data: File) => {
-    context?.setUploaded((prev: any) => ({
-      ...prev,
-      list: URL.createObjectURL(data),
-    }));
+    context?.readUploadFile(data);
     navigate(paths.CERTIFICATES_PREVIEW);
   };
 
   React.useEffect(() => {
     context?.setCurrentStep(2);
   }, []);
-  console.log("con", context);
 
   return (
     <Stack spacing={12}>

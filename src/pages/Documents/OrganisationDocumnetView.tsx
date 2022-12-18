@@ -24,6 +24,7 @@ import { Link, Outlet, useNavigate } from "react-router-dom";
 import { paths } from "Routes";
 import { styled } from "@mui/material";
 import GoogleFontLoader from "react-google-font-loader";
+import Footer from "components/Layout/Footer";
 
 const tabItems = [
   {
@@ -86,8 +87,7 @@ const OrgansationDocumentView = () => {
 
   return (
     <Box
-      pl={10}
-      pr={20}
+      px={isMobile ? 5 : 10}
       sx={{
         position: "relative",
         height: isMobile ? "100%" : "100vh",
@@ -142,7 +142,13 @@ const OrgansationDocumentView = () => {
         <Grid item xs={12} md={8} sx={{ height: "100%" }}>
           <Grid container spacing={10}>
             <Grid item xs={12}>
-              <Box sx={{ backgroundColor: "#0B0D27", p: 10, ml: 8 }}>
+              <Box
+                sx={{
+                  backgroundColor: "#0B0D27",
+                  p: isMobile ? 5 : 10,
+                  ml: isMobile ? 0 : 10,
+                }}
+              >
                 <Box
                   display="flex"
                   justifyContent="space-between"
@@ -150,9 +156,17 @@ const OrgansationDocumentView = () => {
                 >
                   {" "}
                   <Typography>Recipients</Typography>
-                  <Button variant="contained" sx={{ height: "48px" }}>
-                    Download All & Print
-                  </Button>
+                  <Box
+                    sx={{
+                      display: isMobile ? "none" : "flex",
+                      justifyContent: isMobile ? {} : "flex-end",
+                    }}
+                  >
+                    {" "}
+                    <Button variant="contained" sx={{ height: "48px" }}>
+                      Download All & Print
+                    </Button>
+                  </Box>
                 </Box>
                 <Box
                   sx={{
@@ -220,6 +234,19 @@ const OrgansationDocumentView = () => {
           </Grid>
         </Grid>
       </Grid>
+      <Box mx={5} display={isMobile ? "flex" : "none"}>
+        {" "}
+        <Button
+          variant="contained"
+          sx={{ height: "56px", width: "100%", fontSize: "1rem" }}
+        >
+          Download All & Print
+        </Button>
+      </Box>
+      <Box sx={{ mt: 10 }}>
+        {" "}
+        <Footer />
+      </Box>
     </Box>
   );
 };

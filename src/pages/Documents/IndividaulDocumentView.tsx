@@ -17,6 +17,7 @@ import { Link, Outlet, useNavigate } from "react-router-dom";
 import { paths } from "Routes";
 import { styled } from "@mui/material";
 import GoogleFontLoader from "react-google-font-loader";
+import Footer from "components/Layout/Footer";
 
 const tabItems = [
   {
@@ -51,8 +52,7 @@ const IndividualDocument = () => {
 
   return (
     <Box
-      pl={10}
-      pr={20}
+      px={isMobile ? 5 : 10}
       sx={{
         position: "relative",
         height: isMobile ? "100%" : "100vh",
@@ -107,14 +107,20 @@ const IndividualDocument = () => {
         <Grid item xs={12} md={8} sx={{ height: "100%" }}>
           <Grid container spacing={10}>
             <Grid item xs={12}>
-              <Box sx={{ backgroundColor: "#0B0D27", p: 10, ml: 8 }}>
+              <Box
+                sx={{ backgroundColor: "#0B0D27", p: 10, ml: isMobile ? 0 : 8 }}
+              >
                 <Typography sx={{ fontSize: "24px" }}>
                   John Doe’s Certificate
                 </Typography>
               </Box>
             </Grid>
             <Grid item xs={12}>
-              <Box display="flex" justifyContent="space-between" sx={{ ml: 8 }}>
+              <Box
+                display="flex"
+                justifyContent="space-between"
+                sx={{ ml: isMobile ? 0 : 8 }}
+              >
                 {" "}
                 <Button
                   sx={{
@@ -140,6 +146,10 @@ const IndividualDocument = () => {
           </Grid>
         </Grid>
       </Grid>
+      <Box sx={{ mt: 10 }}>
+        {" "}
+        <Footer />
+      </Box>
     </Box>
   );
 };

@@ -82,7 +82,7 @@ const PreUpload = ({
         >
           <Box
             px={4}
-            height={40}
+            minHeight={40}
             display="flex"
             alignItems="center"
             sx={{
@@ -90,7 +90,11 @@ const PreUpload = ({
               borderRadius: "8px",
             }}
           >
-            <Typography variant="body2" color={theme.palette.grey[800]}>
+            <Typography
+              variant="body2"
+              color={theme.palette.grey[800]}
+              sx={{ textAlign: "center" }}
+            >
               {title}
             </Typography>
           </Box>

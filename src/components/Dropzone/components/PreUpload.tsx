@@ -82,7 +82,7 @@ const PreUpload = ({
         >
           <Box
             px={4}
-            height={40}
+            minHeight={40}
             display="flex"
             alignItems="center"
             sx={{

@@ -20,6 +20,7 @@ import { paths } from "Routes";
 import { styled } from "@mui/material";
 // @ts-ignore
 import Draggable, { DraggableData, DraggableEvent } from "react-draggable";
+// @ts-ignore
 import { FONTS } from "constants/appConstants";
 import { pxToRem } from "utils/pxToRem";
 
@@ -38,8 +39,6 @@ const AddText = () => {
   const navigate = useNavigate();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const context: any = useOutletContext();
-
-  console.log("context", context);
 
   const eventLogger = (e: DraggableEvent, data: DraggableData) => {
     const val = ref?.current?.getBoundingClientRect();
@@ -76,18 +75,12 @@ const AddText = () => {
             //  backgroundColor: "red",
             "@media screen and (max-width:768px)": {
               width: "100%",
-              justifyContent: "space-between",
             },
           }}
           //   flexWrap="wrap"
         >
           {" "}
-          <Box
-            display="flex"
-            alignItems="flex-end"
-            mx={isMobile ? 0 : 6}
-            width={isMobile ? "40%" : "none"}
-          >
+          <Box display="flex" alignItems="flex-end" mx={6}>
             {" "}
             <Button
               variant="contained"
@@ -101,7 +94,7 @@ const AddText = () => {
               {isMobile ? "Add Text" : "Add A Text Box"}
             </Button>
           </Box>
-          <Box mx={isMobile ? 0 : 6} width={isMobile ? "40%" : "28%"}>
+          <Box mx={6} width="28%">
             <Typography variant="body2">Select Font</Typography>
             <FormControl fullWidth size="small">
               <Select
@@ -115,7 +108,7 @@ const AddText = () => {
                 MenuProps={{ PaperProps: { sx: { maxHeight: 250 } } }}
                 IconComponent={KeyboardArrowDownIcon}
               >
-                {FONTS.map((font) => (
+                {FONTS.map((font: any) => (
                   <MenuItem value={font.value}>{font.label}</MenuItem>
                 ))}
               </Select>

@@ -57,7 +57,6 @@ const DocumentLayout: FC<IDocumentLayout> = ({ steps, tabItems }) => {
       const data: any = utils.sheet_to_json(ws, { header: 1 });
       /* Update state */
       const headerTitles = data[0];
-      console.log(data, headerTitles);
       data.splice(0, 1);
       const columnKeys: any[] = [];
       const headers = headerTitles.map((val: string) => {

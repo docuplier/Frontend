@@ -39,12 +39,8 @@ const Preview = () => {
     //  parseFile(context)
     if (!context?.uploaded?.tableData) {
       navigate("/");
-    } else {
-      console.log();
     }
   }, []);
-
-  console.log("context", context);
 
   function createData(name: string, email: string) {
     return { name, email };
@@ -199,7 +195,7 @@ const Preview = () => {
               <TableBody>
                 {context?.uploaded?.tableData?.body?.map((row: any) => (
                   <TableRow
-                    key={row?.recipent_full_name}
+                    key={row?.recipient_full_name}
                     sx={{
                       "&:last-child td, &:last-child th": { border: 0 },
 
@@ -209,9 +205,9 @@ const Preview = () => {
                     <TableCell
                       component="td"
                       scope="row"
-                      sx={{ color: !row?.recipent_full_name ? "red" : "" }}
+                      sx={{ color: !row?.recipient_full_name ? "red" : "" }}
                     >
-                      {row?.recipent_full_name || (
+                      {row?.recipient_full_name || (
                         <Typography
                           variant="overline"
                           color="red"

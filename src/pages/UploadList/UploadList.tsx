@@ -13,7 +13,7 @@ import Spreadsheet from "assets/Spreadsheet.svg";
 import { paths } from "Routes";
 import React from "react";
 
-const excelFileHeader = ["Recipent Full Name", "Recipient Email Address"];
+const excelFileHeader = ["Recipient Full Name", "Recipient Email Address"];
 
 const UploadList = () => {
   const theme = useTheme();

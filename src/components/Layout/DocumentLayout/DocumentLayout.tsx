@@ -1,18 +1,27 @@
-import {
-  Box,
-  Container,
-  Grid,
-  Stack,
-  useMediaQuery,
-  useTheme,
-} from "@mui/material";
-import Dropzone from "components/Dropzone/Dropzone";
+import { Box, Grid, Stack, useMediaQuery, useTheme } from "@mui/material";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import SharedStepper from "components/SharedStepper/SharedStepper";
 import TabButtons from "components/TabButtons/TabButtons";
 import LogoWhite from "assets/logo-white.svg";
 import React, { FC } from "react";
+// import * as XLSX from "xlsx";
 import Footer from "../Footer";
+import { make_cols } from "utils/makCols";
+import { read, utils } from "xlsx";
+import { validateTitles } from "utils/validateExcel";
+import { ToastContainer, toast } from "react-toastify";
+
+const convertToTableData = (columns: string[], data: any[]) => {
+  const rows: any = [];
+  data.forEach((rws) => {
+    const rowData: any = {};
+    rws.forEach((row: any, idx: number) => {
+      rowData[columns[idx]] = row;
+    });
+    rows.push(rowData);
+  });
+  return rows;
+};
 
 export interface IDocumentLayout {
   steps: { label: string; value: number; path: string }[];
@@ -29,7 +38,50 @@ const DocumentLayout: FC<IDocumentLayout> = ({ steps, tabItems }) => {
     list: File | null;
   }>({ doc: null, list: null });
 
-  console.log(currentStep);
+  const readUploadFile = (file: File, fileTitles: string[], cb: () => void) => {
+    /* Boilerplate to set up FileReader */
+    const reader = new FileReader();
+    const rABS = !!reader.readAsBinaryString;
+
+    reader.onload = (e: any) => {
+      /* Parse data */
+      const bstr = e.target.result;
+      const wb = read(bstr, {
+        type: rABS ? "binary" : "array",
+        bookVBA: true,
+      });
+      /* Get first worksheet */
+      const wsname = wb.SheetNames[0];
+      const ws = wb.Sheets[wsname];
+      /* Convert array of arrays */
+      const data: any = utils.sheet_to_json(ws, { header: 1 });
+      /* Update state */
+      const headerTitles = data[0];
+      console.log(data, headerTitles);
+      data.splice(0, 1);
+      const columnKeys: any[] = [];
+      const headers = headerTitles.map((val: string) => {
+        columnKeys.push(val.toLowerCase().replaceAll(" ", "_"));
+        return {
+          title: val,
+          field: val.toLowerCase().replaceAll(" ", "_"),
+        };
+      });
+      const body = convertToTableData(columnKeys, data);
+      if (validateTitles(headerTitles, fileTitles)) {
+        setUploaded((prev) => ({ ...prev, tableData: { headers, body } }));
+        cb();
+      } else {
+        toast("Please use the required title on your sheet");
+      }
+    };
+
+    if (rABS) {
+      reader.readAsBinaryString(file);
+    } else {
+      reader.readAsArrayBuffer(file);
+    }
+  };
 
   return (
     <Box
@@ -44,6 +96,7 @@ const DocumentLayout: FC<IDocumentLayout> = ({ steps, tabItems }) => {
         // pb: theme.spacing(10),
       }}
     >
+      <ToastContainer theme="dark" />
       <Grid container alignItems="center">
         <Grid item xs={12} sm={2.5} sx={{ height: "100%" }}>
           <Stack spacing={8} mt={4.5}>
@@ -83,6 +136,7 @@ const DocumentLayout: FC<IDocumentLayout> = ({ steps, tabItems }) => {
                   setCurrentStep,
                   uploaded,
                   setUploaded,
+                  readUploadFile,
                 }}
               />
             </Grid>

@@ -30,7 +30,6 @@ const Dropzone = ({
   });
 
   useEffect(() => {
-    console.log(acceptedFiles);
     if (acceptedFiles.length) {
       setDisabled(true);
       setFile(acceptedFiles[0]);

@@ -5,6 +5,7 @@ import { CERTIFICATE_STEPS, DOCUMENT_TABS } from "constants/appConstants";
 import { Suspense } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 import routes, { paths } from "Routes";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   return (

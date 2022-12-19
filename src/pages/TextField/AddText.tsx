@@ -20,6 +20,7 @@ import { paths } from "Routes";
 import { styled } from "@mui/material";
 // @ts-ignore
 import Draggable, { DraggableData, DraggableEvent } from "react-draggable";
+// @ts-ignore
 import { FONTS } from "constants/appConstants";
 import { pxToRem } from "utils/pxToRem";
 

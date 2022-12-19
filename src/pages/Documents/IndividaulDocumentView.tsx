@@ -17,6 +17,7 @@ import { Link, Outlet, useNavigate } from "react-router-dom";
 import { paths } from "Routes";
 import { styled } from "@mui/material";
 import GoogleFontLoader from "react-google-font-loader";
+import Footer from "components/Layout/Footer";
 
 const tabItems = [
   {
@@ -145,6 +146,10 @@ const IndividualDocument = () => {
           </Grid>
         </Grid>
       </Grid>
+      <Box sx={{ mt: 10 }}>
+        {" "}
+        <Footer />
+      </Box>
     </Box>
   );
 };

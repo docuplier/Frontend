@@ -19,12 +19,14 @@ import React, { useState } from "react";
 import OtpModal from "components/otpModal/OtpModal";
 import SetupEmailTemplateModal from "components/SetupEmailTemplateModal/SetupEmailTemplateModal";
 import { paths } from "Routes";
+import { checkMissingFields } from "utils/validateExcel";
 
 const Preview = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const navigate = useNavigate();
   const context: any = useOutletContext();
+  const [pathName, setPathName] = useState<string>();
   const [modalControl, setModalControl] = useState({
     openOtp: false,
     openEmailSetup: false,
@@ -34,7 +36,15 @@ const Preview = () => {
 
   React.useEffect(() => {
     context?.setCurrentStep(3);
+    //  parseFile(context)
+    if (!context?.uploaded?.tableData) {
+      navigate("/");
+    } else {
+      console.log();
+    }
   }, []);
+
+  console.log("context", context);
 
   function createData(name: string, email: string) {
     return { name, email };
@@ -178,25 +188,52 @@ const Preview = () => {
             >
               <TableHead>
                 <TableRow>
-                  {rows?.map((props) => (
-                    <TableCell>{props}</TableCell>
+                  {context?.uploaded?.tableData?.headers?.map((val: any) => (
+                    <TableCell key={val.field}>{val.title}</TableCell>
                   ))}
+                  {/* {rows?.map((props) => (
+                    <TableCell>{props}</TableCell>
+                  ))} */}
                 </TableRow>
               </TableHead>
               <TableBody>
-                {list.map((row) => (
+                {context?.uploaded?.tableData?.body?.map((row: any) => (
                   <TableRow
-                    key={row.name}
+                    key={row?.recipent_full_name}
                     sx={{
                       "&:last-child td, &:last-child th": { border: 0 },
 
                       padding: 0,
                     }}
                   >
-                    <TableCell component="td" scope="row">
-                      {row.name}
+                    <TableCell
+                      component="td"
+                      scope="row"
+                      sx={{ color: !row?.recipent_full_name ? "red" : "" }}
+                    >
+                      {row?.recipent_full_name || (
+                        <Typography
+                          variant="overline"
+                          color="red"
+                          fontStyle="italic"
+                          textTransform="capitalize"
+                        >
+                          [Missing Field]
+                        </Typography>
+                      )}
                     </TableCell>
-                    <TableCell>{row.email}</TableCell>
+                    <TableCell>
+                      {row?.recipient_email_address || (
+                        <Typography
+                          variant="overline"
+                          color="red"
+                          fontStyle="italic"
+                          textTransform="capitalize"
+                        >
+                          [Missing Field]
+                        </Typography>
+                      )}
+                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>
@@ -231,8 +268,9 @@ const Preview = () => {
               Download
             </Button>
           ) : (
-            <Typography
-              variant="body1"
+            <Button
+              onClick={() => navigate(-1)}
+              size="small"
               sx={{
                 width: "200px",
                 height: "48px",
@@ -241,7 +279,7 @@ const Preview = () => {
               }}
             >
               Upload New List
-            </Typography>
+            </Button>
           )}
         </>
 
@@ -270,6 +308,9 @@ const Preview = () => {
               variant="contained"
               sx={{ px: 6, height: "40px", mb: 4 }}
               onClick={handleContinue}
+              disableElevation
+              disableFocusRipple
+              disableRipple
             >
               Continue
             </Button>
@@ -280,6 +321,7 @@ const Preview = () => {
               onClick={() =>
                 setModalControl((prev) => ({ ...prev, openEmailSetup: true }))
               }
+              disabled={checkMissingFields(context?.uploaded?.tableData?.body)}
             >
               Email to Recipients
             </Button>

@@ -13,6 +13,8 @@ import Spreadsheet from "assets/Spreadsheet.svg";
 import { paths } from "Routes";
 import React from "react";
 
+const excelFileHeader = ["Recipent Full Name", "Recipient Email Address"];
+
 const UploadList = () => {
   const theme = useTheme();
   const navigate = useNavigate();
@@ -24,17 +26,14 @@ const UploadList = () => {
   };
 
   const handleUpload = (data: File) => {
-    context?.setUploaded((prev: any) => ({
-      ...prev,
-      list: URL.createObjectURL(data),
-    }));
-    navigate(paths.CERTIFICATES_PREVIEW);
+    context?.readUploadFile(data, excelFileHeader, () => {
+      navigate(paths.CERTIFICATES_PREVIEW);
+    });
   };
 
   React.useEffect(() => {
     context?.setCurrentStep(2);
   }, []);
-  console.log("con", context);
 
   return (
     <Stack spacing={12}>
@@ -70,7 +69,7 @@ const UploadList = () => {
         }}
         onUpload={handleUpload}
         theme={theme}
-        title="PDF, PNG, JPEG files are supported"
+        title="CSV, Xls, Xlsx are supported"
       />
       <Box display="flex" justifyContent="flex-end" marginTop={"30px"}>
         <Button

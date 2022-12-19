@@ -8,6 +8,8 @@ import React, { FC } from "react";
 import Footer from "../Footer";
 import { make_cols } from "utils/makCols";
 import { read, utils } from "xlsx";
+import { validateTitles } from "utils/validateExcel";
+import { ToastContainer, toast } from "react-toastify";
 
 const convertToTableData = (columns: string[], data: any[]) => {
   const rows: any = [];
@@ -36,7 +38,7 @@ const DocumentLayout: FC<IDocumentLayout> = ({ steps, tabItems }) => {
     list: File | null;
   }>({ doc: null, list: null });
 
-  const readUploadFile = (file: File) => {
+  const readUploadFile = (file: File, fileTitles: string[], cb: () => void) => {
     /* Boilerplate to set up FileReader */
     const reader = new FileReader();
     const rABS = !!reader.readAsBinaryString;
@@ -66,7 +68,12 @@ const DocumentLayout: FC<IDocumentLayout> = ({ steps, tabItems }) => {
         };
       });
       const body = convertToTableData(columnKeys, data);
-      setUploaded((prev) => ({ ...prev, tableData: { headers, body } }));
+      if (validateTitles(headerTitles, fileTitles)) {
+        setUploaded((prev) => ({ ...prev, tableData: { headers, body } }));
+        cb();
+      } else {
+        toast("Please use the required title on your sheet");
+      }
     };
 
     if (rABS) {
@@ -89,6 +96,7 @@ const DocumentLayout: FC<IDocumentLayout> = ({ steps, tabItems }) => {
         // pb: theme.spacing(10),
       }}
     >
+      <ToastContainer theme="dark" />
       <Grid container alignItems="center">
         <Grid item xs={12} sm={2.5} sx={{ height: "100%" }}>
           <Stack spacing={8} mt={4.5}>

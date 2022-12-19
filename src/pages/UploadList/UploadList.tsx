@@ -13,6 +13,8 @@ import Spreadsheet from "assets/Spreadsheet.svg";
 import { paths } from "Routes";
 import React from "react";
 
+const excelFileHeader = ["Recipent Full Name", "Recipient Email Address"];
+
 const UploadList = () => {
   const theme = useTheme();
   const navigate = useNavigate();
@@ -24,8 +26,9 @@ const UploadList = () => {
   };
 
   const handleUpload = (data: File) => {
-    context?.readUploadFile(data);
-    navigate(paths.CERTIFICATES_PREVIEW);
+    context?.readUploadFile(data, excelFileHeader, () => {
+      navigate(paths.CERTIFICATES_PREVIEW);
+    });
   };
 
   React.useEffect(() => {

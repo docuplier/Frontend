@@ -1,25 +1,49 @@
 import * as React from "react";
+import { useForm, Controller } from "react-hook-form";
+import * as Yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
 import Button from "@mui/material/Button";
-import Dialog, { DialogProps } from "@mui/material/Dialog";
+import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import { Box, Stack, TextField, Typography, useTheme } from "@mui/material";
-
+import {
+  Box,
+  CircularProgress,
+  Stack,
+  TextField,
+  Typography,
+  useTheme,
+} from "@mui/material";
 export interface ISetEmailModalProps {
   open: boolean;
   onClose: () => void;
-  onConfirm: () => void;
+  onConfirm: (data?: { name: string; email: string }) => void;
   onInputChange: (event: any) => void;
+  productName?: string;
+  loading: boolean;
 }
+
+const schema = Yup.object({
+  email: Yup.string()
+    .email("Email is not valid")
+    .required("Email field is required"),
+}).required();
 
 export default function SetupEmailModal({
   open,
   onClose,
   onConfirm,
-  onInputChange,
+  productName,
+  loading,
 }: ISetEmailModalProps) {
   const theme = useTheme();
+  const {
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(schema),
+  });
   const descriptionElementRef = React.useRef<HTMLElement>(null);
   React.useEffect(() => {
     if (open) {
@@ -29,6 +53,10 @@ export default function SetupEmailModal({
       }
     }
   }, [open]);
+
+  const onSubmit = (data: any) => {
+    onConfirm({ ...data, name: productName });
+  };
 
   return (
     <Dialog
@@ -60,12 +88,20 @@ export default function SetupEmailModal({
           </Box>
 
           <Box>
-            <TextField
-              fullWidth
-              onChange={onInputChange}
-              size="small"
-              label="Email Address"
-              InputLabelProps={{ shrink: true }}
+            <Controller
+              name="email"
+              control={control}
+              render={({ field }: any) => (
+                <TextField
+                  {...field}
+                  error={errors?.email?.message}
+                  fullWidth
+                  size="small"
+                  label="Email Address"
+                  InputLabelProps={{ shrink: true }}
+                  helperText={errors?.email?.message}
+                />
+              )}
             />
           </Box>
         </Stack>
@@ -78,10 +114,13 @@ export default function SetupEmailModal({
         </Typography>
         <Box mt={2} sx={{ mx: "auto", minWidth: 200 }}>
           <Button
+            type="submit"
             variant="contained"
-            onClick={onConfirm}
+            onClick={handleSubmit(onSubmit)}
             size="large"
             fullWidth
+            disabled={loading}
+            startIcon={loading && <CircularProgress size={16} />}
           >
             Confirm Email
           </Button>

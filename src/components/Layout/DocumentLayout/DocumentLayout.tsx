@@ -1,15 +1,15 @@
 import { Box, Grid, Stack, useMediaQuery, useTheme } from "@mui/material";
-import { Link, Outlet, useNavigate } from "react-router-dom";
+import { useQuery } from "react-query";
+import { Link, Outlet } from "react-router-dom";
 import SharedStepper from "components/SharedStepper/SharedStepper";
 import TabButtons from "components/TabButtons/TabButtons";
 import LogoWhite from "assets/logo-white.svg";
 import React, { FC } from "react";
-// import * as XLSX from "xlsx";
 import Footer from "../Footer";
-import { make_cols } from "utils/makCols";
 import { read, utils } from "xlsx";
 import { validateTitles } from "utils/validateExcel";
 import { ToastContainer, toast } from "react-toastify";
+import { fetchProducts } from "services/documents";
 
 const convertToTableData = (columns: string[], data: any[]) => {
   const rows: any = [];
@@ -30,13 +30,17 @@ export interface IDocumentLayout {
 
 const DocumentLayout: FC<IDocumentLayout> = ({ steps, tabItems }) => {
   const theme = useTheme();
-  const navigate = useNavigate();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [currentStep, setCurrentStep] = React.useState(1);
   const [uploaded, setUploaded] = React.useState<{
     doc: File | null;
     list: File | null;
   }>({ doc: null, list: null });
+
+  const { data: products, isFetching: isFetchingProducts } = useQuery(
+    "products",
+    fetchProducts
+  );
 
   const readUploadFile = (file: File, fileTitles: string[], cb: () => void) => {
     /* Boilerplate to set up FileReader */
@@ -71,7 +75,7 @@ const DocumentLayout: FC<IDocumentLayout> = ({ steps, tabItems }) => {
         setUploaded((prev) => ({ ...prev, tableData: { headers, body } }));
         cb();
       } else {
-        toast("Please use the required title on your sheet");
+        toast.error("Please use the required title on your sheet");
       }
     };
 
@@ -101,7 +105,6 @@ const DocumentLayout: FC<IDocumentLayout> = ({ steps, tabItems }) => {
           <Stack spacing={8} mt={4.5}>
             <Link to="/">
               <img src={LogoWhite} alt="" width={isMobile ? 126.8 : 180} />
-              {/* <img src={LogoWhite} alt="" width="20%" /> */}
             </Link>
 
             {!isMobile && (
@@ -136,6 +139,8 @@ const DocumentLayout: FC<IDocumentLayout> = ({ steps, tabItems }) => {
                   uploaded,
                   setUploaded,
                   readUploadFile,
+                  products: products?.data,
+                  isFetchingProducts,
                 }}
               />
             </Grid>

@@ -1,5 +1,14 @@
 import { paths } from "Routes";
 
+export const BASE_URL = "http://206.189.30.103";
+
+export const ENDPOINTS = {
+  products: "/products",
+  signup: "/users/signup",
+  verifyOtp: "/users/verify",
+  save: "/documents",
+};
+
 export const DOCUMENT_TABS = [
   {
     id: 1,

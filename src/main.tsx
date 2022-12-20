@@ -1,5 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
+import { QueryClient, QueryClientProvider } from "react-query";
+import { ReactQueryDevtools } from "react-query/devtools";
 import {
   createTheme,
   CssBaseline,
@@ -18,6 +20,19 @@ import {
 } from "./constants/themeOptions";
 import { BrowserRouter } from "react-router-dom";
 import { pxToRem } from "utils/pxToRem";
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+      retry: 1,
+      cacheTime: 600000,
+    },
+    mutations: {
+      useErrorBoundary: false,
+    },
+  },
+});
 
 const mode = storage.get(THEME_CACHE_KEY, "dark");
 
@@ -105,11 +120,14 @@ const theme = responsiveFontSizes(themes);
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
-    <ThemeProvider theme={theme}>
-      <CssBaseline enableColorScheme />
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    </ThemeProvider>
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider theme={theme}>
+        <CssBaseline enableColorScheme />
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </ThemeProvider>
+      <ReactQueryDevtools initialIsOpen={false} />
+    </QueryClientProvider>
   </React.StrictMode>
 );

@@ -12,7 +12,11 @@ import {
   TableRow,
   TableHead,
   Paper,
+  CircularProgress,
 } from "@mui/material";
+import { toast } from "react-toastify";
+import { useMutation } from "react-query";
+import { AxiosError } from "axios";
 import { useNavigate, useOutletContext } from "react-router-dom";
 import SetupEmailModal from "components/SetupEmailModal/SetupEmailModal";
 import React, { useState } from "react";
@@ -20,19 +24,106 @@ import OtpModal from "components/otpModal/OtpModal";
 import SetupEmailTemplateModal from "components/SetupEmailTemplateModal/SetupEmailTemplateModal";
 import { paths } from "Routes";
 import { checkMissingFields } from "utils/validateExcel";
+import { completeProcess, signupEmail, verifyOTP } from "services/documents";
+
+export interface IModalControl {
+  openOtp: boolean;
+  openEmailSetup: boolean;
+  openEmailTemplateSetup: boolean;
+  setupEmailPayload: { name: string; email: string } | null;
+  step: number;
+  otpError: boolean;
+}
 
 const Preview = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const navigate = useNavigate();
   const context: any = useOutletContext();
-  const [pathName, setPathName] = useState<string>();
-  const [modalControl, setModalControl] = useState({
+  const [savingTemplate, setSavingTemplate] = useState(false);
+  const [modalControl, setModalControl] = useState<IModalControl>({
     openOtp: false,
     openEmailSetup: false,
     openEmailTemplateSetup: false,
+    setupEmailPayload: null,
     step: 1,
+    otpError: false,
   });
+
+  const { mutate, isLoading: isCreating } = useMutation(signupEmail, {
+    onError: (error: AxiosError) => {
+      console.log(error.message);
+      toast(
+        error?.message || "Something went wrong while trying to send request",
+        {
+          type: "error",
+        }
+      );
+    },
+    onSuccess: (resp: any) => {
+      toast(
+        resp?.message || `Success: An OTP has been sent to ${resp.data.email}`,
+        {
+          type: "success",
+        }
+      );
+      setModalControl((prev) => ({
+        ...prev,
+        openEmailSetup: false,
+        setupEmailPayload: { email: resp?.data?.email, name: resp?.data?.name },
+        step: 2,
+      }));
+    },
+  });
+
+  const { mutate: verifyOtp, isLoading: verifyingOtp } = useMutation(
+    verifyOTP,
+    {
+      onError: (error: AxiosError) => {
+        console.log(error.message);
+        toast(
+          error?.message || "Something went wrong while trying to send request",
+          {
+            type: "error",
+          }
+        );
+        setModalControl((prev) => ({
+          ...prev,
+          otpError: true,
+        }));
+      },
+      onSuccess: (resp: any) => {
+        toast(
+          resp?.message ||
+            `Success: An OTP has been sent to ${resp.data.email}`,
+          {
+            type: "success",
+          }
+        );
+        setModalControl((prev) => ({
+          ...prev,
+          openOtp: false,
+          step: ++prev.step,
+        }));
+      },
+    }
+  );
+
+  const { mutate: saveData, isLoading: completingProcess } = useMutation(
+    completeProcess,
+    {
+      onError: (error: AxiosError) => {
+        console.log(error.message);
+        toast.error(
+          error?.message || "Something went wrong while trying to send request"
+        );
+      },
+      onSuccess: (resp: any) => {
+        toast.success(resp?.message || `Success: Data saved!`);
+        return navigate(paths.CERTIFICATES_SUCCESS);
+      },
+    }
+  );
 
   React.useEffect(() => {
     context?.setCurrentStep(3);
@@ -131,10 +222,52 @@ const Preview = () => {
         ...prev,
         openEmailTemplateSetup: true,
       }));
-    if (modalControl.step > 4) return navigate(paths.CERTIFICATES_SUCCESS);
+    if (modalControl.step > 4) {
+      const uploaded = context?.uploaded;
+      const product = context?.products[0];
+      const image = context?.image;
+      console.log(uploaded, product);
+      const payload = {
+        orgName: product?.name,
+        description: "Something to heal the world with.",
+        image: {
+          width: image.width,
+          height: image.height,
+        },
+        product: product?._id,
+        owner: product?.owner,
+        fields: [
+          {
+            fieldName: "name",
+            fontFamily: uploaded?.selectedFont,
+            width: uploaded?.dimension?.width,
+            height: uploaded?.dimension?.height,
+            top: uploaded?.dimension?.top,
+            bottom: uploaded?.dimension?.bottom,
+            left: uploaded?.dimension?.left,
+            right: uploaded?.dimension?.right,
+            x: uploaded?.dimension?.x,
+            y: uploaded?.dimension?.y,
+          },
+        ],
+        clients: uploaded?.tableData?.body?.map(
+          (v: {
+            recipient_email_address: string;
+            recipient_full_name: string;
+          }) => ({
+            email: v.recipient_email_address,
+            name: v.recipient_full_name,
+          })
+        ),
+      };
+      console.log("payload", payload);
+      saveData(payload);
+    }
   };
 
   const list = data?.map(({ name, email }) => createData(name, email));
+  console.log(context?.products);
+
   return (
     <Stack spacing={12}>
       <Box
@@ -307,6 +440,8 @@ const Preview = () => {
               disableElevation
               disableFocusRipple
               disableRipple
+              disabled={completingProcess}
+              startIcon={completingProcess && <CircularProgress size={16} />}
             >
               Continue
             </Button>
@@ -324,35 +459,33 @@ const Preview = () => {
           )}
         </Box>
         <SetupEmailModal
+          productName={context?.products?.[0]?.name}
           open={modalControl.openEmailSetup}
           onClose={() =>
             setModalControl((prev) => ({ ...prev, openEmailSetup: false }))
           }
-          onConfirm={() => {
-            setModalControl((prev) => ({
-              ...prev,
-              openEmailSetup: false,
-              step: 2,
-            }));
-          }}
+          onConfirm={(payload) => mutate(payload)}
           onInputChange={(e: any) => console.log(e)}
+          loading={isCreating}
         />
         <OtpModal
+          error={modalControl.otpError}
           open={modalControl.openOtp}
           onClose={() =>
-            setModalControl((prev) => ({ ...prev, openOtp: false }))
+            setModalControl((prev) => ({ ...prev, openOtp: false, step: 4 }))
           }
-          onConfirm={() =>
+          onConfirm={(data: any) => verifyOtp({ token: data })}
+          loading={verifyingOtp}
+          onInputChange={(e: any) =>
             setModalControl((prev) => ({
               ...prev,
-              openOtp: false,
-              step: ++prev.step,
+              otpError: false,
             }))
           }
-          onInputChange={(e: any) => console.log(e)}
-          onResend={() => console.log("resend clicked")}
+          onResend={() => mutate(modalControl.setupEmailPayload)}
         />
         <SetupEmailTemplateModal
+          loading={savingTemplate}
           open={modalControl.openEmailTemplateSetup}
           onClose={() =>
             setModalControl((prev) => ({
@@ -360,13 +493,18 @@ const Preview = () => {
               openEmailTemplateSetup: false,
             }))
           }
-          onConfirm={() =>
-            setModalControl((prev) => ({
-              ...prev,
-              openEmailTemplateSetup: false,
-              step: 4,
-            }))
-          }
+          onConfirm={() => {
+            setSavingTemplate(true);
+            setTimeout(() => {
+              setSavingTemplate(false);
+              toast.success("Template Created Successfully");
+              setModalControl((prev) => ({
+                ...prev,
+                openEmailTemplateSetup: false,
+                step: 5,
+              }));
+            }, 2500);
+          }}
           onInputChange={(e: any) => console.log(e)}
           onResend={() => console.log("resend clicked")}
           isMobile={isMobile}

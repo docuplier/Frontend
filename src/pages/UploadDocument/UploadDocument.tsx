@@ -1,6 +1,7 @@
 import { useMediaQuery, useTheme } from "@mui/material";
 import Dropzone from "components/Dropzone/Dropzone";
 import React from "react";
+import { getImageSize } from "react-image-size";
 import { Link, useNavigate, useOutletContext } from "react-router-dom";
 import { paths } from "Routes";
 
@@ -14,10 +15,13 @@ const UploadDocument = () => {
     context?.setCurrentStep(0);
   }, []);
 
-  const handleUpload = (data: File) => {
+  const handleUpload = async (data: File) => {
+    const imgUrl = URL.createObjectURL(data);
+    const { width, height } = await getImageSize(imgUrl);
     context?.setUploaded((prev: any) => ({
       ...prev,
-      doc: URL.createObjectURL(data),
+      doc: imgUrl,
+      image: { width, height },
     }));
     navigate(paths.CERTIFICATES_NAME);
   };

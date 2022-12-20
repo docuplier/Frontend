@@ -3,18 +3,27 @@ import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
-import { Box, Stack, Typography, useTheme } from "@mui/material";
+import {
+  Box,
+  CircularProgress,
+  Stack,
+  Typography,
+  useTheme,
+} from "@mui/material";
 import { MuiOtpInput } from "mui-one-time-password-input";
 import tooltipIcon from "assets/tooltipIcon.svg";
 
 export interface ISetEmailModalProps {
   open: boolean;
   onClose: () => void;
-  onConfirm: () => void;
+  onConfirm: (data: any) => void;
   onInputChange: (event: any) => void;
   onResend: () => void;
   hideCaption?: boolean;
   captionText?: string;
+  loading?: boolean;
+  resending?: boolean;
+  error?: boolean;
 }
 
 export default function OtpModal({
@@ -25,9 +34,13 @@ export default function OtpModal({
   onResend,
   hideCaption,
   captionText,
+  loading,
+  resending,
+  error,
 }: ISetEmailModalProps) {
   const theme = useTheme();
   const [otp, setOtp] = React.useState("");
+  const [disableSubmit, setDisableSubmit] = React.useState(true);
   const descriptionElementRef = React.useRef<HTMLElement>(null);
   React.useEffect(() => {
     if (open) {
@@ -35,13 +48,25 @@ export default function OtpModal({
       if (descriptionElement !== null) {
         descriptionElement.focus();
       }
+    } else {
+      setOtp("");
     }
   }, [open]);
 
-  const onChange = (e: any) => {
-    setOtp(e);
-    onInputChange(e);
-  };
+  const onChange = React.useCallback(
+    (e: any) => {
+      setOtp(e);
+      onInputChange(e);
+      if (e.length === 4) {
+        setDisableSubmit(false);
+      } else {
+        if (!disableSubmit) {
+          setDisableSubmit(true);
+        }
+      }
+    },
+    [otp]
+  );
 
   return (
     <Dialog
@@ -77,6 +102,7 @@ export default function OtpModal({
               onChange={onChange}
               TextFieldsProps={{
                 size: "small",
+                error,
               }}
             />
             {!hideCaption && (
@@ -97,6 +123,8 @@ export default function OtpModal({
             size="large"
             onClick={onResend}
             sx={{ mx: 2 }}
+            disabled={resending}
+            startIcon={resending && <CircularProgress size={16} />}
           >
             Resend OTP
           </Button>
@@ -104,8 +132,10 @@ export default function OtpModal({
             variant="contained"
             size="large"
             sx={{ mx: 2 }}
-            onClick={onConfirm}
+            onClick={() => onConfirm(otp)}
             //  fullWidth
+            disabled={disableSubmit || loading}
+            startIcon={loading && <CircularProgress size={16} />}
           >
             Confirm OTP
           </Button>

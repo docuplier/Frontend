@@ -286,7 +286,7 @@ const Preview = () => {
           sx={{
             backgroundColor: "#0B0D27",
             mt: 2,
-            height: "550px",
+            maxHeight: "550px",
             overflowY: "scroll",
             scrollbarWidth: "thin",
             msOverflowStyle: "auto",

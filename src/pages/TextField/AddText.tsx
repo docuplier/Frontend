@@ -40,7 +40,6 @@ const AddText = () => {
   const [selectedFont, setSelectedFont] = useState(FONTS[0]?.value);
   const theme = useTheme();
   const ref = useRef<HTMLDivElement>();
-  console.log("ref", ref);
   const draggableRef = useRef<HTMLDivElement>();
   const navigate = useNavigate();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
@@ -50,7 +49,6 @@ const AddText = () => {
     const val = ref?.current?.getBoundingClientRect();
     console.log("val", val);
     const draggableVal = draggableRef?.current?.getBoundingClientRect();
-    console.log("draggableVal", draggableVal);
     setDimension({
       left: val?.left! - draggableVal?.left!,
       right: val?.right! - draggableVal?.right!,
@@ -140,18 +138,16 @@ const AddText = () => {
         justifyContent="center"
         alignItems="center"
       >
-        <Box position="relative">
-          <Box ref={ref}>
-            <img
-              src={context?.uploaded?.doc}
-              style={{
-                position: "relative",
-                margin: "auto",
-                textAlign: "center",
-              }}
-              width="100%"
-            />
-          </Box>
+        <Box ref={ref} position="relative">
+          <img
+            src={context?.uploaded?.doc}
+            style={{
+              position: "relative",
+              margin: "auto",
+              textAlign: "center",
+            }}
+            width="100%"
+          />
           <Box
             sx={{ position: "absolute", top: dimension?.top }}
             ref={draggableRef}

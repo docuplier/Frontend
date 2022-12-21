@@ -1,21 +1,14 @@
-import React, { useState } from "react";
-import { Box, Typography, styled, Divider, Stack } from "@mui/material";
+import { Box, Typography, styled, Stack } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-
-// import { ReactComponent as ProgressChecker } from "assets/svgs/progressChecker.svg";
 import { uploadLayoutTypes } from "../../interfaces/uploadLayoutTypes";
 import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
-import StepContent from "@mui/material/StepContent";
-import Button from "@mui/material/Button";
-import Paper from "@mui/material/Paper";
 import StepConnector, {
   stepConnectorClasses,
 } from "@mui/material/StepConnector";
 import { StepIconProps } from "@mui/material/StepIcon";
 import Check from "@mui/icons-material/Check";
-// import { ReactComponent as BackArrow } from "assets/svgs/backarrow.svg";
 
 function DocumentLayout(props: uploadLayoutTypes) {
   const {

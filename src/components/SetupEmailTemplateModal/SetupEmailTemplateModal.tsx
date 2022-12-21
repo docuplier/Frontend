@@ -1,10 +1,15 @@
 import * as React from "react";
+import { useForm, Controller } from "react-hook-form";
+import * as Yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
+import InputLabel from "@mui/material/InputLabel";
 import {
   Box,
+  CircularProgress,
   Grid,
   Stack,
   TextField,
@@ -15,11 +20,18 @@ import {
 export interface ISetEmailModalProps {
   open: boolean;
   onClose: () => void;
-  onConfirm: () => void;
+  onConfirm: (data: any) => void;
   onInputChange: (event: any) => void;
   onResend: () => void;
   isMobile: boolean;
+  loading?: boolean;
 }
+
+const schema = Yup.object({
+  senderName: Yup.string().required("Sender's Name field is required"),
+  orgName: Yup.string().required("Organisation Name field is required"),
+  body: Yup.string().required("Description field is required"),
+}).required();
 
 export default function SetupEmailTemplateModal({
   open,
@@ -28,8 +40,16 @@ export default function SetupEmailTemplateModal({
   onInputChange,
   onResend,
   isMobile,
+  loading,
 }: ISetEmailModalProps) {
   const theme = useTheme();
+  const {
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(schema),
+  });
   const descriptionElementRef = React.useRef<HTMLElement>(null);
   React.useEffect(() => {
     if (open) {
@@ -40,11 +60,14 @@ export default function SetupEmailTemplateModal({
     }
   }, [open]);
 
+  const onSubmit = (data: any) => {
+    onConfirm({ ...data });
+  };
+
   return (
     <Dialog
       open={open}
       onClose={onClose}
-      // scroll="paper"
       aria-labelledby="provide-email"
       aria-describedby="provide-email-you-want-recepient-to-respond-to"
       sx={{
@@ -61,54 +84,80 @@ export default function SetupEmailTemplateModal({
       }}
     >
       <DialogContent>
-        <Stack spacing={12}>
-          <Box>
-            <Typography variant="subtitle1">Set Up Email Template</Typography>
-          </Box>
+        <Box component="form" width="100%">
+          <Stack spacing={12}>
+            <Box>
+              <Typography variant="subtitle1">Set Up Email Template</Typography>
+            </Box>
 
-          <Box>
-            <Box
-              mb={8}
-              display="flex"
-              alignItems="center"
-              flexDirection={{ xs: "column", md: "row" }}
-              width="100%"
-            >
-              <Box width="100%" mb={{ xs: 8, md: 0 }}>
-                <TextField
-                  fullWidth
-                  placeholder="Microsoft"
-                  id="organisationName"
-                  name="organisationName"
-                  label="Name of Organisation"
-                  variant="outlined"
-                />
+            <Box>
+              <Box
+                mb={8}
+                display="flex"
+                alignItems="center"
+                flexDirection={{ xs: "column", md: "row" }}
+                width="100%"
+              >
+                <Box width="100%" mb={{ xs: 8, md: 0, textAlign: "start" }}>
+                  <InputLabel required>Name of Sender</InputLabel>
+                  <Controller
+                    name="senderName"
+                    control={control}
+                    render={({ field }: any) => (
+                      <TextField
+                        {...field}
+                        error={errors?.email?.message}
+                        fullWidth
+                        size="small"
+                        placeholder="John Doe"
+                        InputLabelProps={{ shrink: true }}
+                        helperText={errors?.email?.message}
+                      />
+                    )}
+                  />
+                </Box>
+                <Box width="100%" ml={{ xs: 0, md: 4, textAlign: "start" }}>
+                  <InputLabel required>Name of Organisation</InputLabel>
+                  <Controller
+                    name="orgName"
+                    control={control}
+                    render={({ field }: any) => (
+                      <TextField
+                        {...field}
+                        placeholder="Microsoft"
+                        error={errors?.email?.message}
+                        fullWidth
+                        size="small"
+                        InputLabelProps={{ shrink: true }}
+                        helperText={errors?.email?.message}
+                      />
+                    )}
+                  />
+                </Box>
               </Box>
-              <Box width="100%" ml={{ xs: 0, md: 4 }}>
-                <TextField
-                  fullWidth
-                  placeholder="Microsoft"
-                  id="organisationName"
-                  name="organisationName"
-                  label="Name of Organisation"
-                  variant="outlined"
+              <Box width="100%" sx={{ textAlign: "start" }}>
+                <InputLabel required>Email Write up to Receipients</InputLabel>
+                <Controller
+                  name="body"
+                  control={control}
+                  render={({ field }: any) => (
+                    <TextField
+                      {...field}
+                      error={errors?.email?.message}
+                      multiline
+                      fullWidth
+                      size="small"
+                      InputLabelProps={{ shrink: true }}
+                      helperText={errors?.email?.message}
+                      rows={8}
+                      placeholder="Description"
+                    />
+                  )}
                 />
               </Box>
             </Box>
-            <Box width="100%">
-              <TextField
-                fullWidth
-                multiline
-                id="body"
-                placeholder="Description"
-                name="body"
-                label="Email Write up to Receipients"
-                variant="outlined"
-                rows={8}
-              />
-            </Box>
-          </Box>
-        </Stack>
+          </Stack>
+        </Box>
       </DialogContent>
       <DialogActions>
         <Stack direction="row" spacing={4} width="100%" mt={12}>
@@ -123,7 +172,9 @@ export default function SetupEmailTemplateModal({
           <Button
             variant="contained"
             size={isMobile ? "small" : "large"}
-            onClick={onConfirm}
+            disabled={loading}
+            startIcon={loading && <CircularProgress size={16} />}
+            onClick={handleSubmit(onSubmit)}
             fullWidth
           >
             Save

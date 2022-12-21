@@ -30,6 +30,10 @@ const AddText = () => {
     left: 0,
     bottom: 0,
     right: 0,
+    width: 0,
+    height: 0,
+    x: 0,
+    y: 0,
   });
   const [displayTextBox, setDisplayTextBox] = useState(false);
   const [selectedFont, setSelectedFont] = useState(FONTS[0]?.value);
@@ -42,12 +46,17 @@ const AddText = () => {
 
   const eventLogger = (e: DraggableEvent, data: DraggableData) => {
     const val = ref?.current?.getBoundingClientRect();
+    console.log(val);
     const draggableVal = draggableRef?.current?.getBoundingClientRect();
     setDimension({
       left: val?.left! - draggableVal?.left!,
       right: val?.right! - draggableVal?.right!,
       bottom: val?.bottom! - draggableVal?.bottom!,
       top: val?.top! - draggableVal?.top!,
+      x: val?.x! - draggableVal?.x!,
+      y: val?.y! - draggableVal?.y!,
+      width: val?.width!,
+      height: val?.height!,
     });
   };
 
@@ -141,7 +150,6 @@ const AddText = () => {
               <Draggable
                 axis="both"
                 handle=".handle"
-                //defaultPosition={{ x: 0, y: 0 }}
                 position={undefined}
                 grid={[25, 25]}
                 bounds={{
@@ -235,6 +243,11 @@ const AddText = () => {
             },
           }}
           onClick={() => {
+            context?.setUploaded((prev: any) => ({
+              ...prev,
+              dimension,
+              selectedFont,
+            }));
             navigate(paths.CERTIFICATES_UPLOAD_LIST);
           }}
         >

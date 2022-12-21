@@ -64,10 +64,11 @@ const DocumentLayout: FC<IDocumentLayout> = ({ steps, tabItems }) => {
       data.splice(0, 1);
       const columnKeys: any[] = [];
       const headers = headerTitles.map((val: string) => {
-        columnKeys.push(val.toLowerCase().replaceAll(" ", "_"));
+        console.log("val", val);
+        columnKeys.push(val?.toLowerCase().replaceAll(" ", "_"));
         return {
           title: val,
-          field: val.toLowerCase().replaceAll(" ", "_"),
+          field: val?.toLowerCase().replaceAll(" ", "_"),
         };
       });
       const body = convertToTableData(columnKeys, data);

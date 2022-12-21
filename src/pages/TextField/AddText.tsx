@@ -23,6 +23,7 @@ import Draggable, { DraggableData, DraggableEvent } from "react-draggable";
 // @ts-ignore
 import { FONTS } from "constants/appConstants";
 import { pxToRem } from "utils/pxToRem";
+import { number } from "yup/lib/locale";
 
 const AddText = () => {
   const [dimension, setDimension] = useState({
@@ -39,6 +40,7 @@ const AddText = () => {
   const [selectedFont, setSelectedFont] = useState(FONTS[0]?.value);
   const theme = useTheme();
   const ref = useRef<HTMLDivElement>();
+  console.log("ref", ref);
   const draggableRef = useRef<HTMLDivElement>();
   const navigate = useNavigate();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
@@ -46,8 +48,9 @@ const AddText = () => {
 
   const eventLogger = (e: DraggableEvent, data: DraggableData) => {
     const val = ref?.current?.getBoundingClientRect();
-    console.log(val);
+    console.log("val", val);
     const draggableVal = draggableRef?.current?.getBoundingClientRect();
+    console.log("draggableVal", draggableVal);
     setDimension({
       left: val?.left! - draggableVal?.left!,
       right: val?.right! - draggableVal?.right!,
@@ -59,6 +62,8 @@ const AddText = () => {
       height: val?.height!,
     });
   };
+
+  console.log("dimen", dimension);
 
   const handleTextBox = () => {
     setDisplayTextBox(true);
@@ -135,17 +140,22 @@ const AddText = () => {
         justifyContent="center"
         alignItems="center"
       >
-        <Box ref={ref} position="relative">
-          <img
-            src={context?.uploaded?.doc}
-            style={{
-              position: "relative",
-              margin: "auto",
-              textAlign: "center",
-            }}
-            width="100%"
-          />
-          <Box sx={{ position: "absolute", top: 0 }} ref={draggableRef}>
+        <Box position="relative">
+          <Box ref={ref}>
+            <img
+              src={context?.uploaded?.doc}
+              style={{
+                position: "relative",
+                margin: "auto",
+                textAlign: "center",
+              }}
+              width="100%"
+            />
+          </Box>
+          <Box
+            sx={{ position: "absolute", top: dimension?.top }}
+            ref={draggableRef}
+          >
             {displayTextBox && (
               <Draggable
                 axis="both"

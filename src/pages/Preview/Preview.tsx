@@ -223,17 +223,14 @@ const Preview = () => {
         openEmailTemplateSetup: true,
       }));
     if (modalControl.step > 4) {
+      console.log(context);
       const uploaded = context?.uploaded;
       const product = context?.products[0];
-      const image = context?.image;
       console.log(uploaded, product);
       const payload = {
         orgName: product?.name,
         description: "Something to heal the world with.",
-        image: {
-          width: image.width,
-          height: image.height,
-        },
+        image: { ...uploaded.image },
         product: product?._id,
         owner: product?.owner,
         fields: [
@@ -260,13 +257,35 @@ const Preview = () => {
           })
         ),
       };
-      console.log("payload", payload);
-      saveData(payload);
+      const fd = new FormData();
+      fd.append("orgName", payload.orgName);
+      fd.append("description", payload.description);
+      fd.append("image.width", payload.image.width);
+      fd.append("image.height", payload.image.height);
+      fd.append("product", payload.product);
+      fd.append("owner", payload.owner || "");
+      payload.fields.forEach((field, idx) => {
+        fd.append(`fields[${idx}].fieldName`, field.fieldName);
+        fd.append(`fields[${idx}].fontFamily`, field.fontFamily);
+        fd.append(`fields[${idx}].width`, field.width);
+        fd.append(`fields[${idx}].height`, field.height);
+        fd.append(`fields[${idx}].top`, field.top);
+        fd.append(`fields[${idx}].bottom`, field.bottom);
+        fd.append(`fields[${idx}].left`, field.left);
+        fd.append(`fields[${idx}].right`, field.right);
+        fd.append(`fields[${idx}].x`, field.x);
+        fd.append(`fields[${idx}].y`, field.y);
+      });
+      payload.clients.forEach(
+        (client: { email: string; name: string }, idx: number) => {
+          fd.append(`clients[${idx}].name`, client.name);
+          fd.append(`clients[${idx}].email`, client.email);
+        }
+      );
+
+      saveData(fd);
     }
   };
-
-  const list = data?.map(({ name, email }) => createData(name, email));
-  console.log(context?.products);
 
   return (
     <Stack spacing={12}>

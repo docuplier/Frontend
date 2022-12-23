@@ -14,6 +14,7 @@ import {
   Paper,
   CircularProgress,
 } from "@mui/material";
+import { saveAs } from "file-saver";
 import { toast } from "react-toastify";
 import { useMutation } from "react-query";
 import { AxiosError } from "axios";
@@ -25,7 +26,7 @@ import SetupEmailTemplateModal from "components/SetupEmailTemplateModal/SetupEma
 import { paths } from "Routes";
 import { checkMissingFields } from "utils/validateExcel";
 import { completeProcess, signupEmail, verifyOTP } from "services/documents";
-import { json } from "stream/consumers";
+import { utils, write } from "xlsx";
 
 export interface IModalControl {
   openOtp: boolean;
@@ -229,6 +230,7 @@ const Preview = () => {
         openEmailTemplateSetup: true,
       }));
     if (modalControl.step > 4) {
+      console.log(context);
       const uploaded = context?.uploaded;
 
       const product = context?.products && context?.products[0];
@@ -279,7 +281,90 @@ const Preview = () => {
     }
   };
 
-  const list = data?.map(({ name, email }) => createData(name, email));
+  //     const product = context?.products[0];
+  //     console.log(uploaded, product);
+  //     const payload = {
+  //       orgName: product?.name,
+  //       description: "Something to heal the world with.",
+  //       // image: { ...uploaded.image },
+  //       image: uploaded.imgFile,
+  //       product: product?._id,
+  //       owner: product?.owner,
+  //       fields: [
+  //         {
+  //           fieldName: "name",
+  //           fontFamily: uploaded?.selectedFont,
+  //           width: uploaded?.dimension?.width,
+  //           height: uploaded?.dimension?.height,
+  //           top: uploaded?.dimension?.top,
+  //           bottom: uploaded?.dimension?.bottom,
+  //           left: uploaded?.dimension?.left,
+  //           right: uploaded?.dimension?.right,
+  //           x: uploaded?.dimension?.x,
+  //           y: uploaded?.dimension?.y,
+  //         },
+  //       ],
+  //       clients: uploaded?.tableData?.body?.map(
+  //         (v: {
+  //           recipient_email_address: string;
+  //           recipient_full_name: string;
+  //         }) => ({
+  //           email: v.recipient_email_address,
+  //           name: v.recipient_full_name,
+  //         })
+  //       ),
+  //     };
+  //     const fd = new FormData();
+  //     fd.append("orgName", payload.orgName);
+  //     fd.append("description", payload.description);
+  //     // fd.append("image.width", payload.image.width);
+  //     // fd.append("image.height", payload.image.height);
+  //     fd.append("image", payload.image);
+  //     fd.append("product", payload.product);
+  //     fd.append("owner", payload.owner || "");
+  //     payload.fields.forEach((field, idx) => {
+  //       fd.append(`fields[${idx}].fieldName`, field.fieldName);
+  //       fd.append(`fields[${idx}].fontFamily`, field.fontFamily);
+  //       fd.append(`fields[${idx}].width`, field.width);
+  //       fd.append(`fields[${idx}].height`, field.height);
+  //       fd.append(`fields[${idx}].top`, field.top);
+  //       fd.append(`fields[${idx}].bottom`, field.bottom);
+  //       fd.append(`fields[${idx}].left`, field.left);
+  //       fd.append(`fields[${idx}].right`, field.right);
+  //       fd.append(`fields[${idx}].x`, field.x);
+  //       fd.append(`fields[${idx}].y`, field.y);
+  //     });
+  //     payload.clients.forEach(
+  //       (client: { email: string; name: string }, idx: number) => {
+  //         fd.append(`clients[${idx}].name`, client.name);
+  //         fd.append(`clients[${idx}].email`, client.email);
+  //       }
+  //     );
+
+  //     saveData(fd);
+  //   }
+  // };
+
+  const exportAsExcel = () => {
+    const fileType =
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset-UTF-8";
+    const ext = ".xlsx";
+    const objKeys = Object.keys(context?.uploaded?.tableData?.body[0]);
+
+    const body = context?.uploaded?.tableData?.body.map((v: any) => {
+      let itm: any = {};
+      objKeys.forEach((key) => {
+        console.log(key, v);
+        itm[key.replaceAll("_", " ")?.toUpperCase()] = v[key];
+      });
+      return itm;
+    });
+    const ws = utils.json_to_sheet(body);
+    const wb = { Sheets: { data: ws }, SheetNames: ["data"] };
+    const excelBuffer = write(wb, { bookType: "xlsx", type: "array" });
+    const data = new Blob([excelBuffer], { type: fileType });
+    saveAs(data, `recipients${ext}`);
+  };
 
   return (
     <Stack spacing={12}>
@@ -442,6 +527,7 @@ const Preview = () => {
                 border: "none",
               },
             }}
+            onClick={() => exportAsExcel()}
           >
             Download to Print
           </Button>{" "}

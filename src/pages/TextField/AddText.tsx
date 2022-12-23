@@ -23,6 +23,7 @@ import Draggable, { DraggableData, DraggableEvent } from "react-draggable";
 // @ts-ignore
 import { FONTS } from "constants/appConstants";
 import { pxToRem } from "utils/pxToRem";
+import { number } from "yup/lib/locale";
 
 const AddText = () => {
   const [dimension, setDimension] = useState({
@@ -35,26 +36,58 @@ const AddText = () => {
     x: 0,
     y: 0,
   });
+  const [bound, setBound] = useState({
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    x: 0,
+    y: 0,
+  });
   const [displayTextBox, setDisplayTextBox] = useState(false);
   const [selectedFont, setSelectedFont] = useState(FONTS[0]?.value);
   const theme = useTheme();
   const ref = useRef<HTMLDivElement>();
-  const draggableRef = useRef<HTMLDivElement>();
+  const draggableRef = useRef<HTMLDivElement | null>(null);
   const navigate = useNavigate();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const context: any = useOutletContext();
+  const val = ref?.current?.getBoundingClientRect();
+  const draggableVal = draggableRef?.current?.getBoundingClientRect();
 
   const eventLogger = (e: DraggableEvent, data: DraggableData) => {
-    const val = ref?.current?.getBoundingClientRect();
-    console.log(val);
-    const draggableVal = draggableRef?.current?.getBoundingClientRect();
+    const left =
+      val?.left! > draggableVal?.left!
+        ? val?.left! - draggableVal?.left!
+        : draggableVal?.left! - val?.left!;
+    const right =
+      val?.right! > draggableVal?.right!
+        ? val?.right! - draggableVal?.right!
+        : draggableVal?.right! - val?.right!;
+    const bottom =
+      val?.bottom! > draggableVal?.bottom!
+        ? val?.bottom! - draggableVal?.bottom!
+        : draggableVal?.bottom! - val?.bottom!;
+    const top =
+      val?.top! > draggableVal?.top!
+        ? val?.top! - draggableVal?.top!
+        : draggableVal?.top! - val?.top!;
+    const x =
+      val?.x! > draggableVal?.x!
+        ? val?.x! - draggableVal?.x!
+        : draggableVal?.x! - val?.x!;
+    const y =
+      val?.y! > draggableVal?.y!
+        ? val?.y! - draggableVal?.y!
+        : draggableVal?.y! - val?.y!;
+
     setDimension({
-      left: val?.left! - draggableVal?.left!,
-      right: val?.right! - draggableVal?.right!,
-      bottom: val?.bottom! - draggableVal?.bottom!,
-      top: val?.top! - draggableVal?.top!,
-      x: val?.x! - draggableVal?.x!,
-      y: val?.y! - draggableVal?.y!,
+      left,
+      right,
+      bottom,
+      top,
+      x,
+      y,
       width: val?.width!,
       height: val?.height!,
     });
@@ -62,6 +95,14 @@ const AddText = () => {
 
   const handleTextBox = () => {
     setDisplayTextBox(true);
+    setBound({
+      left: val?.left!,
+      right: val?.right!,
+      top: val?.top!,
+      bottom: val?.bottom!,
+      x: val?.x!,
+      y: val?.y!,
+    });
   };
 
   React.useEffect(() => {
@@ -145,30 +186,35 @@ const AddText = () => {
             }}
             width="100%"
           />
-          <Box sx={{ position: "absolute", top: 0 }} ref={draggableRef}>
+          <Box
+            //  component="span"
+            sx={{ position: "absolute", top: 0 }}
+            //  ref={draggableRef}
+          >
             {displayTextBox && (
               <Draggable
                 axis="both"
                 handle=".handle"
                 position={undefined}
-                grid={[25, 25]}
+                nodeRef={draggableRef}
+                grid={[0, 0]}
                 bounds={{
-                  left: dimension?.left!,
-                  right: dimension?.right!,
-                  top: dimension?.top!,
-                  bottom: dimension?.bottom!,
+                  left: 0,
+                  right: val?.width! - draggableVal?.width!,
+                  top: 0,
+                  bottom: val?.height! - draggableVal?.height!,
                 }}
                 scale={1}
                 // onStart={eventLogger}
                 onDrag={eventLogger}
                 onStop={eventLogger}
               >
-                <div className="handle">
+                <div className="handle" ref={draggableRef}>
                   {" "}
                   <Box component="form">
                     <Box
-                      width={{ xs: 200, sm: "100%", md: 350 }}
-                      height="31.5px"
+                      width={{ xs: 200, sm: "100%", md: 351.5 }}
+                      height="33px"
                       borderRadius="5px"
                       display="flex"
                       justifyContent="center"

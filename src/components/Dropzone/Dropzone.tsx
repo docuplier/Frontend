@@ -48,6 +48,8 @@ const Dropzone = ({
     }
   };
 
+  console.log("media", acceptedFiles);
+
   return (
     <Box
       {...getRootProps({ className: "dropzone" })}

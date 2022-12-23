@@ -16,13 +16,14 @@ const UploadDocument = () => {
   }, []);
 
   const handleUpload = async (data: File) => {
+    console.log("dataFile", data);
     const imgUrl = URL.createObjectURL(data);
     const { width, height } = await getImageSize(imgUrl);
     context?.setUploaded((prev: any) => ({
       ...prev,
       doc: imgUrl,
-      imgFile: data,
-      image: { width, height },
+      image: { src: data, width, height },
+      dataFile: data,
     }));
     navigate(paths.CERTIFICATES_NAME);
   };

@@ -43,6 +43,7 @@ const Preview = () => {
   const navigate = useNavigate();
   const context: any = useOutletContext();
   const [savingTemplate, setSavingTemplate] = useState(false);
+  const [owner, setOwner] = useState<any>();
   const [modalControl, setModalControl] = useState<IModalControl>({
     openOtp: false,
     openEmailSetup: false,
@@ -69,6 +70,12 @@ const Preview = () => {
           type: "success",
         }
       );
+      // context?.setUploaded((prev: any) => ({
+      //   ...prev,
+      //   owner: resp?.data,
+      // }));
+      setOwner(resp?.data);
+
       setModalControl((prev) => ({
         ...prev,
         openEmailSetup: false,
@@ -138,8 +145,6 @@ const Preview = () => {
   function createData(name: string, email: string) {
     return { name, email };
   }
-
-  const rows = ["Recipient Name", "Recipient Email"];
 
   const data = [
     {
@@ -227,69 +232,118 @@ const Preview = () => {
     if (modalControl.step > 4) {
       console.log(context);
       const uploaded = context?.uploaded;
-      const product = context?.products[0];
-      console.log(uploaded, product);
-      const payload = {
-        orgName: product?.name,
-        description: "Something to heal the world with.",
-        // image: { ...uploaded.image },
-        image: uploaded.imgFile,
-        product: product?._id,
-        owner: product?.owner,
-        fields: [
-          {
-            fieldName: "name",
-            fontFamily: uploaded?.selectedFont,
-            width: uploaded?.dimension?.width,
-            height: uploaded?.dimension?.height,
-            top: uploaded?.dimension?.top,
-            bottom: uploaded?.dimension?.bottom,
-            left: uploaded?.dimension?.left,
-            right: uploaded?.dimension?.right,
-            x: uploaded?.dimension?.x,
-            y: uploaded?.dimension?.y,
-          },
-        ],
-        clients: uploaded?.tableData?.body?.map(
-          (v: {
-            recipient_email_address: string;
-            recipient_full_name: string;
-          }) => ({
-            email: v.recipient_email_address,
-            name: v.recipient_full_name,
-          })
-        ),
-      };
-      const fd = new FormData();
-      fd.append("orgName", payload.orgName);
-      fd.append("description", payload.description);
-      // fd.append("image.width", payload.image.width);
-      // fd.append("image.height", payload.image.height);
-      fd.append("image", payload.image);
-      fd.append("product", payload.product);
-      fd.append("owner", payload.owner || "");
-      payload.fields.forEach((field, idx) => {
-        fd.append(`fields[${idx}].fieldName`, field.fieldName);
-        fd.append(`fields[${idx}].fontFamily`, field.fontFamily);
-        fd.append(`fields[${idx}].width`, field.width);
-        fd.append(`fields[${idx}].height`, field.height);
-        fd.append(`fields[${idx}].top`, field.top);
-        fd.append(`fields[${idx}].bottom`, field.bottom);
-        fd.append(`fields[${idx}].left`, field.left);
-        fd.append(`fields[${idx}].right`, field.right);
-        fd.append(`fields[${idx}].x`, field.x);
-        fd.append(`fields[${idx}].y`, field.y);
-      });
-      payload.clients.forEach(
-        (client: { email: string; name: string }, idx: number) => {
-          fd.append(`clients[${idx}].name`, client.name);
-          fd.append(`clients[${idx}].email`, client.email);
-        }
+
+      const product = context?.products && context?.products[0];
+      console.log("context", context);
+      console.log("uploaded", uploaded);
+      const image = context?.uploaded;
+      const formData = new FormData();
+      formData.append("orgName", uploaded?.orgName);
+      formData.append("description", uploaded?.description);
+
+      formData.append("docImage", image?.image?.src, image?.dataFile?.name);
+      formData.append(
+        "image",
+        JSON.stringify({
+          width: image?.image?.width,
+          height: image?.image?.height,
+        })
       );
 
-      saveData(fd);
+      formData.append("product", product?._id);
+      formData.append("owner", owner?._id);
+      formData.append("fieldName", "name");
+      formData.append("fontFamily", uploaded?.selectedFont);
+      formData.append("width", uploaded?.dimension?.width);
+      formData.append("height", uploaded?.dimension?.height);
+      formData.append("top", uploaded?.dimension?.top);
+      formData.append("bottom", uploaded?.dimension?.bottom);
+      formData.append("left", uploaded?.dimension?.left);
+      formData.append("right", uploaded?.dimension?.right);
+      formData.append("x", uploaded?.dimension?.x);
+      formData.append("y", uploaded?.dimension?.y);
+
+      formData.append(
+        "clients",
+        JSON.stringify(
+          uploaded?.tableData?.body?.map(
+            (v: {
+              recipient_email_address: string;
+              recipient_full_name: string;
+            }) => ({
+              email: v.recipient_email_address,
+              name: v.recipient_full_name,
+            })
+          )
+        )
+      );
+      saveData(formData);
     }
   };
+
+  //     const product = context?.products[0];
+  //     console.log(uploaded, product);
+  //     const payload = {
+  //       orgName: product?.name,
+  //       description: "Something to heal the world with.",
+  //       // image: { ...uploaded.image },
+  //       image: uploaded.imgFile,
+  //       product: product?._id,
+  //       owner: product?.owner,
+  //       fields: [
+  //         {
+  //           fieldName: "name",
+  //           fontFamily: uploaded?.selectedFont,
+  //           width: uploaded?.dimension?.width,
+  //           height: uploaded?.dimension?.height,
+  //           top: uploaded?.dimension?.top,
+  //           bottom: uploaded?.dimension?.bottom,
+  //           left: uploaded?.dimension?.left,
+  //           right: uploaded?.dimension?.right,
+  //           x: uploaded?.dimension?.x,
+  //           y: uploaded?.dimension?.y,
+  //         },
+  //       ],
+  //       clients: uploaded?.tableData?.body?.map(
+  //         (v: {
+  //           recipient_email_address: string;
+  //           recipient_full_name: string;
+  //         }) => ({
+  //           email: v.recipient_email_address,
+  //           name: v.recipient_full_name,
+  //         })
+  //       ),
+  //     };
+  //     const fd = new FormData();
+  //     fd.append("orgName", payload.orgName);
+  //     fd.append("description", payload.description);
+  //     // fd.append("image.width", payload.image.width);
+  //     // fd.append("image.height", payload.image.height);
+  //     fd.append("image", payload.image);
+  //     fd.append("product", payload.product);
+  //     fd.append("owner", payload.owner || "");
+  //     payload.fields.forEach((field, idx) => {
+  //       fd.append(`fields[${idx}].fieldName`, field.fieldName);
+  //       fd.append(`fields[${idx}].fontFamily`, field.fontFamily);
+  //       fd.append(`fields[${idx}].width`, field.width);
+  //       fd.append(`fields[${idx}].height`, field.height);
+  //       fd.append(`fields[${idx}].top`, field.top);
+  //       fd.append(`fields[${idx}].bottom`, field.bottom);
+  //       fd.append(`fields[${idx}].left`, field.left);
+  //       fd.append(`fields[${idx}].right`, field.right);
+  //       fd.append(`fields[${idx}].x`, field.x);
+  //       fd.append(`fields[${idx}].y`, field.y);
+  //     });
+  //     payload.clients.forEach(
+  //       (client: { email: string; name: string }, idx: number) => {
+  //         fd.append(`clients[${idx}].name`, client.name);
+  //         fd.append(`clients[${idx}].email`, client.email);
+  //       }
+  //     );
+
+  //     saveData(fd);
+  //   }
+  // };
 
   const exportAsExcel = () => {
     const fileType =

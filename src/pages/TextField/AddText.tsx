@@ -197,7 +197,7 @@ const AddText = () => {
                 handle=".handle"
                 position={undefined}
                 nodeRef={draggableRef}
-                grid={[1, 1]}
+                grid={[0, 0]}
                 bounds={{
                   left: 0,
                   right: val?.width! - draggableVal?.width!,

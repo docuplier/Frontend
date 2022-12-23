@@ -14,6 +14,7 @@ import {
   Paper,
   CircularProgress,
 } from "@mui/material";
+import { saveAs } from "file-saver";
 import { toast } from "react-toastify";
 import { useMutation } from "react-query";
 import { AxiosError } from "axios";
@@ -25,6 +26,7 @@ import SetupEmailTemplateModal from "components/SetupEmailTemplateModal/SetupEma
 import { paths } from "Routes";
 import { checkMissingFields } from "utils/validateExcel";
 import { completeProcess, signupEmail, verifyOTP } from "services/documents";
+import { utils, write } from "xlsx";
 
 export interface IModalControl {
   openOtp: boolean;
@@ -230,7 +232,8 @@ const Preview = () => {
       const payload = {
         orgName: product?.name,
         description: "Something to heal the world with.",
-        image: { ...uploaded.image },
+        // image: { ...uploaded.image },
+        image: uploaded.imgFile,
         product: product?._id,
         owner: product?.owner,
         fields: [
@@ -260,8 +263,9 @@ const Preview = () => {
       const fd = new FormData();
       fd.append("orgName", payload.orgName);
       fd.append("description", payload.description);
-      fd.append("image.width", payload.image.width);
-      fd.append("image.height", payload.image.height);
+      // fd.append("image.width", payload.image.width);
+      // fd.append("image.height", payload.image.height);
+      fd.append("image", payload.image);
       fd.append("product", payload.product);
       fd.append("owner", payload.owner || "");
       payload.fields.forEach((field, idx) => {
@@ -285,6 +289,27 @@ const Preview = () => {
 
       saveData(fd);
     }
+  };
+
+  const exportAsExcel = () => {
+    const fileType =
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset-UTF-8";
+    const ext = ".xlsx";
+    const objKeys = Object.keys(context?.uploaded?.tableData?.body[0]);
+
+    const body = context?.uploaded?.tableData?.body.map((v: any) => {
+      let itm: any = {};
+      objKeys.forEach((key) => {
+        console.log(key, v);
+        itm[key.replaceAll("_", " ")?.toUpperCase()] = v[key];
+      });
+      return itm;
+    });
+    const ws = utils.json_to_sheet(body);
+    const wb = { Sheets: { data: ws }, SheetNames: ["data"] };
+    const excelBuffer = write(wb, { bookType: "xlsx", type: "array" });
+    const data = new Blob([excelBuffer], { type: fileType });
+    saveAs(data, `recipients${ext}`);
   };
 
   return (
@@ -448,6 +473,7 @@ const Preview = () => {
                 border: "none",
               },
             }}
+            onClick={() => exportAsExcel()}
           >
             Download to Print
           </Button>{" "}

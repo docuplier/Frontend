@@ -21,6 +21,7 @@ const UploadDocument = () => {
     context?.setUploaded((prev: any) => ({
       ...prev,
       doc: imgUrl,
+      imgFile: data,
       image: { width, height },
     }));
     navigate(paths.CERTIFICATES_NAME);

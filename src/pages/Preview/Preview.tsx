@@ -25,6 +25,7 @@ import SetupEmailTemplateModal from "components/SetupEmailTemplateModal/SetupEma
 import { paths } from "Routes";
 import { checkMissingFields } from "utils/validateExcel";
 import { completeProcess, signupEmail, verifyOTP } from "services/documents";
+import { json } from "stream/consumers";
 
 export interface IModalControl {
   openOtp: boolean;
@@ -41,6 +42,7 @@ const Preview = () => {
   const navigate = useNavigate();
   const context: any = useOutletContext();
   const [savingTemplate, setSavingTemplate] = useState(false);
+  const [owner, setOwner] = useState<any>();
   const [modalControl, setModalControl] = useState<IModalControl>({
     openOtp: false,
     openEmailSetup: false,
@@ -67,6 +69,12 @@ const Preview = () => {
           type: "success",
         }
       );
+      // context?.setUploaded((prev: any) => ({
+      //   ...prev,
+      //   owner: resp?.data,
+      // }));
+      setOwner(resp?.data);
+
       setModalControl((prev) => ({
         ...prev,
         openEmailSetup: false,
@@ -136,8 +144,6 @@ const Preview = () => {
   function createData(name: string, email: string) {
     return { name, email };
   }
-
-  const rows = ["Recipient Name", "Recipient Email"];
 
   const data = [
     {
@@ -224,49 +230,56 @@ const Preview = () => {
       }));
     if (modalControl.step > 4) {
       const uploaded = context?.uploaded;
-      const product = context?.products[0];
-      const image = context?.image;
-      console.log(uploaded, product);
-      const payload = {
-        orgName: product?.name,
-        description: "Something to heal the world with.",
-        image: {
-          width: image.width,
-          height: image.height,
-        },
-        product: product?._id,
-        owner: product?.owner,
-        fields: [
-          {
-            fieldName: "name",
-            fontFamily: uploaded?.selectedFont,
-            width: uploaded?.dimension?.width,
-            height: uploaded?.dimension?.height,
-            top: uploaded?.dimension?.top,
-            bottom: uploaded?.dimension?.bottom,
-            left: uploaded?.dimension?.left,
-            right: uploaded?.dimension?.right,
-            x: uploaded?.dimension?.x,
-            y: uploaded?.dimension?.y,
-          },
-        ],
-        clients: uploaded?.tableData?.body?.map(
-          (v: {
-            recipient_email_address: string;
-            recipient_full_name: string;
-          }) => ({
-            email: v.recipient_email_address,
-            name: v.recipient_full_name,
-          })
-        ),
-      };
-      console.log("payload", payload);
-      saveData(payload);
+
+      const product = context?.products && context?.products[0];
+      console.log("context", context);
+      console.log("uploaded", uploaded);
+      const image = context?.uploaded;
+      const formData = new FormData();
+      formData.append("orgName", uploaded?.orgName);
+      formData.append("description", uploaded?.description);
+
+      formData.append("docImage", image?.image?.src, image?.dataFile?.name);
+      formData.append(
+        "image",
+        JSON.stringify({
+          width: image?.image?.width,
+          height: image?.image?.height,
+        })
+      );
+
+      formData.append("product", product?._id);
+      formData.append("owner", owner?._id);
+      formData.append("fieldName", "name");
+      formData.append("fontFamily", uploaded?.selectedFont);
+      formData.append("width", uploaded?.dimension?.width);
+      formData.append("height", uploaded?.dimension?.height);
+      formData.append("top", uploaded?.dimension?.top);
+      formData.append("bottom", uploaded?.dimension?.bottom);
+      formData.append("left", uploaded?.dimension?.left);
+      formData.append("right", uploaded?.dimension?.right);
+      formData.append("x", uploaded?.dimension?.x);
+      formData.append("y", uploaded?.dimension?.y);
+
+      formData.append(
+        "clients",
+        JSON.stringify(
+          uploaded?.tableData?.body?.map(
+            (v: {
+              recipient_email_address: string;
+              recipient_full_name: string;
+            }) => ({
+              email: v.recipient_email_address,
+              name: v.recipient_full_name,
+            })
+          )
+        )
+      );
+      saveData(formData);
     }
   };
 
   const list = data?.map(({ name, email }) => createData(name, email));
-  console.log(context?.products);
 
   return (
     <Stack spacing={12}>

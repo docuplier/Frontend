@@ -4,6 +4,7 @@ import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
+import { useOutletContext } from "react-router-dom";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import InputLabel from "@mui/material/InputLabel";
@@ -43,6 +44,7 @@ export default function SetupEmailTemplateModal({
   loading,
 }: ISetEmailModalProps) {
   const theme = useTheme();
+  const context: any = useOutletContext();
   const {
     handleSubmit,
     control,
@@ -61,6 +63,11 @@ export default function SetupEmailTemplateModal({
   }, [open]);
 
   const onSubmit = (data: any) => {
+    context?.setUploaded((prev: any) => ({
+      ...prev,
+      orgName: data?.orgName,
+      description: data?.body,
+    }));
     onConfirm({ ...data });
   };
 

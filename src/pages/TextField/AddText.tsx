@@ -105,8 +105,6 @@ const AddText = () => {
     });
   };
 
-  console.log("dimension", dimension);
-
   React.useEffect(() => {
     context?.setCurrentStep(1);
   }, []);

@@ -105,6 +105,8 @@ const AddText = () => {
     });
   };
 
+  console.log("dimension", dimension);
+
   React.useEffect(() => {
     context?.setCurrentStep(1);
   }, []);
@@ -180,11 +182,13 @@ const AddText = () => {
           <img
             src={context?.uploaded?.doc}
             style={{
-              position: "relative",
+              //  position: "relative",
               margin: "auto",
               textAlign: "center",
+              objectFit: "contain",
             }}
-            width="100%"
+            width={isMobile ? "280px" : "555px"}
+            height="393px"
           />
           <Box
             //  component="span"
@@ -211,7 +215,7 @@ const AddText = () => {
               >
                 <div className="handle" ref={draggableRef}>
                   {" "}
-                  <Box component="form">
+                  <Box component="form" width="100%" height="100%">
                     <Box
                       width={{ xs: 200, sm: "100%", md: 351.5 }}
                       height="33px"

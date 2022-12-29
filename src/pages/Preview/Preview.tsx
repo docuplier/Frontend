@@ -252,16 +252,53 @@ const Preview = () => {
 
       formData.append("product", product?._id);
       formData.append("owner", owner?._id);
-      formData.append("fieldName", "name");
-      formData.append("fontFamily", uploaded?.selectedFont);
-      formData.append("width", uploaded?.dimension?.width);
-      formData.append("height", uploaded?.dimension?.height);
-      formData.append("top", uploaded?.dimension?.top);
-      formData.append("bottom", uploaded?.dimension?.bottom);
-      formData.append("left", uploaded?.dimension?.left);
-      formData.append("right", uploaded?.dimension?.right);
-      formData.append("x", uploaded?.dimension?.x);
-      formData.append("y", uploaded?.dimension?.y);
+      const field = {
+        fields: [
+          {
+            fieldName: "name",
+            fontFamily: uploaded?.selectedFont,
+            width: uploaded?.dimension?.width,
+            height: uploaded?.dimension?.height,
+            top: uploaded?.dimension?.top,
+            bottom: uploaded?.dimension?.bottom,
+            left: uploaded?.dimension?.left,
+            right: uploaded?.dimension?.right,
+            x: uploaded?.dimension?.x,
+            y: uploaded?.dimension?.y,
+          },
+        ],
+      };
+
+      formData.append(
+        "fields",
+        JSON.stringify(
+          field?.fields?.map(
+            (v: {
+              fieldName: string;
+              fontFamily: string;
+              width: number;
+              height: number;
+              top: number;
+              bottom: number;
+              left: number;
+              right: number;
+              x: number;
+              y: number;
+            }) => ({
+              fieldName: v.fieldName,
+              fontFamily: v.fontFamily,
+              width: v.width,
+              height: v.height,
+              top: v.top,
+              bottom: v.bottom,
+              left: v.left,
+              right: v.right,
+              x: v.x,
+              y: v.y,
+            })
+          )
+        )
+      );
 
       formData.append(
         "clients",

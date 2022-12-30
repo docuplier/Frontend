@@ -55,6 +55,7 @@ const UseCasesSection = () => {
         <Grid container spacing={20}>
           {data.map((v) => (
             <Grid
+              key={v.title}
               item
               xs={12}
               sm={6}

@@ -22,7 +22,6 @@ export interface ISetEmailModalProps {
   open: boolean;
   onClose: () => void;
   onConfirm: (data: any) => void;
-  onInputChange: (event: any) => void;
   onResend: () => void;
   isMobile: boolean;
   loading?: boolean;
@@ -38,7 +37,6 @@ export default function SetupEmailTemplateModal({
   open,
   onClose,
   onConfirm,
-  onInputChange,
   onResend,
   isMobile,
   loading,

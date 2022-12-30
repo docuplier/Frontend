@@ -6,6 +6,11 @@ export const fetchProducts = async () => {
   return res.data;
 };
 
+export const fetchIndenpontencyKey = async () => {
+  const res = await Api.get(`${ENDPOINTS.indenpontencyKey}`);
+  return res.data;
+};
+
 export const signupEmail = async (payload: any) => {
   const res = await Api.post(ENDPOINTS.signup, payload);
   return res.data;

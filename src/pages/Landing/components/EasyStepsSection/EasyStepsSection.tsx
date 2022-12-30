@@ -73,6 +73,7 @@ const EasyStepsSection = ({ theme, isMobile }: ILandingSection) => {
           {data.map((v) => {
             return isMobile && !v.itemNumber ? undefined : (
               <Grid
+                key={v.description}
                 item
                 xs={12}
                 md={6}

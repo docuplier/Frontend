@@ -1,15 +1,12 @@
 import React, { useRef, useState } from "react";
-// import Select from "react-select";
 import {
   Box,
   Button,
   FormControl,
-  InputLabel,
   MenuItem,
   Select,
   Stack,
   TextareaAutosize,
-  TextField,
   Typography,
   useMediaQuery,
   useTheme,
@@ -159,7 +156,9 @@ const AddText = () => {
                 IconComponent={KeyboardArrowDownIcon}
               >
                 {FONTS.map((font: any) => (
-                  <MenuItem value={font.value}>{font.label}</MenuItem>
+                  <MenuItem key={font.value} value={font.value}>
+                    {font.label}
+                  </MenuItem>
                 ))}
               </Select>
             </FormControl>

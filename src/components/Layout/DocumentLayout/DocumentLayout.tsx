@@ -9,7 +9,7 @@ import Footer from "../Footer";
 import { read, utils } from "xlsx";
 import { validateTitles } from "utils/validateExcel";
 import { ToastContainer, toast } from "react-toastify";
-import { fetchProducts } from "services/documents";
+import { fetchIndenpontencyKey, fetchProducts } from "services/documents";
 
 const convertToTableData = (columns: string[], data: any[]) => {
   const rows: any = [];
@@ -41,6 +41,12 @@ const DocumentLayout: FC<IDocumentLayout> = ({ steps, tabItems }) => {
     "products",
     fetchProducts
   );
+  const {
+    data: { data: idempotencyKey },
+    isFetching: isFetchingIndenPontencyKey,
+  } = useQuery("products", fetchIndenpontencyKey);
+
+  console.log("indenpoi", idempotencyKey);
 
   const readUploadFile = (file: File, fileTitles: string[], cb: () => void) => {
     /* Boilerplate to set up FileReader */
@@ -64,7 +70,6 @@ const DocumentLayout: FC<IDocumentLayout> = ({ steps, tabItems }) => {
       data.splice(0, 1);
       const columnKeys: any[] = [];
       const headers = headerTitles.map((val: string) => {
-        console.log("val", val);
         columnKeys.push(val?.toLowerCase().replaceAll(" ", "_"));
         return {
           title: val,
@@ -142,6 +147,10 @@ const DocumentLayout: FC<IDocumentLayout> = ({ steps, tabItems }) => {
                   readUploadFile,
                   products: products?.data,
                   isFetchingProducts,
+                  isFetchingIndenPontencyKey,
+                  idempotencyKey: idempotencyKey?.find(
+                    (v: any) => v.name === "Certificates"
+                  ),
                 }}
               />
             </Grid>

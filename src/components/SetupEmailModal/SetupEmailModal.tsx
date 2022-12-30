@@ -18,7 +18,6 @@ export interface ISetEmailModalProps {
   open: boolean;
   onClose: () => void;
   onConfirm: (data?: { name: string; email: string }) => void;
-  onInputChange: (event: any) => void;
   productName?: string;
   loading: boolean;
 }

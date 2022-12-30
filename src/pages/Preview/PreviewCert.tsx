@@ -52,6 +52,7 @@ const PreviewCert = ({
         sx={{
           background: "#0B0D27",
           borderRadius: "12px",
+
           mt: 2,
         }}
         p={10}
@@ -116,6 +117,7 @@ const PreviewCert = ({
                     alignItems="center"
                     sx={{
                       color: "#0B0D27",
+                      border: "1px solid #3B4CF1",
                     }}
                   >
                     {" "}

@@ -156,7 +156,9 @@ const AddText = () => {
                 IconComponent={KeyboardArrowDownIcon}
               >
                 {FONTS.map((font: any) => (
-                  <MenuItem value={font.value}>{font.label}</MenuItem>
+                  <MenuItem key={font.value} value={font.value}>
+                    {font.label}
+                  </MenuItem>
                 ))}
               </Select>
             </FormControl>

@@ -45,7 +45,6 @@ const Preview = () => {
 
   const { mutate, isLoading: isCreating } = useMutation(signupEmail, {
     onError: (error: AxiosError) => {
-      console.log(error.message);
       toast(
         error?.message || "Something went wrong while trying to send request",
         {
@@ -70,7 +69,7 @@ const Preview = () => {
         ...prev,
         openEmailSetup: false,
         setupEmailPayload: { email: resp?.data?.email, name: resp?.data?.name },
-        step: 2,
+        step: 3,
       }));
     },
   });
@@ -79,7 +78,6 @@ const Preview = () => {
     verifyOTP,
     {
       onError: (error: AxiosError) => {
-        console.log(error.message);
         toast(
           error?.message || "Something went wrong while trying to send request",
           {
@@ -112,7 +110,6 @@ const Preview = () => {
     completeProcess,
     {
       onError: (error: AxiosError) => {
-        console.log(error.message);
         toast.error(
           error?.message || "Something went wrong while trying to send request"
         );
@@ -133,26 +130,24 @@ const Preview = () => {
   }, []);
 
   const handleContinue = () => {
-    if (modalControl.step === 2 || modalControl.step === 4)
+    if (modalControl.step === 3)
       return setModalControl((prev) => ({
         ...prev,
         openOtp: true,
       }));
 
-    if (modalControl.step === 3)
+    if (modalControl.step === 2)
       return setModalControl((prev) => ({
         ...prev,
-        openEmailTemplateSetup: true,
+        openEmailSetup: true,
       }));
-    if (modalControl.step > 4) {
-      console.log(context);
+    if (modalControl.step > 3) {
       const uploaded = context?.uploaded;
 
       const product = context?.products && context?.products[0];
-      console.log("context", context);
-      console.log("uploaded", uploaded);
       const image = context?.uploaded;
       const formData = new FormData();
+      formData.append("idempotencyKey", context?.idempotencyKey?.id);
       formData.append("orgName", uploaded?.orgName);
       formData.append("description", uploaded?.description);
 
@@ -242,7 +237,6 @@ const Preview = () => {
     const body = context?.uploaded?.tableData?.body.map((v: any) => {
       let itm: any = {};
       objKeys.forEach((key) => {
-        console.log(key, v);
         itm[key.replaceAll("_", " ")?.toUpperCase()] = v[key];
       });
       return itm;
@@ -253,8 +247,6 @@ const Preview = () => {
     const data = new Blob([excelBuffer], { type: fileType });
     saveAs(data, `recipients${ext}`);
   };
-
-  console.log(context);
 
   return (
     <Stack spacing={12}>
@@ -282,7 +274,10 @@ const Preview = () => {
           isMobile={isMobile}
           exportAsExcel={exportAsExcel}
           onEmailToRecipient={() =>
-            setModalControl((prev) => ({ ...prev, openEmailSetup: true }))
+            setModalControl((prev) => ({
+              ...prev,
+              openEmailTemplateSetup: true,
+            }))
           }
           disableEmailToRecipient={checkMissingFields(
             context?.uploaded?.tableData?.body
@@ -299,10 +294,12 @@ const Preview = () => {
         productName={context?.products?.[0]?.name}
         open={modalControl.openEmailSetup}
         onClose={() =>
-          setModalControl((prev) => ({ ...prev, openEmailSetup: false }))
+          setModalControl((prev) => ({
+            ...prev,
+            openEmailSetup: false,
+          }))
         }
         onConfirm={(payload) => mutate(payload)}
-        onInputChange={(e: any) => console.log(e)}
         loading={isCreating}
       />
       <OtpModal
@@ -338,11 +335,10 @@ const Preview = () => {
             setModalControl((prev) => ({
               ...prev,
               openEmailTemplateSetup: false,
-              step: 5,
+              step: 2,
             }));
           }, 2500);
         }}
-        onInputChange={(e: any) => console.log(e)}
         onResend={() => console.log("resend clicked")}
         isMobile={isMobile}
       />

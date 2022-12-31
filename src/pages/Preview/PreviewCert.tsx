@@ -117,7 +117,7 @@ const PreviewCert = ({
                     alignItems="center"
                     sx={{
                       color: "#0B0D27",
-                      border: "1px solid #3B4CF1",
+                      //  border: "1px solid #3B4CF1",
                     }}
                   >
                     {" "}

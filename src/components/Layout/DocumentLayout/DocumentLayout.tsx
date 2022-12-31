@@ -41,12 +41,8 @@ const DocumentLayout: FC<IDocumentLayout> = ({ steps, tabItems }) => {
     "products",
     fetchProducts
   );
-  const {
-    data: { data: idempotencyKey },
-    isFetching: isFetchingIndenPontencyKey,
-  } = useQuery("products", fetchIndenpontencyKey);
-
-  console.log("indenpoi", idempotencyKey);
+  const { data: documentData, isFetching: isFetchingIndenPontencyKey } =
+    useQuery("products", fetchIndenpontencyKey);
 
   const readUploadFile = (file: File, fileTitles: string[], cb: () => void) => {
     /* Boilerplate to set up FileReader */
@@ -148,7 +144,7 @@ const DocumentLayout: FC<IDocumentLayout> = ({ steps, tabItems }) => {
                   products: products?.data,
                   isFetchingProducts,
                   isFetchingIndenPontencyKey,
-                  idempotencyKey: idempotencyKey?.find(
+                  idempotencyKey: documentData?.idempotencyKey?.find(
                     (v: any) => v.name === "Certificates"
                   ),
                 }}

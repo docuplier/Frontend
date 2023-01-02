@@ -147,7 +147,7 @@ const Preview = () => {
       const product = context?.products && context?.products[0];
       const image = context?.uploaded;
       const formData = new FormData();
-      formData.append("idempotencyKey", context?.idempotencyKey?.id);
+      formData.append("idempotencyKey", context?.idempotencyKey?._id);
       formData.append("orgName", uploaded?.orgName);
       formData.append("description", uploaded?.description);
 
@@ -162,6 +162,7 @@ const Preview = () => {
 
       formData.append("product", product?._id);
       formData.append("owner", owner?._id);
+      formData.append("emailText", uploaded?.description);
       const field = {
         fields: [
           {

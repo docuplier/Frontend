@@ -43,7 +43,6 @@ const DocumentLayout: FC<IDocumentLayout> = ({ steps, tabItems }) => {
   );
   const { data: documentData, isFetching: isFetchingIndenPontencyKey } =
     useQuery("products", fetchIndenpontencyKey);
-
   const readUploadFile = (file: File, fileTitles: string[], cb: () => void) => {
     /* Boilerplate to set up FileReader */
     const reader = new FileReader();
@@ -144,7 +143,7 @@ const DocumentLayout: FC<IDocumentLayout> = ({ steps, tabItems }) => {
                   products: products?.data,
                   isFetchingProducts,
                   isFetchingIndenPontencyKey,
-                  idempotencyKey: documentData?.idempotencyKey?.find(
+                  idempotencyKey: documentData?.data?.find(
                     (v: any) => v.name === "Certificates"
                   ),
                 }}

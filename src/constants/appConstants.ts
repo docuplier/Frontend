@@ -84,3 +84,14 @@ export const FONTS = [
     value: "'PT Serif', serif",
   },
 ];
+
+export const EXCEL_TEMPLATE_DATA = [
+  {
+    "Recipient Full Name": "Michael Jackson",
+    "Recipient Email Address": "john.doe@gmail.com",
+  },
+  {
+    "Recipient Full Name": "Jane Martha Darwin",
+    "Recipient Email Address": "jmd@mailinator.com",
+  },
+];

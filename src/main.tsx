@@ -20,6 +20,7 @@ import {
 } from "./constants/themeOptions";
 import { BrowserRouter } from "react-router-dom";
 import { pxToRem } from "utils/pxToRem";
+import "./styles.css";
 
 const queryClient = new QueryClient({
   defaultOptions: {

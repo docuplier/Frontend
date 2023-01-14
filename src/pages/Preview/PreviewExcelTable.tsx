@@ -42,12 +42,11 @@ const PreviewExcelTable = ({
     <>
       <Box
         sx={{
-          border: `2px dashed ${theme.palette.common.white}`,
-          borderRadius: "8px",
           position: "relative",
           mt: 2,
         }}
         p={6}
+        className="long-dashed-border"
       >
         <Typography sx={{ fontSize: "24px", fontWeight: 600 }}>
           Recipients
@@ -204,7 +203,7 @@ const PreviewExcelTable = ({
           >
             Preview Certificate
           </Button>{" "}
-          <Button
+          {/* <Button
             sx={{
               width: "200px",
               height: "40px",
@@ -223,7 +222,7 @@ const PreviewExcelTable = ({
             onClick={() => exportAsExcel()}
           >
             Download to Print
-          </Button>{" "}
+          </Button>{" "} */}
           {step > 1 ? (
             <Button
               variant="contained"

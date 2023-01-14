@@ -20,7 +20,7 @@ import Draggable, { DraggableData, DraggableEvent } from "react-draggable";
 // @ts-ignore
 import { FONTS } from "constants/appConstants";
 import { pxToRem } from "utils/pxToRem";
-import { number } from "yup/lib/locale";
+import borderImg from "../../assets/border.png";
 
 const AddText = () => {
   const [dimension, setDimension] = useState({
@@ -166,14 +166,11 @@ const AddText = () => {
         </Box>
       </Box>
       <Box
-        sx={{
-          border: `2px dashed ${theme.palette.common.white}`,
-          borderRadius: "8px",
-        }}
-        p={10}
+        p={4}
         display="flex"
         justifyContent="center"
         alignItems="center"
+        className="long-dashed-border"
       >
         <Box ref={ref} position="relative">
           <img
@@ -183,12 +180,15 @@ const AddText = () => {
               margin: "auto",
               textAlign: "center",
               objectFit: "contain",
+              maxHeight: "100%",
+              maxWidth: "100%",
             }}
-            width={isMobile ? "280px" : "555px"}
-            height="393px"
+            // width={isMobile ? "280px" : "555px"}
+            // height="393px"
           />
           <Box
             //  component="span"
+            width="100%"
             sx={{ position: "absolute", top: 0 }}
             //  ref={draggableRef}
           >
@@ -214,8 +214,8 @@ const AddText = () => {
                   {" "}
                   <Box component="form" width="100%" height="100%">
                     <Box
-                      width={{ xs: 200, sm: "100%", md: 351.5 }}
-                      height="33px"
+                      // width={{ xs: 200, sm: "100%", md: 351.5 }}
+                      // height="33px"
                       borderRadius="5px"
                       display="flex"
                       justifyContent="center"
@@ -229,11 +229,15 @@ const AddText = () => {
                     >
                       {" "}
                       <Typography
-                        fontSize={{ sm: pxToRem(8), md: pxToRem(14) }}
+                        fontSize={{
+                          xs: pxToRem(10),
+                          sm: pxToRem(16),
+                          md: pxToRem(24),
+                        }}
                         sx={{
                           fontFamily: selectedFont,
                         }}
-                        variant="body2"
+                        variant="h1"
                         // color="#8F9099"
                       >
                         {" "}

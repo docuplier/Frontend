@@ -52,7 +52,6 @@ const PreviewCert = ({
         sx={{
           background: "#0B0D27",
           borderRadius: "12px",
-
           mt: 2,
         }}
         p={10}
@@ -80,11 +79,16 @@ const PreviewCert = ({
               margin: "auto",
               textAlign: "center",
               objectFit: "contain",
+              maxHeight: "100%",
+              maxWidth: "100%",
             }}
-            width={isMobile ? "280px" : "100%"}
-            height={393}
+            // width={isMobile ? "280px" : "100%"}
+            // height={393}
           />
-          <Box sx={{ position: "absolute", top: 0 }}>
+          <Box
+            width="100%"
+            sx={{ position: "absolute", top: 0, bottom: 0, left: 0, right: 0 }}
+          >
             <Draggable
               axis="both"
               handle=".handle"
@@ -108,9 +112,9 @@ const PreviewCert = ({
                 {" "}
                 <Box component="form" width="100%" height="100%">
                   <Box
-                    width={{ xs: 200, sm: "100%", md: 351.5 }}
-                    height="33px"
-                    borderRadius="5px"
+                    // width={{ xs: 200, sm: "100%", md: 351.5 }}
+                    // height="33px"
+                    // borderRadius="5px"
                     display="flex"
                     justifyContent="center"
                     textAlign="center"
@@ -120,16 +124,18 @@ const PreviewCert = ({
                       //  border: "1px solid #3B4CF1",
                     }}
                   >
-                    {" "}
                     <Typography
-                      fontSize={{ sm: pxToRem(8), md: pxToRem(14) }}
+                      fontSize={{
+                        xs: pxToRem(10),
+                        sm: pxToRem(16),
+                        md: pxToRem(24),
+                      }}
                       sx={{
                         fontFamily: selectedFont,
                       }}
-                      variant="body2"
+                      variant="h1"
                       // color="#8F9099"
                     >
-                      {" "}
                       {fullName}
                     </Typography>
                   </Box>

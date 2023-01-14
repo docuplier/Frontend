@@ -7,11 +7,14 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
+import { saveAs } from "file-saver";
 import Dropzone from "components/Dropzone/Dropzone";
 import { useNavigate, useOutletContext } from "react-router-dom";
 import Spreadsheet from "assets/Spreadsheet.svg";
 import { paths } from "Routes";
 import React from "react";
+import { EXCEL_TEMPLATE_DATA } from "constants/appConstants";
+import { utils, write } from "xlsx";
 
 const excelFileHeader = ["Recipient Full Name", "Recipient Email Address"];
 
@@ -35,6 +38,17 @@ const UploadList = () => {
     context?.setCurrentStep(2);
   }, []);
 
+  const exportAsExcel = () => {
+    const fileType =
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset-UTF-8";
+    const ext = ".xlsx";
+    const ws = utils.json_to_sheet(EXCEL_TEMPLATE_DATA);
+    const wb = { Sheets: { data: ws }, SheetNames: ["data"] };
+    const excelBuffer = write(wb, { bookType: "xlsx", type: "array" });
+    const data = new Blob([excelBuffer], { type: fileType });
+    saveAs(data, `recipients-template${ext}`);
+  };
+
   return (
     <Stack spacing={12}>
       <Box
@@ -52,10 +66,15 @@ const UploadList = () => {
               variant="body1"
               sx={{ my: "10px", textAlign: isMobile ? "center" : "" }}
             >
-              Create and upload a list of the recipients in a spreadsheet using
-              this format below.
+              Click the list image below to download the template, paste the
+              list of names into it & upload.
             </Typography>{" "}
-            <img src={Spreadsheet} style={isMobile ? imgStyle : {}} />
+            <img
+              title="Click to download template"
+              src={Spreadsheet}
+              style={isMobile ? imgStyle : { cursor: "pointer" }}
+              onClick={() => exportAsExcel()}
+            />
           </>
         )}
       </Box>

@@ -50,13 +50,11 @@ const Dropzone = ({
 
   return (
     <Box
-      {...getRootProps({ className: "dropzone" })}
+      {...getRootProps({ className: "dropzone long-dashed-border" })}
       sx={{
-        border: `3px dashed ${theme.palette.common.white}`,
-        borderRadius: "8px",
         position: "relative",
       }}
-      p={20}
+      p={16}
     >
       <input className="input-zone" {...getInputProps()} />
       {file?.name && (

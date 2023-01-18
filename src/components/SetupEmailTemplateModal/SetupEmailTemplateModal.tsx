@@ -30,7 +30,7 @@ export interface ISetEmailModalProps {
 const schema = Yup.object({
   senderName: Yup.string().required("Sender's Name field is required"),
   orgName: Yup.string().required("Organisation Name field is required"),
-  body: Yup.string().required("Description field is required"),
+  // body: Yup.string().required("Description field is required"),
 }).required();
 
 export default function SetupEmailTemplateModal({
@@ -141,7 +141,7 @@ export default function SetupEmailTemplateModal({
                 </Box>
               </Box>
               <Box width="100%" sx={{ textAlign: "start" }}>
-                <InputLabel required>Email Write up to Receipients</InputLabel>
+                <InputLabel>Email Write up to Receipients</InputLabel>
                 <Controller
                   name="body"
                   control={control}

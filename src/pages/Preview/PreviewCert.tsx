@@ -46,6 +46,7 @@ const PreviewCert = ({
       });
     }
   };
+  console.log("dimen", dimension);
   return (
     <>
       <Box
@@ -75,10 +76,10 @@ const PreviewCert = ({
           <img
             src={doc}
             style={{
-              //  position: "relative",
+              position: "relative",
               margin: "auto",
               textAlign: "center",
-              objectFit: "contain",
+              //     objectFit: "contain",
               maxHeight: "100%",
               maxWidth: "100%",
             }}
@@ -86,7 +87,7 @@ const PreviewCert = ({
             // height={393}
           />
           <Box
-            width="100%"
+            width="60%"
             sx={{ position: "absolute", top: 0, bottom: 0, left: 0, right: 0 }}
           >
             <Draggable
@@ -121,6 +122,7 @@ const PreviewCert = ({
                     alignItems="center"
                     sx={{
                       color: "#0B0D27",
+                      p: 1,
                       //  border: "1px solid #3B4CF1",
                     }}
                   >
@@ -128,10 +130,11 @@ const PreviewCert = ({
                       fontSize={{
                         xs: pxToRem(10),
                         sm: pxToRem(16),
-                        md: pxToRem(24),
+                        md: pxToRem(25),
                       }}
                       sx={{
                         fontFamily: selectedFont,
+                        fontWeight: 800,
                       }}
                       variant="h1"
                       // color="#8F9099"

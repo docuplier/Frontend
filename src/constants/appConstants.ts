@@ -19,14 +19,17 @@ export const DOCUMENT_TABS = [
   {
     id: 2,
     name: "Badges",
+    path: paths.BADGES,
   },
   {
     id: 3,
     name: "Tags",
+    path: paths.TAGS,
   },
   {
     id: 4,
     name: "Invitations",
+    path: paths.INVITATIONS,
   },
 ];
 

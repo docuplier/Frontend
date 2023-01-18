@@ -15,6 +15,7 @@ import { paths } from "Routes";
 import React from "react";
 import { EXCEL_TEMPLATE_DATA } from "constants/appConstants";
 import { utils, write } from "xlsx";
+import { getPathByName } from "utils/getPathsByName";
 
 const excelFileHeader = ["Recipient Full Name", "Recipient Email Address"];
 
@@ -30,7 +31,7 @@ const UploadList = () => {
 
   const handleUpload = (data: File) => {
     context?.readUploadFile(data, excelFileHeader, () => {
-      navigate(paths.CERTIFICATES_PREVIEW);
+      navigate(getPathByName(context.activeTab, 3));
     });
   };
 
@@ -102,7 +103,7 @@ const UploadList = () => {
             },
           }}
           onClick={() => {
-            navigate(paths.CERTIFICATES_NAME);
+            navigate(getPathByName(context.activeTab, 1));
           }}
         >
           Back

@@ -3,13 +3,15 @@ import Dropzone from "components/Dropzone/Dropzone";
 import React from "react";
 import { getImageSize } from "react-image-size";
 import { Link, useNavigate, useOutletContext } from "react-router-dom";
-import { paths } from "Routes";
+import { getPathByName } from "utils/getPathsByName";
 
 const UploadDocument = () => {
   const theme = useTheme();
   const navigate = useNavigate();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const context: any = useOutletContext();
+
+  console.log("mam", context.idempotencyKey);
 
   React.useEffect(() => {
     context?.setCurrentStep(0);
@@ -24,7 +26,7 @@ const UploadDocument = () => {
       image: { src: data, width, height },
       dataFile: data,
     }));
-    navigate(paths.CERTIFICATES_NAME);
+    navigate(getPathByName(context.activeTab, 1));
   };
   return (
     <Dropzone

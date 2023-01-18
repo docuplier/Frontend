@@ -21,6 +21,7 @@ import Draggable, { DraggableData, DraggableEvent } from "react-draggable";
 import { FONTS } from "constants/appConstants";
 import { pxToRem } from "utils/pxToRem";
 import borderImg from "../../assets/border.png";
+import { getPathByName } from "utils/getPathsByName";
 
 const AddText = () => {
   const [dimension, setDimension] = useState({
@@ -277,7 +278,7 @@ const AddText = () => {
             },
           }}
           onClick={() => {
-            navigate(paths.CERTIFICATES);
+            navigate(getPathByName(context.activeTab, 0));
           }}
         >
           Back
@@ -299,7 +300,7 @@ const AddText = () => {
               dimension,
               selectedFont,
             }));
-            navigate(paths.CERTIFICATES_UPLOAD_LIST);
+            navigate(getPathByName(context.activeTab, 2));
           }}
         >
           Continue

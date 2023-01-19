@@ -16,6 +16,7 @@ import { utils, write } from "xlsx";
 
 import PreviewExcelTable from "./PreviewExcelTable";
 import PreviewCert from "./PreviewCert";
+import { getPathByName } from "utils/getPathsByName";
 
 export interface IModalControl {
   openOtp: boolean;
@@ -116,7 +117,7 @@ const Preview = () => {
       },
       onSuccess: (resp: any) => {
         toast.success(resp?.message || `Success: Data saved!`);
-        return navigate(paths.CERTIFICATES_SUCCESS);
+        return navigate(getPathByName(context.activeTab, 4));
       },
     }
   );

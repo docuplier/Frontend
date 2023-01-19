@@ -1,7 +1,10 @@
 import { Button, Grid, Paper, Typography } from "@mui/material";
 import { ILandingSection } from "interfaces";
+import { useNavigate } from "react-router-dom";
+import { paths } from "Routes";
 
 const CTASection = ({ theme, isMobile }: ILandingSection) => {
+  const navigate = useNavigate();
   return (
     <Grid container spacing={isMobile ? 0 : 10} p={isMobile ? 0 : 16}>
       <Grid item xs={12}>
@@ -28,6 +31,7 @@ const CTASection = ({ theme, isMobile }: ILandingSection) => {
                 variant="contained"
                 fullWidth
                 sx={{ maxWidth: 304, fontSize: "24px" }}
+                onClick={() => navigate(paths.CERTIFICATES_UPLOAD)}
               >
                 Get Started
               </Button>

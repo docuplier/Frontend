@@ -10,6 +10,7 @@ import SuccessIcon from "assets/success.svg";
 import React from "react";
 import { useNavigate, useOutletContext } from "react-router-dom";
 import { paths } from "Routes";
+import { getPathByName } from "utils/getPathsByName";
 
 const Success = () => {
   const theme = useTheme();
@@ -42,7 +43,7 @@ const Success = () => {
         <Button
           variant="contained"
           sx={{ width: "200px", height: "40px", mb: 4 }}
-          onClick={() => navigate(paths.CERTIFICATES_UPLOAD)}
+          onClick={() => navigate(getPathByName(context.activeTab, 1))}
         >
           Upload New List
         </Button>

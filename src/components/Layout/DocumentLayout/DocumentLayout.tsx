@@ -26,9 +26,14 @@ const convertToTableData = (columns: string[], data: any[]) => {
 export interface IDocumentLayout {
   steps: { label: string; value: number; path: string }[];
   tabItems: { id: number; name: string }[];
+  activeTab: string;
 }
 
-const DocumentLayout: FC<IDocumentLayout> = ({ steps, tabItems }) => {
+const DocumentLayout: FC<IDocumentLayout> = ({
+  steps,
+  tabItems,
+  activeTab,
+}) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [currentStep, setCurrentStep] = React.useState(1);
@@ -87,6 +92,8 @@ const DocumentLayout: FC<IDocumentLayout> = ({ steps, tabItems }) => {
     }
   };
 
+  console.log(tabItems);
+
   return (
     <Box
       pl={isMobile ? 4 : 10}
@@ -121,7 +128,11 @@ const DocumentLayout: FC<IDocumentLayout> = ({ steps, tabItems }) => {
         <Grid item xs={12} sm={8.8} sx={{ height: "100%" }}>
           <Grid container spacing={10}>
             <Grid item xs={12}>
-              <TabButtons activeTab={1} isMobile={isMobile} data={tabItems} />
+              <TabButtons
+                activeTab={activeTab}
+                isMobile={isMobile}
+                data={tabItems}
+              />
             </Grid>
             {isMobile && (
               <Grid item xs={12}>
@@ -144,8 +155,9 @@ const DocumentLayout: FC<IDocumentLayout> = ({ steps, tabItems }) => {
                   isFetchingProducts,
                   isFetchingIndenPontencyKey,
                   idempotencyKey: documentData?.data?.find(
-                    (v: any) => v.name === "Certificates"
+                    (v: any) => v.name === activeTab
                   ),
+                  activeTab,
                 }}
               />
             </Grid>

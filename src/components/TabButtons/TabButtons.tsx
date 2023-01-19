@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { pxToRem } from "utils/pxToRem";
 
 export interface ITabButtonsProps {
-  activeTab: number;
+  activeTab: string;
   isMobile?: boolean;
   data: { id: number; name: string; path?: string }[];
 }
@@ -28,7 +28,7 @@ const TabButtons: FC<ITabButtonsProps> = ({ activeTab, isMobile, data }) => {
         {data.map((v) => (
           <Grid item xs={12 / data.length} key={v.id}>
             <Button
-              variant={v.id === activeTab ? "contained" : "text"}
+              variant={v.name === activeTab ? "contained" : "text"}
               fullWidth
               sx={{
                 maxWidth: 156,

@@ -177,7 +177,7 @@ const AddText = () => {
           <img
             src={context?.uploaded?.doc}
             style={{
-              //  position: "relative",
+              position: "relative",
               margin: "auto",
               textAlign: "center",
               objectFit: "contain",
@@ -189,7 +189,7 @@ const AddText = () => {
           />
           <Box
             //  component="span"
-            width="100%"
+            width="60%"
             sx={{ position: "absolute", top: 0 }}
             //  ref={draggableRef}
           >
@@ -218,14 +218,15 @@ const AddText = () => {
                       // width={{ xs: 200, sm: "100%", md: 351.5 }}
                       // height="33px"
                       borderRadius="5px"
-                      display="flex"
-                      justifyContent="center"
+                      // display="flex"
+                      // justifyContent="center"
                       textAlign="center"
-                      alignItems="center"
+                      // alignItems="center"
                       sx={{
                         cursor: "move",
                         border: "1px solid #3B4CF1",
                         color: "#0B0D27",
+                        p: 1,
                       }}
                     >
                       {" "}
@@ -233,16 +234,17 @@ const AddText = () => {
                         fontSize={{
                           xs: pxToRem(10),
                           sm: pxToRem(16),
-                          md: pxToRem(24),
+                          md: pxToRem(25),
                         }}
                         sx={{
                           fontFamily: selectedFont,
+                          fontWeight: 800,
                         }}
                         variant="h1"
                         // color="#8F9099"
                       >
                         {" "}
-                        Drag This Text Box to Preferred Name Position
+                        JEFFERSON KENNEDY THOMPSON
                       </Typography>
                     </Box>
                   </Box>

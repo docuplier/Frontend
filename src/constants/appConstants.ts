@@ -34,7 +34,7 @@ export const DOCUMENT_TABS = [
 ];
 
 export const CERTIFICATE_STEPS = [
-  { value: 1, label: "Upload Certificate", path: paths.CERTIFICATES_UPLOAD },
+  { value: 1, label: "Upload Design", path: paths.CERTIFICATES_UPLOAD },
   { value: 2, label: "Name Field", path: paths.CERTIFICATES_NAME },
   { value: 3, label: "Upload List", path: paths.CERTIFICATES_UPLOAD_LIST },
   { value: 4, label: "Preview", path: paths.CERTIFICATES_PREVIEW },

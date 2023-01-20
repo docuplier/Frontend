@@ -63,13 +63,23 @@ const UploadList = () => {
       >
         {!isFile && (
           <>
-            <Typography
-              variant="body1"
-              sx={{ my: "10px", textAlign: isMobile ? "center" : "" }}
-            >
-              Click the list image below to download the template, paste the
-              list of names into it & upload.
-            </Typography>{" "}
+            <Box sx={{ my: "10px" }}>
+              {" "}
+              <Typography
+                variant="body1"
+                sx={{ textAlign: isMobile ? "center" : "" }}
+              >
+                Create and upload a list of the recipients in a spreadsheet
+                using the format below.
+              </Typography>{" "}
+              <Typography
+                variant="body1"
+                sx={{ textAlign: isMobile ? "center" : "" }}
+              >
+                Click the list image below to download the template, paste the
+                list of names into it & upload.
+              </Typography>{" "}
+            </Box>
             <img
               title="Click to download template"
               src={Spreadsheet}

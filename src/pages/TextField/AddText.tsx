@@ -296,6 +296,7 @@ const AddText = () => {
               px: 6,
             },
           }}
+          disabled={!displayTextBox}
           onClick={() => {
             context?.setUploaded((prev: any) => ({
               ...prev,

@@ -33,7 +33,7 @@ const UploadDocument = () => {
       accept={{ "image/jpeg": [], "image/png": [], ".pdf": [] }}
       onUpload={handleUpload}
       theme={theme}
-      title="PDF, PNG, JPEG files are supported"
+      title="PNG, JPEG files are supported"
     />
   );
 };

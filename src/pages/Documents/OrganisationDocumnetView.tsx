@@ -46,7 +46,7 @@ const tabItems = [
 ];
 
 const steps = [
-  { value: 1, label: "Upload Certificate" },
+  { value: 1, label: "Upload Design" },
   { value: 2, label: "Name Field" },
   { value: 3, label: "Upload List" },
   { value: 4, label: "Preview" },

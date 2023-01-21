@@ -44,8 +44,8 @@ export const QontoStepIconRoot = styled("div")<{
     borderRadius: "100%",
   },
   "& .QontoStepIcon-circle": {
-    width: 16,
-    height: 16,
+    width: 10,
+    height: 10,
     borderRadius: "50%",
     backgroundColor: "currentColor",
   },
